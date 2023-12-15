@@ -58,28 +58,33 @@ class _HomePageState extends State<HomePage> {
                 )),
           ),
           Column( // * Rest of Page Column
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              Row(
+                children: [
+                  SizedBox(
+                    width: screenWidth,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text('Top Brands', style: TextStyle(fontSize: 20)),
+                          IconButton(onPressed: (){
+                            // TODO: add action to view all brands in a new page
+                          } , icon: const Icon(Icons.arrow_forward))
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               Row( // * Top Brands Row
                 children: [
-                  Column(
-                    children: [
-                      SizedBox(
-                        width: screenWidth,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text('Top Brands', style: TextStyle(fontSize: 20)),
-                              IconButton(onPressed: (){
-                                // TODO: add action to view all brands in a new page
-                              } , icon: const Icon(Icons.arrow_forward))
-                            ],
-                          ),
-                        ),
-                      ),
-                      Row(
+                  Expanded(
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
                         children: [
                           Wrap(
                             spacing: 10, // spacing between items horizontally
@@ -87,8 +92,8 @@ class _HomePageState extends State<HomePage> {
                             children: products.map((p) => ProductCard(product: p)).toList(), // ! thoroughly understand this line
                           )
                         ],
-                      )
-                    ],
+                      ),
+                    ),
                   )
                 ],
               ),
