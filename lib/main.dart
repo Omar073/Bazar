@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'MyProvider.dart';
+import 'Providers/ProductProvider.dart';
+import 'Providers/UserProvider.dart';
 import 'Screens/LandingPage.dart';
 import 'package:provider/provider.dart'; // flutter pub add provider
 
@@ -9,7 +10,10 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => MyProvider(),
+          create: (context) => ProductProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => UserProvider(),
         ),
       ],
       child: MyApp(),

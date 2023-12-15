@@ -79,23 +79,26 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-              Row( // * Top Brands Row
-                children: [
-                  Expanded(
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          Wrap(
-                            spacing: 10, // spacing between items horizontally
-                            runSpacing: 10, // spacing between items vertically
-                            children: products.map((p) => ProductCard(product: p)).toList(), // ! thoroughly understand this line
-                          )
-                        ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Row( // * Top Brands Row
+                  children: [
+                    Expanded(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            Wrap(
+                              spacing: 10, // spacing between items horizontally
+                              runSpacing: 10, // spacing between items vertically
+                              children: products.map((p) => ProductCard(product: p)).toList(), // ! thoroughly understand this line
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             ],
           )
