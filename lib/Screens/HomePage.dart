@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../Classes/Product.dart';
+import '../CustomWidgets/ProductCard.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -10,6 +13,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         // appBar: AppBar(
         //   leading: Row(
@@ -27,45 +31,70 @@ class _HomePageState extends State<HomePage> {
         //   ],
         // ),
         body: Column(
-          children: [
-        Container(
-          color: Colors.blue,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 6.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Column(
+        children: [
+          Container(
+            color: Colors.blue,
+            child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 6.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.only(left: 6.0),
-                      child: Text('Welcome, Name!', style: TextStyle(fontSize: 20)),
-                    ), // TODO: replace with user's Fname
+                      child: Text('Welcome, Name!',
+                          style: TextStyle(fontSize: 20)),
+                    ),
+                    IconButton(
+                      icon: const Icon(
+                        Icons.sunny,
+                        color: Colors.yellow,
+                      ), // Replace 'your_icon' with the desired icon
+                      onPressed: () {
+                        // Add your action here
+                        // TODO: add dark mode
+                      },
+                    ),
                   ],
-                ),
-                IconButton(
-                  icon: const Icon(Icons.sunny, color: Colors.yellow,), // Replace 'your_icon' with the desired icon
-                  onPressed: () {
-                    // Add your action here
-                    // TODO: add dark mode
-                  },
-                ),
-              ],
-            )
-
+                )),
           ),
-        ),
-            Row( // * Top Brands Row
-              children: [
-                Column(
-                  children: [
-                    const Text('Top Brands', style: TextStyle(fontSize: 20)),
-                  ],
-                )
-              ],
-            )
-          ],
-        )
-      );
+          Column( // * Rest of Page Column
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row( // * Top Brands Row
+                children: [
+                  Column(
+                    children: [
+                      SizedBox(
+                        width: screenWidth,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('Top Brands', style: TextStyle(fontSize: 20)),
+                              IconButton(onPressed: (){
+                                // TODO: add action to view all brands in a new page
+                              } , icon: const Icon(Icons.arrow_forward))
+                            ],
+                          ),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Wrap(
+                            spacing: 10, // spacing between items horizontally
+                            runSpacing: 10, // spacing between items vertically
+                            children: products.map((p) => ProductCard(product: p)).toList(), // ! thoroughly understand this line
+                          )
+                        ],
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ],
+          )
+        ],
+    ));
   }
 }
