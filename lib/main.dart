@@ -1,8 +1,24 @@
 import 'package:flutter/material.dart';
+import 'Providers/ProductProvider.dart';
+import 'Providers/UserProvider.dart';
 import 'Screens/LandingPage.dart';
+import 'package:provider/provider.dart'; // flutter pub add provider
 
-void main(){
-  runApp(MyApp());
+void main() {
+  // runApp(MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => ProductProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => UserProvider(),
+        ),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -16,6 +32,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      // TODO: fit into safe area
       debugShowCheckedModeBanner: false,
       home: LandingPage(),
     );

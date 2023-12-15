@@ -58,39 +58,47 @@ class _HomePageState extends State<HomePage> {
                 )),
           ),
           Column( // * Rest of Page Column
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row( // * Top Brands Row
+              Row(
                 children: [
-                  Column(
-                    children: [
-                      SizedBox(
-                        width: screenWidth,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text('Top Brands', style: TextStyle(fontSize: 20)),
-                              IconButton(onPressed: (){
-                                // TODO: add action to view all brands in a new page
-                              } , icon: const Icon(Icons.arrow_forward))
-                            ],
-                          ),
+                  SizedBox(
+                    width: screenWidth,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text('Top Brands', style: TextStyle(fontSize: 20)),
+                          IconButton(onPressed: (){
+                            // TODO: add action to view all brands in a new page
+                          } , icon: const Icon(Icons.arrow_forward))
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Row( // * Top Brands Row
+                  children: [
+                    Expanded(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            Wrap(
+                              spacing: 10, // spacing between items horizontally
+                              runSpacing: 10, // spacing between items vertically
+                              children: products.map((p) => ProductCard(product: p)).toList(), // ! thoroughly understand this line
+                            )
+                          ],
                         ),
                       ),
-                      Row(
-                        children: [
-                          Wrap(
-                            spacing: 10, // spacing between items horizontally
-                            runSpacing: 10, // spacing between items vertically
-                            children: products.map((p) => ProductCard(product: p)).toList(), // ! thoroughly understand this line
-                          )
-                        ],
-                      )
-                    ],
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             ],
           )

@@ -1,12 +1,12 @@
 
 class User{
-  String uid ='';
-  String Fname;
-  String Sname;
-  String email;
-  String password;
+  String ?uid ='';
+  String ?Fname;
+  String ?Sname;
+  String ?email;
+  String ?password;
   // List<ProductInCart> ShoppingCart = [];
-  double CartSubtotal=0;
+  double ?CartSubtotal=0;
 
   User({
     required this.uid,

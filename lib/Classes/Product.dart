@@ -1,16 +1,24 @@
+import 'dart:ui';
+import 'package:flutter/material.dart';
+
 enum AvailableSizes { S, M, L, XL, XXL, XXXL }
 
-enum ProductColor { Blue, Red, Green, Yellow, White, Black }
+// enum ProductColor { Colors.Blue, Colors.Red, Colors.Green, Colors.Yellow, White, Black }
+// enum ProductColor { Blue, Red, Green, Yellow, White, Black }
+
 
 class Product {
-  String ID;
-  String name;
-  String imageURL;
-  String description;
-  double price;
-  double rating;
-  List<AvailableSizes> availableSizes;
-  List<ProductColor> availableColors;
+  // String ?uniqueID; // ID that is unique to each product
+  String ?ID; // ID that is common between same product but different variations
+  String ?name;
+  String ?imageURL;
+  String ?description;
+  double ?price;
+  double ?rating;
+  AvailableSizes ?productSize;
+  List<AvailableSizes>? availableSizes;
+  Color ?productColor;
+  List<Color>? availableColors; // Change the type to List<Color>
 
   // Constructor
   Product({
@@ -20,41 +28,149 @@ class Product {
     required this.description,
     required this.price,
     required this.rating,
+    required this.productSize,
     required this.availableSizes, // changed from AvailableSizes to availableSizes
+    required this.productColor,
     required this.availableColors,
   });
+
+  // String getSize() {
+  //   if (productSize != null) {
+  //     return productSize.toString().split('.').last; // Convert enum to string
+  //   } else {
+  //     return 'Unknown Size';
+  //   }
+  // }
+  String getSize() => productSize?.toString().split('.').last ?? 'Unknown Size';
+
+  String productSizeToString() {
+    return productSize != null
+        ? productSize.toString().split('.').last
+        : 'Unknown Size';
+  }
+  //
+  // static String colorToHex(Color color) {
+  //   return '#${color.value.toRadixString(16).substring(2)}';
+  // }
+
+
+  void getProductDetails() {
+    print('Product ID: $ID');
+    print('Product Name: $name');
+    print('Product Image URL: $imageURL');
+    print('Product Description: $description');
+    print('Product Price: $price');
+    print('Product Rating: $rating');
+    print('Product Size: $getSize()');
+    print('Product Available Sizes: $availableSizes');
+    print('Product Color: $productColor');
+    print('Product Available Colors: $availableColors');
+  }
+
 }
 
 List<Product> products = [
   Product(
-    ID: 'T1', name: 'T-Shirt', imageURL: 'example.com/tshirt.jpg',
+    ID: 'T1', name: 'Blue Hoodie', imageURL: 'assets/images/blue_hoodie1.jpg',
     description: 'Comfortable cotton t-shirt', price: 19.99, rating: 4.2,
-    availableSizes: [AvailableSizes.S, AvailableSizes.M, AvailableSizes.L],
-    availableColors: [ProductColor.Blue, ProductColor.Red],
+    productSize: AvailableSizes.M, availableSizes: [AvailableSizes.M, AvailableSizes.L],
+    productColor: Colors.blue, availableColors: [Colors.blue, Colors.red],
   ),
   Product(
-    ID: 'T2', name: 'Sweater', imageURL: 'example.com/sweater.jpg',
+    ID: 'T1', name: 'Red Hoodie', imageURL: 'assets/images/red_hoodie1.jpg',
+    description: 'Comfortable cotton t-shirt', price: 19.99, rating: 4.2,
+    productSize: AvailableSizes.M, availableSizes: [AvailableSizes.M, AvailableSizes.L],
+    productColor: Colors.red, availableColors: [Colors.blue, Colors.red],
+  ),
+  Product(
+    ID: 'T1', name: 'Blue Hoodie', imageURL: 'assets/images/blue_hoodie1.jpg',
+    description: 'Comfortable Hoodie', price: 24.99, rating: 4.2,
+    productSize: AvailableSizes.L, availableSizes: [AvailableSizes.M, AvailableSizes.L],
+    productColor: Colors.blue, availableColors: [Colors.blue, Colors.red],
+  ),
+  Product(
+    ID: 'T1', name: 'Red Hoodie', imageURL: 'assets/images/red_hoodie1.jpg',
+    description: 'Comfortable Hoodie', price: 27.99, rating: 4.2,
+    productSize: AvailableSizes.L, availableSizes: [AvailableSizes.M, AvailableSizes.L],
+    productColor: Colors.red, availableColors: [Colors.blue, Colors.red],
+  ),
+  Product(
+    ID: 'T2', name: 'Green Sweater', imageURL: 'assets/images/green_sweater1.jpg',
+    description: 'Warm wool sweater for winter', price: 29.99, rating: 4.5,
+    productSize: AvailableSizes.M, availableSizes: [AvailableSizes.M, AvailableSizes.XL],
+    productColor: Colors.green, availableColors: [Colors.green, Colors.black],
+  ),
+  Product(
+    ID: 'T2', name: 'Green Sweater', imageURL: 'assets/images/green_sweater1.jpg',
     description: 'Warm wool sweater for winter', price: 49.99, rating: 4.5,
-    availableSizes: [AvailableSizes.M, AvailableSizes.L, AvailableSizes.XL],
-    availableColors: [ProductColor.Green, ProductColor.Black],
+    productSize: AvailableSizes.XL, availableSizes: [AvailableSizes.M, AvailableSizes.XL],
+    productColor: Colors.green, availableColors: [Colors.green, Colors.black],
   ),
   Product(
-    ID: 'B1', name: 'Jeans', imageURL: 'example.com/jeans.jpg',
+    ID: 'T2', name: 'Black Sweater', imageURL: 'assets/images/black_sweater1.jpg',
+    description: 'Warm wool sweater for winter', price: 29.99, rating: 4.5,
+    productSize: AvailableSizes.M, availableSizes: [AvailableSizes.M, AvailableSizes.XL],
+    productColor: Colors.black, availableColors: [Colors.green, Colors.black],
+  ),
+  Product(
+    ID: 'T2', name: 'Black Sweater', imageURL: 'assets/images/black_sweater1.jpg',
+    description: 'Warm wool sweater for winter', price: 49.99, rating: 4.5,
+    productSize: AvailableSizes.XL, availableSizes: [AvailableSizes.M, AvailableSizes.XL],
+    productColor: Colors.black, availableColors: [Colors.green, Colors.black],
+  ),
+  Product(
+    ID: 'B1', name: 'Blue Jeans', imageURL: 'assets/images/blue_jeans1.jpg',
     description: 'Classic denim jeans', price: 39.99, rating: 4.0,
-    availableSizes: [AvailableSizes.S, AvailableSizes.M],
-    availableColors: [ProductColor.Blue, ProductColor.Black],
+    productSize: AvailableSizes.S, availableSizes: [AvailableSizes.S, AvailableSizes.M],
+    productColor: Colors.blue, availableColors: [Colors.blue, Colors.black],
   ),
   Product(
-    ID: 'S1', name: 'Shoes', imageURL: 'example.com/Shoes.jpg',
+    ID: 'B1', name: 'Black Jeans', imageURL: 'assets/images/black_jeans1.jpg',
+    description: 'Classic denim jeans', price: 39.99, rating: 4.0,
+    productSize: AvailableSizes.S, availableSizes: [AvailableSizes.S, AvailableSizes.M],
+    productColor: Colors.black, availableColors: [Colors.blue, Colors.black],
+  ),
+  Product(
+    ID: 'B1', name: 'Blue Jeans', imageURL: 'assets/images/blue_jeans1.jpg',
+    description: 'Classic denim jeans', price: 59.99, rating: 4.0,
+    productSize: AvailableSizes.M, availableSizes: [AvailableSizes.S, AvailableSizes.M],
+    productColor: Colors.blue, availableColors: [Colors.blue, Colors.black],
+  ),
+  Product(
+    ID: 'B1', name: 'Black Jeans', imageURL: 'assets/images/black_jeans1.jpg',
+    description: 'Classic denim jeans', price: 59.99, rating: 4.0,
+    productSize: AvailableSizes.M, availableSizes: [AvailableSizes.S, AvailableSizes.M],
+    productColor: Colors.black, availableColors: [Colors.blue, Colors.black],
+  ),
+  Product(
+    ID: 'S1', name: 'Black Shoes', imageURL: 'assets/images/black_shoe1.jpg',
     description: 'Amazing Shoes', price: 49.99, rating: 5.0,
-    availableSizes: [AvailableSizes.S, AvailableSizes.M, AvailableSizes.L],
-    availableColors: [ProductColor.Blue, ProductColor.Black, ProductColor.Red],
+    productSize: AvailableSizes.M, availableSizes: [AvailableSizes.M],
+    productColor: Colors.black, availableColors: [Colors.black, Colors.red],
   ),
   Product(
-    ID: 'A1', name: 'Watch', imageURL: 'example.com/Watch.jpg',
+    ID: 'S1', name: 'Red Shoes', imageURL: 'assets/images/red_shoe1.jpg',
+    description: 'Amazing Shoes', price: 49.99, rating: 5.0,
+    productSize: AvailableSizes.S, availableSizes: [AvailableSizes.S, AvailableSizes.M],
+    productColor: Colors.red, availableColors: [Colors.red],
+  ),
+  Product(
+    ID: 'S1', name: 'Red Shoes', imageURL: 'assets/images/red_shoe1.jpg',
+    description: 'Amazing Shoes', price: 79.99, rating: 5.0,
+    productSize: AvailableSizes.M, availableSizes: [AvailableSizes.S, AvailableSizes.M],
+    productColor: Colors.red, availableColors: [Colors.black, Colors.red],
+  ),
+  Product(
+    ID: 'A1', name: 'White Watch', imageURL: 'assets/images/white_watch1.jpg',
     description: 'Tells the time', price: 49.99, rating: 5.0,
-    availableSizes: [],
-    availableColors: [ProductColor.Blue, ProductColor.Black, ProductColor.White],
+    productSize: AvailableSizes.M, availableSizes: [AvailableSizes.M],
+    productColor: Colors.white, availableColors: [ Colors.black, Colors.white],
+  ),
+  Product(
+    ID: 'A1', name: 'Black Watch', imageURL: 'assets/images/black_watch1.png',
+    description: 'Tells the time', price: 49.99, rating: 5.0,
+    productSize: AvailableSizes.M, availableSizes: [AvailableSizes.M],
+    productColor: Colors.black, availableColors: [ Colors.black, Colors.white],
   ),
   // Add more products as needed
 ];
