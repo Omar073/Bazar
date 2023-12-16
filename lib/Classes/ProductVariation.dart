@@ -3,8 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'ProductProperty.dart';
 
 class ProductVariation{
-  int ID;
-  int variationID;
+  String ID;
+  String variationID;
   double price;
   List<String> productVariantImagesURLs;
   List<ProductProperty> productPropertiesValues;

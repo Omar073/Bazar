@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 import 'package:slash_homepage_test/Classes/ProductVariation.dart';
 import 'ProductProperty.dart';
 
@@ -14,11 +14,12 @@ class Product {
   String? name;
   // String ?imageURL;
   String? description;
-  double? price;
+  // double? price;
   double? rating;
   List<ProductVariation> variations; //! non nullable
   List<ProductProperty> availableProperties;  //What properties are offered
                                               // (multiple colors or non, multiple sizes or non, materials)
+  //! availableProperties list all possible attributes but is is not necessary that all combination exist in variances
   // AvailableSizes ?productSize;
   // List<AvailableSizes>? availableSizes;
   // Color ?productColor;
@@ -30,7 +31,7 @@ class Product {
     required this.name,
     // required this.imageURL,
     required this.description,
-    required this.price,
+    // required this.price,
     required this.rating,
     // this.productSize,
     // this.availableSizes, // changed from AvailableSizes to availableSizes
@@ -65,7 +66,6 @@ class Product {
       print('Product ID: $ID');
       print('Product Name: $name');
       print('Product Description: $description');
-      print('Product Price: $price');
       print('Product Rating: $rating');
     }
     for (ProductProperty productProperty in availableProperties) {
@@ -76,7 +76,7 @@ class Product {
     }
   }
 
-  void getVariationDetails(int variationID) {
+  void getVariationDetails(String variationID) {
     // Find the variation with the given variationID
     ProductVariation? selectedVariation;
 
@@ -110,49 +110,62 @@ class Product {
   }
 }
 
+// ! Product 1
 Product p1 = Product(
   ID: 'T1',
-  name: 'Blue Hoodie',
-  // imageURL : 'assets/images/blue_hoodie1.jpg',
-  description: 'Comfortable cotton t-shirt',
-  price: 19.99,
+  name: 'Hoodie',
+  description: 'Comfortable Hoodie',
   rating: 4.2,
   availableProperties: [
     ProductProperty(property: 'size', value: 'M'),
     ProductProperty(property: 'size', value: 'L'),
     ProductProperty(property: 'color', value: 'blue'),
     ProductProperty(property: 'color', value: 'red'),
+    ProductProperty(property: 'material', value: 'cotton'),
+    ProductProperty(property: 'material', value: 'polyester'),
   ],
   variations: [
     ProductVariation(
-      ID: 2,
-      variationID: 201,
-      price: 24.99,
-      productVariantImagesURLs: ['variant_image1.jpg', 'variant_image2.jpg'],
+      ID: '2',
+      variationID: '201',
+      price: 31.99,
+      productVariantImagesURLs: ['blue_hoodie1.jpg', 'blue_hoodie2.jpg'],
       productPropertiesValues: [
         ProductProperty(property: 'size', value: 'L'),
         ProductProperty(property: 'color', value: 'blue'),
+        ProductProperty(property: 'material', value: 'cotton'),
       ],
     ),
     ProductVariation(
-      ID: 2,
-      variationID: 202,
-      price: 27.99,
-      productVariantImagesURLs: ['variant_image1.jpg', 'variant_image2.jpg'],
+      ID: '2',
+      variationID: '202',
+      price: 24.99,
+      productVariantImagesURLs: ['red_hoodie1.jpg', 'red_hoodie1.png'],
       productPropertiesValues: [
-        ProductProperty(property: 'size', value: 'L'),
+        ProductProperty(property: 'size', value: 'M'),
         ProductProperty(property: 'color', value: 'red'),
+        ProductProperty(property: 'material', value: 'polyester'),
+      ],
+    ),
+    ProductVariation(
+      ID: '2',
+      variationID: '203',
+      price: 27.99,
+      productVariantImagesURLs: ['blue_hoodie1.jpg', 'blue_hoodie2.jpg'],
+      productPropertiesValues: [
+        ProductProperty(property: 'size', value: 'M'),
+        ProductProperty(property: 'color', value: 'blue'),
+        ProductProperty(property: 'material', value: 'polyester'),
       ],
     ),
   ],
 );
 
+// ! Product 2
 Product p2 = Product(
   ID: 'T2',
   name: 'Green Sweater',
-  // imageURL : 'assets/images/green_sweater1.jpg',
   description: 'Warm wool sweater for winter',
-  price: 29.99,
   rating: 4.5,
   availableProperties: [
     ProductProperty(property: 'size', value: 'M'),
@@ -162,8 +175,8 @@ Product p2 = Product(
   ],
   variations: [
     ProductVariation(
-      ID: 3,
-      variationID: 301,
+      ID: '3',
+      variationID: '301',
       price: 49.99,
       productVariantImagesURLs: ['variant_image1.jpg', 'variant_image2.jpg'],
       productPropertiesValues: [
@@ -172,8 +185,8 @@ Product p2 = Product(
       ],
     ),
     ProductVariation(
-      ID: 3,
-      variationID: 302,
+      ID: '3',
+      variationID: '302',
       price: 29.99,
       productVariantImagesURLs: ['variant_image1.jpg', 'variant_image2.jpg'],
       productPropertiesValues: [
