@@ -34,7 +34,7 @@ class _ProductCardState extends State<ProductCard> {
               // width: screenWidth/3,
               width: 180, // TODO: find best sizing later
               height: 150,
-              fit: BoxFit.cover,),
+              fit: BoxFit.contain,),
             onTap: () {
               // TODO: hero animation for image
               context.read<ProductProvider>().setCurrentProduct(newProduct: widget.product);

@@ -27,7 +27,7 @@ class _ProductPageState extends State<ProductPage> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: const Icon(Icons.shopping_bag),
+        actions: [const Icon(Icons.shopping_bag),],
         title: Text(p.name!),
         centerTitle: true,
       ),
@@ -49,9 +49,13 @@ class _ProductPageState extends State<ProductPage> {
             style: const TextStyle(fontSize: 18),
             textAlign: TextAlign.center,
           ),
+          if(p.availableColors != null) const Text('Available Colors',
+            style: TextStyle(fontSize: 18),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              if(p.availableColors != null)
               for (Color color in p.availableColors!)
                 InkWell(
                   child: Container(
@@ -60,7 +64,7 @@ class _ProductPageState extends State<ProductPage> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(32.0),
                       border: Border.all(
-                        color: Colors.black,
+                        color: p.productColor == Colors.black ? Colors.grey : Colors.black,
                         width: p.productColor == color ? 5.0 : 2.0, // Adjust the thickness of the border
                       ),
                     ),
@@ -79,11 +83,19 @@ class _ProductPageState extends State<ProductPage> {
                     ),
                   ),
                   onTap: () {
-                    context.read<ProductProvider>().setCurrentProductFromCS(
-                      origID: p.ID!,
-                      wantedSize: p.productSize!,
-                      wantedColor: color,
-                    );
+                    if(p.productSize != null && p.productColor != null){
+                      context.read<ProductProvider>().setCurrentProductFromCS(
+                        origID: p.ID!,
+                        wantedSize: p.productSize!,
+                        wantedColor: color,
+                      );
+                    }
+                    else if (p.productColor == null) {
+                      context.read<ProductProvider>().setCurrentProductFromSize(origID: p.ID!, wantedSize: p.productSize!);
+                    }
+                    else if (p.productSize == null) {
+                      context.read<ProductProvider>().setCurrentProductFromColor(origID: p.ID!, wantedColor: color);
+                    }
                   },
                 )
             ],
@@ -91,13 +103,14 @@ class _ProductPageState extends State<ProductPage> {
           const SizedBox(
             height: 10,
           ),
-          const Text(
-            'Available Sizes: ',
-            style: TextStyle(fontSize: 18),
-          ),
+           if(p.availableSizes != null) const Text(
+             'Available Sizes: ',
+             style: TextStyle(fontSize: 18),
+           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              if(p.availableSizes != null)
               for (AvailableSizes size in p.availableSizes!)
                 InkWell(
                   child: Container(
@@ -107,7 +120,7 @@ class _ProductPageState extends State<ProductPage> {
                       borderRadius: BorderRadius.circular(32.0),
                       border: Border.all(
                         color: Colors.black,
-                        width: 2.0,
+                        width: p.productSize == size ? 5.0 : 2.0,
                       ),
                     ),
                     child: Center(
@@ -118,11 +131,19 @@ class _ProductPageState extends State<ProductPage> {
                     ),
                   ),
                   onTap: () {
-                    context.read<ProductProvider>().setCurrentProductFromCS(
-                      origID: p.ID!,
-                      wantedSize: size,
-                      wantedColor: p.productColor!,
-                    );
+                    if(p.productSize != null && p.productColor != null){
+                      context.read<ProductProvider>().setCurrentProductFromCS(
+                        origID: p.ID!,
+                        wantedSize: size,
+                        wantedColor: p.productColor!,
+                      );
+                    }
+                    else if (p.productColor == null) {
+                      context.read<ProductProvider>().setCurrentProductFromSize(origID: p.ID!, wantedSize: size);
+                    }
+                    else if (p.productSize == null) {
+                      context.read<ProductProvider>().setCurrentProductFromColor(origID: p.ID!, wantedColor: p.productColor!);
+                    }
                   },
                 ),
             ],
