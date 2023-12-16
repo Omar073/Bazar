@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../Classes/Product.dart';
 import '../CustomWidgets/ProductCard.dart';
 

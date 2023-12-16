@@ -33,11 +33,12 @@ class _ProductPageState extends State<ProductPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          // TODO: have multiple images for a single variation
           Image.asset(
             p.imageURL!,
             width: screenHeight / 2,
             height: screenHeight / 2,
-            fit: BoxFit.cover,
+            fit: BoxFit.contain,
           ),
           SizedBox(
             height: 20,

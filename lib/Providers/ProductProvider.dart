@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-
 import '../Classes/Product.dart';
 
 class ProductProvider extends ChangeNotifier {

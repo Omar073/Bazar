@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:slash_homepage_test/Providers/ProductProvider.dart';
@@ -23,7 +22,13 @@ class _ProductCardState extends State<ProductCard> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Container(
-      color: Colors.grey[300],
+      // color: Colors.grey[300],
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.black,
+          width: 2,
+        )
+      ),
       child: Column(
         children: [
           // Text('data', style: TextStyle(fontSize: 70),)
@@ -47,7 +52,7 @@ class _ProductCardState extends State<ProductCard> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween, // TODO: adjust spacing
             children: [
               Text('${widget.product.name!}\nSize: ${widget.product.getSize()}\n${widget.product.price} EGP', style: const TextStyle(fontWeight: FontWeight.bold),),
-              const SizedBox(width: 50,),
+              // const SizedBox(width: 50,),
               IconButton(onPressed: (){
                 // TODO: add to cart
               }, icon: const Icon(Icons.shopping_cart_outlined, color: Colors.orangeAccent,))

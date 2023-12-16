@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-
 import '../Classes/User.dart';
 
 class UserProvider extends ChangeNotifier {
