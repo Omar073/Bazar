@@ -3,23 +3,24 @@ import 'package:flutter/cupertino.dart';
 import '../Classes/Product.dart';
 
 class ProductProvider extends ChangeNotifier {
-  Product? product;  // TODO: make private?
+  Product? product; // TODO: make private?
   Product get productGetter => product!;
 
   ProductProvider({
-    Product? product, 
-  }) : this.product = product ?? Product(
-    ID: '',
-    name: '',
-    imageURL: '',
-    description: '',
-    price: null,
-    rating: null,
-    productSize: null,
-    availableSizes: const [],
-    productColor: null,
-    availableColors: const [],
-  );
+    Product? product,
+  }) : this.product = product ??
+            Product(
+              ID: '',
+              name: '',
+              imageURL: '',
+              description: '',
+              price: null,
+              rating: null,
+              productSize: null,
+              availableSizes: const [],
+              productColor: null,
+              availableColors: const [],
+            );
 
   void setCurrentProduct({
     required Product newProduct,
@@ -27,32 +28,43 @@ class ProductProvider extends ChangeNotifier {
     product = newProduct;
     notifyListeners();
   }
+
   void setCurrentProductFromColor({
     required String origID,
     required Color wantedColor,
   }) async {
-    Product newProduct = products.firstWhere((element) => (element.ID == origID && element.availableColors!.contains(wantedColor)));
+    Product newProduct = products.firstWhere((element) =>
+        (element.ID == origID &&
+            element.productColor == wantedColor));
     product = newProduct;
     notifyListeners();
   }
+
   void setCurrentProductFromSize({
     required String origID,
     required AvailableSizes wantedSize,
-    required Color wantedColor,
   }) async {
-    Product newProduct = products.firstWhere((element) => (element.ID == origID && element.availableSizes!.contains(wantedSize)));
+    print('select current product from size');
+    Product newProduct = products.firstWhere((element) =>
+        (element.ID == origID &&
+            element.productSize == wantedSize));
+    print('found product');
     product = newProduct;
     notifyListeners();
+    print('product updated');
+    product?.getProductDetails();
   }
+
   void setCurrentProductFromCS({
     required String origID,
     required AvailableSizes wantedSize,
     required Color wantedColor,
   }) async {
-    print("Original ID: $origID, Wanted Size: ${productSizeToString(wantedSize)}, Wanted Color: ${colorToHex(wantedColor)}");
+    print(
+        "Original ID: $origID, Wanted Size: ${productSizeToString(wantedSize)}, Wanted Color: ${colorToHex(wantedColor)}");
 
     Product newProduct = products.firstWhere(
-          (element) => (element.ID == origID &&
+      (element) => (element.ID == origID &&
           element.productSize == wantedSize &&
           element.productColor == wantedColor),
     );
@@ -64,7 +76,7 @@ class ProductProvider extends ChangeNotifier {
     print("Product updated: ${product}");
   }
 
-  static String productSizeToString(AvailableSizes size){
+  static String productSizeToString(AvailableSizes size) {
     if (size != null) {
       return size.toString().split('.').last; // Convert enum to string
     } else {

@@ -1,5 +1,6 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
+
+import 'Product.dart';
 
 enum AvailableSizes { S, M, L, XL, XXL, XXXL }
 
@@ -28,10 +29,11 @@ class Product {
     required this.description,
     required this.price,
     required this.rating,
-    required this.productSize,
-    required this.availableSizes, // changed from AvailableSizes to availableSizes
-    required this.productColor,
-    required this.availableColors,
+    this.productSize,
+    this.availableSizes, // changed from AvailableSizes to availableSizes
+    this.productColor,
+    this.availableColors,
+    // TODO: add material
   });
 
   // String getSize() {
@@ -67,9 +69,21 @@ class Product {
     print('Product Available Colors: $availableColors');
   }
 
+
 }
 
 List<Product> products = [
+  // TODO: create list of unique products and list of all products
+  Product(
+    ID: 'T3', name: 'Transparent Hoodie', imageURL: 'assets/images/brown_hoodie2.jpeg',
+    description: 'Tells the time', price: 49.99, rating: 5.0,
+    productSize: AvailableSizes.M, availableSizes: [AvailableSizes.M, AvailableSizes.L],
+  ),
+  Product(
+    ID: 'T3', name: 'Transparent Hoodie', imageURL: 'assets/images/brown_hoodie2.jpeg',
+    description: 'Tells the time', price: 299.99, rating: 5.0,
+    productSize: AvailableSizes.L, availableSizes: [AvailableSizes.M, AvailableSizes.L],
+  ),
   Product(
     ID: 'T1', name: 'Blue Hoodie', imageURL: 'assets/images/blue_hoodie1.jpg',
     description: 'Comfortable cotton t-shirt', price: 19.99, rating: 4.2,
@@ -121,27 +135,27 @@ List<Product> products = [
   Product(
     ID: 'B1', name: 'Blue Jeans', imageURL: 'assets/images/blue_jeans1.jpg',
     description: 'Classic denim jeans', price: 39.99, rating: 4.0,
-    productSize: AvailableSizes.S, availableSizes: [AvailableSizes.S, AvailableSizes.M],
+    // productSize: AvailableSizes.M, availableSizes: [AvailableSizes.M],
     productColor: Colors.blue, availableColors: [Colors.blue, Colors.black],
   ),
   Product(
     ID: 'B1', name: 'Black Jeans', imageURL: 'assets/images/black_jeans1.jpg',
-    description: 'Classic denim jeans', price: 39.99, rating: 4.0,
-    productSize: AvailableSizes.S, availableSizes: [AvailableSizes.S, AvailableSizes.M],
+    description: 'Classic denim jeans', price: 49.99, rating: 4.0,
+    // productSize: AvailableSizes.M, availableSizes: [AvailableSizes.M],
     productColor: Colors.black, availableColors: [Colors.blue, Colors.black],
   ),
-  Product(
-    ID: 'B1', name: 'Blue Jeans', imageURL: 'assets/images/blue_jeans1.jpg',
-    description: 'Classic denim jeans', price: 59.99, rating: 4.0,
-    productSize: AvailableSizes.M, availableSizes: [AvailableSizes.S, AvailableSizes.M],
-    productColor: Colors.blue, availableColors: [Colors.blue, Colors.black],
-  ),
-  Product(
-    ID: 'B1', name: 'Black Jeans', imageURL: 'assets/images/black_jeans1.jpg',
-    description: 'Classic denim jeans', price: 59.99, rating: 4.0,
-    productSize: AvailableSizes.M, availableSizes: [AvailableSizes.S, AvailableSizes.M],
-    productColor: Colors.black, availableColors: [Colors.blue, Colors.black],
-  ),
+  // Product(
+  //   ID: 'B1', name: 'Blue Jeans', imageURL: 'assets/images/blue_jeans1.jpg',
+  //   description: 'Classic denim jeans', price: 59.99, rating: 4.0,
+  //   productSize: AvailableSizes.M, availableSizes: [AvailableSizes.S, AvailableSizes.M],
+  //   productColor: Colors.blue, availableColors: [Colors.blue, Colors.black],
+  // ),
+  // Product(
+  //   ID: 'B1', name: 'Black Jeans', imageURL: 'assets/images/black_jeans1.jpg',
+  //   description: 'Classic denim jeans', price: 59.99, rating: 4.0,
+  //   productSize: AvailableSizes.M, availableSizes: [AvailableSizes.S, AvailableSizes.M],
+  //   productColor: Colors.black, availableColors: [Colors.blue, Colors.black],
+  // ),
   Product(
     ID: 'S1', name: 'Black Shoes', imageURL: 'assets/images/black_shoe1.jpg',
     description: 'Amazing Shoes', price: 49.99, rating: 5.0,
@@ -171,6 +185,28 @@ List<Product> products = [
     description: 'Tells the time', price: 49.99, rating: 5.0,
     productSize: AvailableSizes.M, availableSizes: [AvailableSizes.M],
     productColor: Colors.black, availableColors: [ Colors.black, Colors.white],
-  ),
   // Add more products as needed
+  ),
 ];
+
+List<Product> uniqueProducts = [];
+
+void groupProducts(){
+  print('started FN');
+  for (Product product in products) {
+    bool isUnique = true;
+    for (Product uniqueProduct in uniqueProducts) {
+      if (product.ID == uniqueProduct.ID) {
+        isUnique = false;
+        print('non unique product: \n');
+        product.getProductDetails();
+        break;
+      }
+    }
+    if (isUnique) {
+      uniqueProducts.add(product);
+      print('unique product added: \n');
+      product.getProductDetails();
+    }
+  }
+}
