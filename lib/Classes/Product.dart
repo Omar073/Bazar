@@ -88,6 +88,15 @@ class Product {
     }
   }
 
+  bool hasColors() {
+    for (ProductProperty property in availableProperties) {
+      if (property.property == 'color') {
+        return true;
+      }
+    }
+    return false;
+  }
+
 }
 
   // String getSize() {
@@ -128,21 +137,21 @@ Product p1 = Product(
   ],
   variations: [
     ProductVariation(
-      ID: '2',
+      ID: 'T1',
       variationID: '201',
       price: 31.99,
-      productVariantImagesURLs: ['blue_hoodie1.jpg', 'blue_hoodie2.jpg'],
+      productVariantImagesURLs: ['assets/images/blue_hoodie1.jpg', 'assets/images/blue_hoodie2.jpg'],
       productPropertiesValues: [
-        ProductPropertyandValue(property: 'size', value: 'L'),
+        ProductPropertyandValue(property: 'size', value: 'M'),
         ProductPropertyandValue(property: 'color', value: 'blue'),
         ProductPropertyandValue(property: 'material', value: 'cotton'),
       ],
     ),
     ProductVariation(
-      ID: '2',
+      ID: 'T1',
       variationID: '202',
       price: 24.99,
-      productVariantImagesURLs: ['red_hoodie1.jpg', 'red_hoodie1.png'],
+      productVariantImagesURLs: ['assets/images/red_hoodie1.jpg', 'assets/images/red_hoodie1.png'],
       productPropertiesValues: [
         ProductPropertyandValue(property: 'size', value: 'M'),
         ProductPropertyandValue(property: 'color', value: 'red'),
@@ -150,14 +159,14 @@ Product p1 = Product(
       ],
     ),
     ProductVariation(
-      ID: '2',
+      ID: 'T1',
       variationID: '203',
       price: 27.99,
-      productVariantImagesURLs: ['blue_hoodie1.jpg', 'blue_hoodie2.jpg'],
+      productVariantImagesURLs: ['assets/images/blue_hoodie1.jpg', 'assets/images/blue_hoodie2.jpg'],
       productPropertiesValues: [
         ProductPropertyandValue(property: 'size', value: 'M'),
-        ProductPropertyandValue(property: 'color', value: 'blue'),
-        ProductPropertyandValue(property: 'material', value: 'polyester'),
+        ProductPropertyandValue(property: 'color', value: 'red'),
+        ProductPropertyandValue(property: 'material', value: 'cotton'),
       ],
     ),
   ],
@@ -176,27 +185,65 @@ Product p2 = Product(
   ],
   variations: [
     ProductVariation(
-      ID: '3',
+      ID: 'T2',
       variationID: '301',
-      price: 49.99,
-      productVariantImagesURLs: ['variant_image1.jpg', 'variant_image2.jpg'],
+      price: 79.99,
+      productVariantImagesURLs: ['assets/images/green_sweater1.jpg', 'assets/images/green_sweater2.png'],
       productPropertiesValues: [
-        ProductPropertyandValue(property: 'size', value: 'XL'),
+        ProductPropertyandValue(property: 'size', value: 'L'),
         ProductPropertyandValue(property: 'color', value: 'green'),
+        ProductPropertyandValue(property: 'material', value: 'wool'),
       ],
     ),
     ProductVariation(
-      ID: '3',
+      ID: 'T2',
       variationID: '302',
-      price: 29.99,
-      productVariantImagesURLs: ['variant_image1.jpg', 'variant_image2.jpg'],
+      price: 59.99,
+      productVariantImagesURLs: ['assets/images/green_sweater1.jpg', 'assets/images/green_sweater2.png'],
+      productPropertiesValues: [
+        ProductPropertyandValue(property: 'size', value: 'M'),
+        ProductPropertyandValue(property: 'color', value: 'green'),
+        ProductPropertyandValue(property: 'material', value: 'wool'),
+      ],
+    ),
+    ProductVariation(
+      ID: 'T2',
+      variationID: '302',
+      price: 44.99,
+      productVariantImagesURLs: ['assets/images/green_sweater1.jpg', 'assets/images/green_sweater2.png'],
+      productPropertiesValues: [
+        ProductPropertyandValue(property: 'size', value: 'M'),
+        ProductPropertyandValue(property: 'color', value: 'green'),
+        ProductPropertyandValue(property: 'material', value: 'cotton'),
+      ],
+    ),
+    ProductVariation(
+      ID: 'T2',
+      variationID: '303',
+      price: 39.99,
+      productVariantImagesURLs: ['assets/images/black_sweater1.jpg', 'assets/images/black_sweater2.jpg'],
       productPropertiesValues: [
         ProductPropertyandValue(property: 'size', value: 'M'),
         ProductPropertyandValue(property: 'color', value: 'black'),
+        ProductPropertyandValue(property: 'material', value: 'cotton'),
+      ],
+    ),
+    ProductVariation(
+      ID: 'T2',
+      variationID: '303',
+      price: 49.99,
+      productVariantImagesURLs: ['assets/images/black_sweater1.jpg', 'assets/images/black_sweater2.jpg'],
+      productPropertiesValues: [
+        ProductPropertyandValue(property: 'size', value: 'L'),
+        ProductPropertyandValue(property: 'color', value: 'black'),
+        ProductPropertyandValue(property: 'material', value: 'cotton'),
       ],
     ),
   ],
 );
+
+List<Product> products = [p1, p2];
+List<ProductVariation> defaultVariations = [p1.variations[0], p2.variations[0]];
 
 // List<Product> products = [
 //   Product(

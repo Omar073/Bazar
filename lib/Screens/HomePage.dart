@@ -10,11 +10,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  @override
-  void initState(){
-    super.initState();
-    groupProducts();
-  }
+  // @override
+  // void initState(){
+  //   super.initState();
+  //   groupProducts();
+  // }
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                               spacing: 10, // spacing between items horizontally
                               runSpacing: 10, // spacing between items vertically
                               // children: products.map((p) => ProductCard(product: p)).toList(), // ! thoroughly understand this line
-                              children: uniqueProducts.map((p) => ProductCard(product: p)).toList(), // ! thoroughly understand this line
+                              children: defaultVariations.map((variant) => ProductCard(variant: variant)).toList(),
                             )
                           ],
                         ),
@@ -137,7 +137,7 @@ class _HomePageState extends State<HomePage> {
                               spacing: 10, // spacing between items horizontally
                               runSpacing: 10, // spacing between items vertically
                               // children: products.map((p) => ProductCard(product: p)).toList(), // ! thoroughly understand this line
-                              children: uniqueProducts.map((p) => ProductCard(product: p)).toList(), // ! thoroughly understand this line
+                              children: defaultVariations.map((variant) => ProductCard(variant: variant)).toList(),
                             )
                           ],
                         ),
