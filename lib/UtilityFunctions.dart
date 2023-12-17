@@ -4,24 +4,66 @@ import 'Classes/ProductVariation.dart';
 import 'dart:collection'; // Import the dart:collection library
 
 
-// List<String> getOtherColors(List<ProductVariation> variations, ProductVariation currentVar) {
+//TODO: replace with a function that just finds colors of first instances of variations that have the same material and size as the current variation
+// List<String> getOtherColors(
+//     List<ProductVariation> variations, ProductVariation currentVar) {
 //   final currentColor = currentVar.productPropertiesValues
-//       .firstWhere((propertyValue) => propertyValue.property == 'color')
+//       .firstWhere(
+//         (propertyValue) => propertyValue.property == 'color',
+//     orElse: () => ProductPropertyandValue(property: 'color', value: ''),
+//   )
+//       .value;
+//   final currentMaterial = currentVar.productPropertiesValues
+//       .firstWhere(
+//         (propertyValue) => propertyValue.property == 'material',
+//     orElse: () => ProductPropertyandValue(property: 'material', value: ''),
+//   )
+//       .value;
+//   final currentSize = currentVar.productPropertiesValues
+//       .firstWhere(
+//         (propertyValue) => propertyValue.property == 'size',
+//     orElse: () => ProductPropertyandValue(property: 'size', value: ''),
+//   )
 //       .value;
 //
-//   final otherColors = variations
-//       .where((variation) =>
-//       variation.productPropertiesValues.any((propertyValue) =>
-//       propertyValue.property == 'color' &&
-//           propertyValue.value != currentColor))
-//       .map((variation) =>
-//   variation.productPropertiesValues
-//       .firstWhere((propertyValue) => propertyValue.property == 'color')
-//       .value)
-//       .toSet()
-//       .toList();
+//   // Maintain the order of colors based on their first appearance
+//   final originalOrder = <String>[];
 //
-//   // Print found colors
+//   for (var variation in variations) {
+//     final isSameMaterial = variation.productPropertiesValues.any(
+//           (propertyValue) =>
+//       propertyValue.property == 'material' &&
+//           propertyValue.value == currentMaterial,
+//     );
+//     final isSameSize = variation.productPropertiesValues.any(
+//           (propertyValue) =>
+//       propertyValue.property == 'size' &&
+//           propertyValue.value == currentSize,
+//     );
+//
+//     if (isSameMaterial && isSameSize) {
+//       final color = variation.productPropertiesValues
+//           .firstWhere(
+//             (propertyValue) => propertyValue.property == 'color',
+//         orElse: () => ProductPropertyandValue(property: 'color', value: ''),
+//       )
+//           .value;
+//       if (!originalOrder.contains(color)) {
+//         originalOrder.add(color);
+//       }
+//     }
+//   }
+//
+//   // Create a set to store unique colors without changing their order
+//   final otherColorsSet = LinkedHashSet<String>.from(originalOrder);
+//
+//   // Include the current color in the set
+//   otherColorsSet.add(currentColor);
+//
+//   // Convert the LinkedHashSet to a List to maintain the order
+//   final otherColors = otherColorsSet.toList();
+//
+//   // Print found colors (Debug Mode)
 //   if (kDebugMode) {
 //     print('Other colors:');
 //     for (String color in otherColors) {
@@ -32,118 +74,35 @@ import 'dart:collection'; // Import the dart:collection library
 //   return otherColors;
 // }
 
-// List<String> getOtherColors(
-//     List<ProductVariation> variations, ProductVariation currentVar) {
-//   final currentColor = currentVar.productPropertiesValues
-//       .firstWhere((propertyValue) => propertyValue.property == 'color')
-//       .value;
-//   final currentMaterial = currentVar.productPropertiesValues
-//       .firstWhere((propertyValue) => propertyValue.property == 'material')
-//       .value;
-//   final currentSize = currentVar.productPropertiesValues
-//       .firstWhere((propertyValue) => propertyValue.property == 'size')
-//       .value;
-//
-//   final otherColors = variations
-//       .where((variation) =>
-//           variation.productPropertiesValues.any((propertyValue) =>
-//               propertyValue.property == 'color' &&
-//               propertyValue.value != currentColor) &&
-//           variation.productPropertiesValues.any((propertyValue) =>
-//               propertyValue.property == 'material' &&
-//               propertyValue.value == currentMaterial) &&
-//           variation.productPropertiesValues.any((propertyValue) =>
-//               propertyValue.property == 'size' &&
-//               propertyValue.value == currentSize))
-//       .map((variation) => variation.productPropertiesValues
-//           .firstWhere((propertyValue) => propertyValue.property == 'color')
-//           .value)
-//       .toSet()
-//       .toList();
-//
-//   otherColors.add(currentColor);
-//
-//   // Print found colors (Debug Mode)
-//   if (kDebugMode) {
-//     print('Other colors 1:');
-//     for (String color in otherColors) {
-//       print(color);
-//     }
-//   }
-//
-//   return otherColors;
-// }
 
+List<String> getOtherColors(List<ProductVariation> variations, ProductVariation currentVar) {
+  // Initialize an empty list to store other colors
+  List<String> otherColors = [];
 
-//TODO: replace with a function that just finds colors of first instances of variations that have the same material and size as the current variation
-List<String> getOtherColors(
-    List<ProductVariation> variations, ProductVariation currentVar) {
-  final currentColor = currentVar.productPropertiesValues
-      .firstWhere(
-        (propertyValue) => propertyValue.property == 'color',
-    orElse: () => ProductPropertyandValue(property: 'color', value: ''),
-  )
-      .value;
-  final currentMaterial = currentVar.productPropertiesValues
-      .firstWhere(
-        (propertyValue) => propertyValue.property == 'material',
-    orElse: () => ProductPropertyandValue(property: 'material', value: ''),
-  )
-      .value;
-  final currentSize = currentVar.productPropertiesValues
-      .firstWhere(
-        (propertyValue) => propertyValue.property == 'size',
-    orElse: () => ProductPropertyandValue(property: 'size', value: ''),
-  )
-      .value;
+  // Iterate through the variations to find matches and add colors to the list
+  for (ProductVariation variation in variations) {
+    // Check if the variation has the same "size" and "material" as the current variation,
+    // and the color is not already present in the list
+    bool hasMatchingSize = false;
+    bool hasMatchingMaterial = false;
 
-  // Maintain the order of colors based on their first appearance
-  final originalOrder = <String>[];
-
-  for (var variation in variations) {
-    final isSameMaterial = variation.productPropertiesValues.any(
-          (propertyValue) =>
-      propertyValue.property == 'material' &&
-          propertyValue.value == currentMaterial,
-    );
-    final isSameSize = variation.productPropertiesValues.any(
-          (propertyValue) =>
-      propertyValue.property == 'size' &&
-          propertyValue.value == currentSize,
-    );
-
-    if (isSameMaterial && isSameSize) {
-      final color = variation.productPropertiesValues
-          .firstWhere(
-            (propertyValue) => propertyValue.property == 'color',
-        orElse: () => ProductPropertyandValue(property: 'color', value: ''),
-      )
-          .value;
-      if (!originalOrder.contains(color)) {
-        originalOrder.add(color);
+    for (ProductPropertyandValue propertyValue in variation.productPropertiesValues) {
+      if (propertyValue.property == 'size' && propertyValue.value == currentVar.getSizeValue()) {
+        hasMatchingSize = true;
+      } else if (propertyValue.property == 'material' && propertyValue.value == currentVar.getMaterialValue()) {
+        hasMatchingMaterial = true;
       }
     }
-  }
 
-  // Create a set to store unique colors without changing their order
-  final otherColorsSet = LinkedHashSet<String>.from(originalOrder);
-
-  // Include the current color in the set
-  otherColorsSet.add(currentColor);
-
-  // Convert the LinkedHashSet to a List to maintain the order
-  final otherColors = otherColorsSet.toList();
-
-  // Print found colors (Debug Mode)
-  if (kDebugMode) {
-    print('Other colors:');
-    for (String color in otherColors) {
-      print(color);
+    if (hasMatchingSize && hasMatchingMaterial && !otherColors.contains(variation.getColorValue())) {
+      // Add the color to the list
+      otherColors.add(variation.getColorValue());
     }
   }
 
   return otherColors;
 }
+
 
 
 // List<String> getOtherSizes(
