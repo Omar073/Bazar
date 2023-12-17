@@ -89,6 +89,10 @@ class Product {
   }
 
   ProductVariation getVariationByPropertiesValues({required List<ProductPropertyandValue> productPropertiesValues}) {
+    if (kDebugMode) {
+      print('\nsearching for variation with properties: ');
+      printPropertyandValue(productPropertiesValues);
+    }
     for (ProductVariation variation in variations) {
       if (variation.productPropertiesValues == productPropertiesValues) {
         return variation;

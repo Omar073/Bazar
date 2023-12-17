@@ -51,7 +51,8 @@ class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
   // }
 
   //! temporary solution
-  Color getColorFromString(String colorName) {  //TODO: fix this by using colors as hex values
+  Color getColorFromString(String colorName) {
+    //TODO: fix this by using colors as hex values
     switch (colorName.toLowerCase()) {
       case 'red':
         return Colors.red;
@@ -72,58 +73,63 @@ class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
     // ProductPropertyandValue? propertyValue =
     // getPropertyAndValue(widget.property);
 
-    List<String> possibleColors =
-        getOtherColors(widget.product.variations, widget.currentVariant);
-
-    if (widget.property == 'color' && possibleColors.isNotEmpty) {
-      return Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-        for (String color in possibleColors)
-          InkWell(
-            child: Container(
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                color: getColorFromString(color),
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: widget.currentVariant.getColorValue() == color
-                      ? Colors.black
-                      : Colors.grey,
-                  width: widget.currentVariant.getColorValue() == color
-                      ? 5.0
-                      : 2.0, // Adjust the thickness of the border
+    if (widget.property == 'color') {
+      List<String> possibleColors =
+          getOtherColors(widget.product.variations, widget.currentVariant);
+      if (possibleColors.isNotEmpty) {
+        return Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          for (String color in possibleColors)
+            InkWell(
+              child: Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: getColorFromString(color),
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: widget.currentVariant.getColorValue() == color
+                        ? Colors.black
+                        : Colors.grey,
+                    width: widget.currentVariant.getColorValue() == color
+                        ? 5.0
+                        : 2.0, // Adjust the thickness of the border
+                  ),
                 ),
               ),
+              onTap: () {
+                print(' finding product with color: $color');
+                // widget.currentVariant.printVariationDetails();
+                // print product property values
+                for (ProductPropertyandValue propertyValue in widget.productPropertiesValues) {
+                  print('${propertyValue.property}: ${propertyValue.value}');
+                }
+                context.read<VariantProvider>().setCurrentVariant(
+                      newVariant: widget.product.getVariationByPropertiesValues(
+                        productPropertiesValues: [
+                          ProductPropertyandValue(
+                            property: 'color',
+                            value: color,
+                          ),
+                          ProductPropertyandValue(
+                            property: 'size',
+                            value: widget.currentVariant.getSizeValue()!,
+                          ),
+                          ProductPropertyandValue(
+                            property: 'material',
+                            value: widget.currentVariant.getMaterialValue()!,
+                          ),
+                        ],
+                      ),
+                    );
+              },
             ),
-            onTap: () {
-              context.read<VariantProvider>().setCurrentVariant(
-                    newVariant: widget.product.getVariationByPropertiesValues(
-                      productPropertiesValues: [
-                        ProductPropertyandValue(
-                          property: 'color',
-                          value: color,
-                        ),
-                        ProductPropertyandValue(
-                          property: 'size',
-                          value: widget.currentVariant.getSizeValue()!,
-                        ),
-                        ProductPropertyandValue(
-                          property: 'material',
-                          value: widget.currentVariant.getMaterialValue()!,
-                        ),
-                      ],
-                    ),
-                  );
-            },
-          ),
-      ]);
+        ]);
+      }
     } else if (widget.property == 'size') {
-        return const Text('possible sizes');
-      }
-    else if (widget.property == 'material') {
-        return const Text('possible materials');
-      }
-    else {
+      return const Text('possible sizes');
+    } else if (widget.property == 'material') {
+      return const Text('possible materials');
+    } else {
       return const Text('N/A');
     }
 

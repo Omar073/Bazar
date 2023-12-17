@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:slash_homepage_test/Classes/ProductProperty.dart';
 
 class ProductPropertyandValue{
@@ -10,4 +11,12 @@ class ProductPropertyandValue{
     required this.property,
     required this.value,
   });
+
 }
+  void printPropertyandValue(List<ProductPropertyandValue> productPropertiesValues){
+    for (ProductPropertyandValue productProperty in productPropertiesValues) {
+      if (kDebugMode) {
+        print('Property: ${productProperty.property}, Value: ${productProperty.value}');
+      }
+    }
+  }

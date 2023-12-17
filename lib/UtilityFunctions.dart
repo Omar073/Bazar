@@ -62,7 +62,7 @@ List<String> getOtherColors(
 
   // Print found colors (Debug Mode)
   if (kDebugMode) {
-    print('Other colors:');
+    print('Other colors 1:');
     for (String color in otherColors) {
       print(color);
     }

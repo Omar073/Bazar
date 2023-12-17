@@ -38,19 +38,23 @@ class _ProductPageState extends State<ProductPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            // TODO: have multiple images for a single variation
-            Image.asset(
-              Variant.productVariantImagesURLs![0],
-              width: screenHeight / 2,
-              height: screenHeight / 2,
-              fit: BoxFit.contain,
-            ),
+            // TODO: swipe between multiple images for a single variation
+            // Check if productVariantImagesURLs is not null and not empty
+            if (Variant.productVariantImagesURLs != null &&
+                Variant.productVariantImagesURLs!.isNotEmpty)
+            // TODO: swipe between multiple images for a single variation
+              Image.asset(
+                Variant.productVariantImagesURLs![0],
+                width: screenHeight / 2,
+                height: screenHeight / 2,
+                fit: BoxFit.contain,
+              ),
             SizedBox(
               height: 20,
               width: screenWidth,
             ),
             Text(
-              '${Variant.getName()!}\n${Variant.getDescription()!}\n${Variant.price} EGP',
+              '${Variant.getName() ?? 'unkown'}\n${Variant.getDescription() ?? 'no description'}\n${Variant.price} EGP',
               style: const TextStyle(fontSize: 18),
               textAlign: TextAlign.center,
             ),

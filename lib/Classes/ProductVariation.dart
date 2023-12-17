@@ -50,28 +50,28 @@ class ProductVariation{
   }
 
   String? getName() {
-    print('Searching for the name of product with ID: $ID');
+    // print('Searching for the name of product with ID: $ID');
     for (Product p in products) {
       if (p.ID == ID) {
-        print('ID found');
-        print('Name: ${p.name}');
+        // print('ID found');
+        // print('Name: ${p.name}');
         return p.name;
       }
     }
-    print('ID not found');
+    print('ID not found getName()');
     return null; // Return null if the ID is not found
   }
 
   String? getDescription() {
-    print('Searching for the description of product with ID: $ID');
+    // print('Searching for the description of product with ID: $ID');
     for (Product p in products) {
       if (p.ID == ID) {
-        print('ID found');
-        print('Description: ${p.description}');
+        // print('ID found');
+        // print('Description: ${p.description}');
         return p.description;
       }
     }
-    print('ID not found');
+    print('ID not found getDescription()');
     return null; // Return null if the ID is not found
   }
 
@@ -103,5 +103,6 @@ class ProductVariation{
       }
     }
     // return 'N/A'; // Return a default value if color is not found
-    return '';  }
+    return '';
+  }
 }
