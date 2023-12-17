@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:slash_homepage_test/CustomWidgets/PropertySelector.dart';
@@ -22,11 +23,22 @@ class ProductPage extends StatefulWidget {
 class _ProductPageState extends State<ProductPage> {
   @override
   Widget build(BuildContext context) {
-    ProductVariation Variant = context.watch<VariantProvider>().variantGetter;
+    ProductVariation? Variant = context.watch<VariantProvider>().variantGetter;
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
-    return Scaffold(
+    if (Variant == null|| Variant.productVariantImagesURLs == null) {
+        if (kDebugMode) {
+          print("null variant");
+        }
+      return const Scaffold(
+        body: Center(
+          child: Text('Loading...'), // You can replace this with a loading indicator or an error message.
+        ),
+      );
+    }
+    else {
+      return Scaffold(
       appBar: AppBar(
         actions: const [
           Icon(Icons.shopping_bag),
@@ -81,19 +93,25 @@ class _ProductPageState extends State<ProductPage> {
                 property: 'size',
                 currentVariant: Variant,
                 product: Variant.getProduct()!),
-            if(Variant.productPropertiesValues
-                .any((propertyValue) => propertyValue.property == 'material' ))
-              const Text(
-                'Available Materials',
-                style: TextStyle(fontSize: 18),
+            if (Variant.productPropertiesValues
+                .any((propertyValue) => propertyValue.property == 'material'))
+              Column(
+                children: [
+                  const Text(
+                    'Available Materials',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  PropertySelectorWidget(
+                    productPropertiesValues: Variant.productPropertiesValues,
+                    property: 'material',
+                    currentVariant: Variant,
+                    product: Variant.getProduct()!,
+                  ),
+                ],
               ),
-            PropertySelectorWidget(
-                productPropertiesValues: Variant.productPropertiesValues,
-                property: 'material',
-                currentVariant: Variant,
-                product: Variant.getProduct()!),
-        
-        
+
+
+
             // Row(
             //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             //   children: [
@@ -142,9 +160,7 @@ class _ProductPageState extends State<ProductPage> {
             //       )
             //   ],
             // ),
-            const SizedBox(
-              height: 10,
-            ),
+
             //  if(p.availableSizes != null) const Text(
             //    'Available Sizes: ',
             //    style: TextStyle(fontSize: 18),
@@ -194,5 +210,6 @@ class _ProductPageState extends State<ProductPage> {
         ),
       ),
     );
+    }
   }
 }
