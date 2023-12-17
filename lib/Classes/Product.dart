@@ -88,6 +88,22 @@ class Product {
     }
   }
 
+  ProductVariation getVariationByPropertiesValues({required List<ProductPropertyandValue> productPropertiesValues}) {
+    for (ProductVariation variation in variations) {
+      if (variation.productPropertiesValues == productPropertiesValues) {
+        return variation;
+      }
+    }
+    return ProductVariation(
+      ID: '',
+      variationID: '',
+      price: null,
+      productVariantImagesURLs: const[],
+      productPropertiesValues: const[],
+    );
+    // return null;
+  }
+
   bool hasColors() {
     for (ProductProperty property in availableProperties) {
       if (property.property == 'color') {
@@ -155,7 +171,7 @@ Product p1 = Product(
       productPropertiesValues: [
         ProductPropertyandValue(property: 'size', value: 'M'),
         ProductPropertyandValue(property: 'color', value: 'red'),
-        ProductPropertyandValue(property: 'material', value: 'polyester'),
+        ProductPropertyandValue(property: 'material', value: 'cotton'),
       ],
     ),
     ProductVariation(
@@ -165,8 +181,8 @@ Product p1 = Product(
       productVariantImagesURLs: ['assets/images/blue_hoodie1.jpg', 'assets/images/blue_hoodie2.jpg'],
       productPropertiesValues: [
         ProductPropertyandValue(property: 'size', value: 'M'),
-        ProductPropertyandValue(property: 'color', value: 'red'),
-        ProductPropertyandValue(property: 'material', value: 'cotton'),
+        ProductPropertyandValue(property: 'color', value: 'blue'),
+        ProductPropertyandValue(property: 'material', value: 'polyester'),
       ],
     ),
   ],
@@ -236,7 +252,7 @@ Product p2 = Product(
       productPropertiesValues: [
         ProductPropertyandValue(property: 'size', value: 'L'),
         ProductPropertyandValue(property: 'color', value: 'black'),
-        ProductPropertyandValue(property: 'material', value: 'cotton'),
+        ProductPropertyandValue(property: 'material', value: 'wool'),
       ],
     ),
   ],
