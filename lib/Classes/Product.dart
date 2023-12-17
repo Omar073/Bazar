@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 // import 'package:flutter/material.dart';
 import 'package:slash_homepage_test/Classes/ProductVariation.dart';
 import 'ProductProperty.dart';
+import 'ProductPropertyandValue.dart';
 
 // enum AvailableSizes { S, M, L, XL, XXL, XXXL }
 
@@ -42,25 +43,6 @@ class Product {
     // TODO: add material
   });
 
-  // String getSize() {
-  //   if (productSize != null) {
-  //     return productSize.toString().split('.').last; // Convert enum to string
-  //   } else {
-  //     return 'Unknown Size';
-  //   }
-  // }
-  // String getSize() => productSize?.toString().split('.').last ?? 'Unknown Size';
-
-  // String productSizeToString() {
-  //   return productSize != null
-  //       ? productSize.toString().split('.').last
-  //       : 'Unknown Size';
-  // }
-  //
-  // static String colorToHex(Color color) {
-  //   return '#${color.value.toRadixString(16).substring(2)}';
-  // }
-
   void getProductDetails() {
     if (kDebugMode) {
       print('Product ID: $ID');
@@ -68,10 +50,9 @@ class Product {
       print('Product Description: $description');
       print('Product Rating: $rating');
     }
-    for (ProductProperty productProperty in availableProperties) {
+    for (ProductVariation variant in variations) {
       if (kDebugMode) {
-        print(
-            'Property: ${productProperty.property}, Value: ${productProperty.value}');
+            variant.printVariationDetails();
       }
     }
   }
@@ -91,15 +72,13 @@ class Product {
       if (kDebugMode) {
         print('Product Variation ID: ${selectedVariation.variationID}');
         print('Product Variation Price: ${selectedVariation.price}');
-        print(
-            'Product Variation Images URLs: ${selectedVariation.productVariantImagesURLs}');
+        print('Product Variation Images URLs: ${selectedVariation.productVariantImagesURLs}');
         print('Product Variation Properties:');
       }
-      for (ProductProperty productProperty
-          in selectedVariation.productPropertiesValues) {
+
+      for (ProductPropertyandValue propertyValue in selectedVariation.productPropertiesValues) {
         if (kDebugMode) {
-          print(
-              'Property: ${productProperty.property}, Value: ${productProperty.value}');
+          print('Property: ${propertyValue.property}, Value: ${propertyValue.value}');
         }
       }
     } else {
@@ -108,7 +87,33 @@ class Product {
       }
     }
   }
+
 }
+
+  // String getSize() {
+  //   if (productSize != null) {
+  //     return productSize.toString().split('.').last; // Convert enum to string
+  //   } else {
+  //     return 'Unknown Size';
+  //   }
+  // }
+  // String getSize() => productSize?.toString().split('.').last ?? 'Unknown Size';
+
+  // String productSizeToString() {
+  //   return productSize != null
+  //       ? productSize.toString().split('.').last
+  //       : 'Unknown Size';
+  // }
+  //
+  // static String colorToHex(Color color) {
+  //   return '#${color.value.toRadixString(16).substring(2)}';
+  // }
+
+
+  // ProductProperty col = ProductProperty(property: 'color');
+  // ProductProperty sizee = ProductProperty(property: 'size');
+  // ProductProperty mat = ProductProperty(property: 'material');
+
 
 // ! Product 1
 Product p1 = Product(
@@ -117,12 +122,9 @@ Product p1 = Product(
   description: 'Comfortable Hoodie',
   rating: 4.2,
   availableProperties: [
-    ProductProperty(property: 'size', value: 'M'),
-    ProductProperty(property: 'size', value: 'L'),
-    ProductProperty(property: 'color', value: 'blue'),
-    ProductProperty(property: 'color', value: 'red'),
-    ProductProperty(property: 'material', value: 'cotton'),
-    ProductProperty(property: 'material', value: 'polyester'),
+    ProductProperty(property: 'size'),
+    ProductProperty(property: 'color'),
+    ProductProperty(property: 'material'),
   ],
   variations: [
     ProductVariation(
@@ -131,9 +133,9 @@ Product p1 = Product(
       price: 31.99,
       productVariantImagesURLs: ['blue_hoodie1.jpg', 'blue_hoodie2.jpg'],
       productPropertiesValues: [
-        ProductProperty(property: 'size', value: 'L'),
-        ProductProperty(property: 'color', value: 'blue'),
-        ProductProperty(property: 'material', value: 'cotton'),
+        ProductPropertyandValue(property: 'size', value: 'L'),
+        ProductPropertyandValue(property: 'color', value: 'blue'),
+        ProductPropertyandValue(property: 'material', value: 'cotton'),
       ],
     ),
     ProductVariation(
@@ -142,9 +144,9 @@ Product p1 = Product(
       price: 24.99,
       productVariantImagesURLs: ['red_hoodie1.jpg', 'red_hoodie1.png'],
       productPropertiesValues: [
-        ProductProperty(property: 'size', value: 'M'),
-        ProductProperty(property: 'color', value: 'red'),
-        ProductProperty(property: 'material', value: 'polyester'),
+        ProductPropertyandValue(property: 'size', value: 'M'),
+        ProductPropertyandValue(property: 'color', value: 'red'),
+        ProductPropertyandValue(property: 'material', value: 'polyester'),
       ],
     ),
     ProductVariation(
@@ -153,9 +155,9 @@ Product p1 = Product(
       price: 27.99,
       productVariantImagesURLs: ['blue_hoodie1.jpg', 'blue_hoodie2.jpg'],
       productPropertiesValues: [
-        ProductProperty(property: 'size', value: 'M'),
-        ProductProperty(property: 'color', value: 'blue'),
-        ProductProperty(property: 'material', value: 'polyester'),
+        ProductPropertyandValue(property: 'size', value: 'M'),
+        ProductPropertyandValue(property: 'color', value: 'blue'),
+        ProductPropertyandValue(property: 'material', value: 'polyester'),
       ],
     ),
   ],
@@ -168,10 +170,9 @@ Product p2 = Product(
   description: 'Warm wool sweater for winter',
   rating: 4.5,
   availableProperties: [
-    ProductProperty(property: 'size', value: 'M'),
-    ProductProperty(property: 'size', value: 'XL'),
-    ProductProperty(property: 'color', value: 'green'),
-    ProductProperty(property: 'color', value: 'black'),
+    ProductProperty(property: 'size'),
+    ProductProperty(property: 'color'),
+    ProductProperty(property: 'material'),
   ],
   variations: [
     ProductVariation(
@@ -180,8 +181,8 @@ Product p2 = Product(
       price: 49.99,
       productVariantImagesURLs: ['variant_image1.jpg', 'variant_image2.jpg'],
       productPropertiesValues: [
-        ProductProperty(property: 'size', value: 'XL'),
-        ProductProperty(property: 'color', value: 'green'),
+        ProductPropertyandValue(property: 'size', value: 'XL'),
+        ProductPropertyandValue(property: 'color', value: 'green'),
       ],
     ),
     ProductVariation(
@@ -190,15 +191,14 @@ Product p2 = Product(
       price: 29.99,
       productVariantImagesURLs: ['variant_image1.jpg', 'variant_image2.jpg'],
       productPropertiesValues: [
-        ProductProperty(property: 'size', value: 'M'),
-        ProductProperty(property: 'color', value: 'black'),
+        ProductPropertyandValue(property: 'size', value: 'M'),
+        ProductPropertyandValue(property: 'color', value: 'black'),
       ],
     ),
   ],
 );
 
 // List<Product> products = [
-//   // TODO: create list of unique products and list of all products
 //   Product(
 //     ID: 'T3', name: 'Transparent Hoodie', imageURL: 'assets/images/brown_hoodie2.jpeg',
 //     description: 'Tells the time', price: 49.99, rating: 5.0,
