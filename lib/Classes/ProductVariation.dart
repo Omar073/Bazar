@@ -105,4 +105,13 @@ class ProductVariation{
     // return 'N/A'; // Return a default value if color is not found
     return '';
   }
+
+  bool isSameProperty(ProductPropertyandValue propertyValue) {
+    for (ProductPropertyandValue property in productPropertiesValues) {
+      if (property.property == propertyValue.property) {
+        return true;
+      }
+    }
+    return false;
+  }
 }

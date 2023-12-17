@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 // import 'package:flutter/material.dart';
 import 'package:slash_homepage_test/Classes/ProductVariation.dart';
+import 'package:slash_homepage_test/UtilityFunctions.dart';
 import 'ProductProperty.dart';
 import 'ProductPropertyandValue.dart';
 
@@ -94,9 +95,16 @@ class Product {
       printPropertyandValue(productPropertiesValues);
     }
     for (ProductVariation variation in variations) {
-      if (variation.productPropertiesValues == productPropertiesValues) {
+      // if (variation.productPropertiesValues.isSameProperty(productPropertiesValues)) {
+      if (haveSameProperties(variation.productPropertiesValues, productPropertiesValues)) {
+        if (kDebugMode) {
+          print('variation found: ');
+        }
         return variation;
       }
+    }
+    if (kDebugMode) {
+      print('variation not found');
     }
     return ProductVariation(
       ID: '',
@@ -262,8 +270,104 @@ Product p2 = Product(
   ],
 );
 
-List<Product> products = [p1, p2];
-List<ProductVariation> defaultVariations = [p1.variations[0], p2.variations[0]];
+//! Product 3
+Product p3 = Product(
+  ID: 'S3',
+  name: 'Shoes',
+  description: 'looking good',
+  rating: 5.0,
+  availableProperties: [
+    ProductProperty(property: 'size'),
+    ProductProperty(property: 'color'),
+    // ProductProperty(property: 'material'),
+  ],
+  variations: [
+    ProductVariation(
+      ID: 'S3',
+      variationID: '401',
+      price: 49.99,
+      productVariantImagesURLs: ['assets/images/red_shoe1.jpg', 'assets/images/red_shoe1.jpg'],
+      productPropertiesValues: [
+        ProductPropertyandValue(property: 'size', value: 'M'),
+        ProductPropertyandValue(property: 'color', value: 'red'),
+        // ProductPropertyandValue(property: 'material', value: 'cotton'),
+      ],
+    ),
+    ProductVariation(
+      ID: 'S3',
+      variationID: '402',
+      price: 79.99,
+      productVariantImagesURLs: ['assets/images/red_shoe1.jpg', 'assets/images/red_shoe1.jpg'],
+      productPropertiesValues: [
+        ProductPropertyandValue(property: 'size', value: 'L'),
+        ProductPropertyandValue(property: 'color', value: 'red'),
+        // ProductPropertyandValue(property: 'material', value: 'cotton'),
+      ],
+    ),
+    ProductVariation(
+      ID: 'S3',
+      variationID: '403',
+      price: 79.99,
+      productVariantImagesURLs: ['assets/images/grey_shoe1.png', 'assets/images/grey_shoe2.jpg'],
+      productPropertiesValues: [
+        ProductPropertyandValue(property: 'size', value: 'M'),
+        ProductPropertyandValue(property: 'color', value: 'grey'),
+        // ProductPropertyandValue(property: 'material', value: 'cotton'),
+      ],
+    ),
+  ],
+);
+
+//! Product 4
+Product p4 = Product(
+  ID: 'A1',
+  name: 'Watch',
+  description: 'Tells the time',
+  rating: 4.5,
+  availableProperties: [
+    // ProductProperty(property: 'size'),
+    ProductProperty(property: 'color'),
+    ProductProperty(property: 'material'),
+  ],
+  variations: [
+    ProductVariation(
+      ID: 'S4',
+      variationID: '501',
+      price: 49.99,
+      productVariantImagesURLs: ['assets/images/black_watch1.png', 'assets/images/black_watch2.jpg'],
+      productPropertiesValues: [
+        // ProductPropertyandValue(property: 'size', value: 'M'),
+        ProductPropertyandValue(property: 'color', value: 'red'),
+        ProductPropertyandValue(property: 'material', value: 'leather'),
+      ],
+    ),
+    ProductVariation(
+      ID: 'S4',
+      variationID: '502',
+      price: 79.99,
+      productVariantImagesURLs: ['assets/images/assets/images/white_watch1.jpg', 'assets/images/white_watch2.jpg'],
+      productPropertiesValues: [
+        // ProductPropertyandValue(property: 'size', value: 'L'),
+        ProductPropertyandValue(property: 'color', value: 'white'),
+        ProductPropertyandValue(property: 'material', value: 'leather'),
+      ],
+    ),
+    ProductVariation(
+      ID: 'S4',
+      variationID: '503',
+      price: 79.99,
+      productVariantImagesURLs: ['assets/images/black_watch1.png', 'assets/images/black_watch2.jpg'],
+      productPropertiesValues: [
+        // ProductPropertyandValue(property: 'size', value: 'M'),
+        ProductPropertyandValue(property: 'color', value: 'black'),
+        ProductPropertyandValue(property: 'material', value: 'metal'),
+      ],
+    ),
+  ],
+);
+
+List<Product> products = [p1, p2, p3, p3];
+List<ProductVariation> defaultVariations = [p1.variations[0], p2.variations[0], p3.variations[0], p4.variations[0]];
 
 // List<Product> products = [
 //   Product(

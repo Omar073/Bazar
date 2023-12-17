@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../Classes/Product.dart';
 import '../Classes/ProductProperty.dart';
@@ -50,7 +51,7 @@ class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
   //   }
   // }
 
-  //! temporary solution
+  //! temporary & terrible solution
   Color getColorFromString(String colorName) {
     //TODO: fix this by using colors as hex values
     switch (colorName.toLowerCase()) {
@@ -64,6 +65,8 @@ class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
         return Colors.black;
       case 'white':
         return Colors.white;
+      case 'grey':
+        return Colors.grey;
       default:
         return Colors.orange; // Default color for unknown names
     }
@@ -74,6 +77,9 @@ class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
     // getPropertyAndValue(widget.property);
 
     if (widget.property == 'color') {
+      if (kDebugMode) {
+        print('building color selector');
+      }
       List<String> possibleColors =
           getOtherColors(widget.product.variations, widget.currentVariant);
       if (possibleColors.isNotEmpty) {
@@ -86,22 +92,25 @@ class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
                 decoration: BoxDecoration(
                   color: getColorFromString(color),
                   shape: BoxShape.circle,
-                  border: Border.all(
-                    color: widget.currentVariant.getColorValue() == color
-                        ? Colors.black
-                        : Colors.grey,
-                    width: widget.currentVariant.getColorValue() == color
-                        ? 5.0
-                        : 2.0, // Adjust the thickness of the border
-                  ),
+                  border: widget.currentVariant.getColorValue() == color
+                      ? Border.all(
+                    color: color == 'black' ? Colors.grey : Colors.black,
+                    width: widget.currentVariant.getColorValue() == color ? 5.0 : 2.0,
+                  )
+                      : null, // No border for unselected colors
                 ),
               ),
               onTap: () {
-                print(' finding product with color: $color');
+                if (kDebugMode) {
+                  print(' finding product with color: $color');
+                }
                 // widget.currentVariant.printVariationDetails();
                 // print product property values
-                for (ProductPropertyandValue propertyValue in widget.productPropertiesValues) {
-                  print('${propertyValue.property}: ${propertyValue.value}');
+                for (ProductPropertyandValue propertyValue
+                    in widget.productPropertiesValues) {
+                  if (kDebugMode) {
+                    print('${propertyValue.property}: ${propertyValue.value}');
+                  }
                 }
                 context.read<VariantProvider>().setCurrentVariant(
                       newVariant: widget.product.getVariationByPropertiesValues(
@@ -112,11 +121,11 @@ class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
                           ),
                           ProductPropertyandValue(
                             property: 'size',
-                            value: widget.currentVariant.getSizeValue()!,
+                            value: widget.currentVariant.getSizeValue(),
                           ),
                           ProductPropertyandValue(
                             property: 'material',
-                            value: widget.currentVariant.getMaterialValue()!,
+                            value: widget.currentVariant.getMaterialValue(),
                           ),
                         ],
                       ),
@@ -126,12 +135,157 @@ class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
         ]);
       }
     } else if (widget.property == 'size') {
-      return const Text('possible sizes');
+      if (kDebugMode) {
+        print('building size selector');
+      }
+      List<String> possibleSizes =
+          getOtherSizes(widget.product.variations, widget.currentVariant);
+      if (possibleSizes.isNotEmpty) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            for (String size in possibleSizes)
+              InkWell(
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: Colors.grey, // Change to the appropriate color
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: widget.currentVariant.getSizeValue() == size
+                          ? Colors.black
+                          : Colors.grey,
+                      width: widget.currentVariant.getSizeValue() == size
+                          ? 5.0
+                          : 2.0,
+                    ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      size,
+                      style: TextStyle(
+                        color: widget.currentVariant.getSizeValue() == size
+                            ? Colors.white
+                            : Colors.black,
+                      ),
+                    ),
+                  ),
+                ),
+                onTap: () {
+                  if (kDebugMode) {
+                    print('finding product with size: $size');
+                  }
+                  // widget.currentVariant.printVariationDetails();
+                  // Print product property values
+                  for (ProductPropertyandValue propertyValue in widget.productPropertiesValues) {
+                    if (kDebugMode) {
+                      print('${propertyValue.property}: ${propertyValue.value}');
+                    }
+                  }
+                  context.read<VariantProvider>().setCurrentVariant(
+                    newVariant: widget.product.getVariationByPropertiesValues(
+                      productPropertiesValues: [
+                        ProductPropertyandValue(
+                          property: 'color',
+                          value: widget.currentVariant.getColorValue(),
+                        ),
+                        ProductPropertyandValue(
+                          property: 'size',
+                          value: size,
+                        ),
+                        ProductPropertyandValue(
+                          property: 'material',
+                          value: widget.currentVariant.getMaterialValue(),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+          ],
+        );
+      }
     } else if (widget.property == 'material') {
-      return const Text('possible materials');
+      if (kDebugMode) {
+        print('building material selector');
+      }
+      List<String> possibleMaterials =
+          getOtherMaterials(widget.product.variations, widget.currentVariant);
+      if (possibleMaterials.isNotEmpty) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            for (String material in possibleMaterials)
+              InkWell(
+                child: Container(
+                  width: 80, // Adjust the width as needed
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: Colors.grey, // Change to the appropriate color
+                    borderRadius: BorderRadius.circular(25), // Stadium border
+                    border: Border.all(
+                      color:
+                          widget.currentVariant.getMaterialValue() == material
+                              ? Colors.black
+                              : Colors.grey,
+                      width:
+                          widget.currentVariant.getMaterialValue() == material
+                              ? 5.0
+                              : 2.0,
+                    ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      material,
+                      style: TextStyle(
+                        color:
+                            widget.currentVariant.getMaterialValue() == material
+                                ? Colors.white
+                                : Colors.black,
+                      ),
+                    ),
+                  ),
+                ),
+                onTap: () {
+                  if (kDebugMode) {
+                    print('finding product with material: $material');
+                  }
+                  // widget.currentVariant.printVariationDetails();
+                  // Print product property values
+                  for (ProductPropertyandValue propertyValue in widget.productPropertiesValues) {
+                    if (kDebugMode) {
+                      print('${propertyValue.property}: ${propertyValue.value}');
+                    }
+                  }
+                  context.read<VariantProvider>().setCurrentVariant(
+                    newVariant: widget.product.getVariationByPropertiesValues(
+                      productPropertiesValues: [
+                        ProductPropertyandValue(
+                          property: 'color',
+                          value: widget.currentVariant.getColorValue(),
+                        ),
+                        ProductPropertyandValue(
+                          property: 'size',
+                          value: widget.currentVariant.getSizeValue(),
+                        ),
+                        ProductPropertyandValue(
+                          property: 'material',
+                          value: material,
+                        ),
+                      ],
+                    ),
+                  );
+                },
+
+              ),
+          ],
+        );
+      }
     } else {
       return const Text('N/A');
     }
+    return null;
 
     // return propertyValue != null
     //     ? Text('${property.property}: ${propertyValue.value}')

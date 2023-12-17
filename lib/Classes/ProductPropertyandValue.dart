@@ -12,6 +12,15 @@ class ProductPropertyandValue{
     required this.value,
   });
 
+  // bool isSameProperty(ProductPropertyandValue propertyValue) {
+  //   for (ProductPropertyandValue property in productPropertiesValues) {
+  //     if (property.property == propertyValue.property) {
+  //       return true;
+  //     }
+  //   }
+  //   return false;
+  // }
+
 }
   void printPropertyandValue(List<ProductPropertyandValue> productPropertiesValues){
     for (ProductPropertyandValue productProperty in productPropertiesValues) {
