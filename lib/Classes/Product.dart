@@ -331,7 +331,7 @@ Product p4 = Product(
   ],
   variations: [
     ProductVariation(
-      ID: 'S4',
+      ID: 'A1',
       variationID: '501',
       price: 49.99,
       productVariantImagesURLs: ['assets/images/black_watch1.png', 'assets/images/black_watch2.jpg'],
@@ -342,7 +342,7 @@ Product p4 = Product(
       ],
     ),
     ProductVariation(
-      ID: 'S4',
+      ID: 'A1',
       variationID: '502',
       price: 79.99,
       productVariantImagesURLs: ['assets/images/assets/images/white_watch1.jpg', 'assets/images/white_watch2.jpg'],
@@ -353,7 +353,7 @@ Product p4 = Product(
       ],
     ),
     ProductVariation(
-      ID: 'S4',
+      ID: 'A1',
       variationID: '503',
       price: 79.99,
       productVariantImagesURLs: ['assets/images/black_watch1.png', 'assets/images/black_watch2.jpg'],

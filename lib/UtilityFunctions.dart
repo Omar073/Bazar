@@ -75,16 +75,26 @@ import 'dart:collection'; // Import the dart:collection library
 // }
 
 
+//TODO: replace with a function that just finds colors of first instances of variations that have the same material and size as the current variation
 List<String> getOtherColors(
     List<ProductVariation> variations, ProductVariation currentVar) {
   final currentColor = currentVar.productPropertiesValues
-      .firstWhere((propertyValue) => propertyValue.property == 'color')
+      .firstWhere(
+        (propertyValue) => propertyValue.property == 'color',
+    orElse: () => ProductPropertyandValue(property: 'color', value: ''),
+  )
       .value;
   final currentMaterial = currentVar.productPropertiesValues
-      .firstWhere((propertyValue) => propertyValue.property == 'material')
+      .firstWhere(
+        (propertyValue) => propertyValue.property == 'material',
+    orElse: () => ProductPropertyandValue(property: 'material', value: ''),
+  )
       .value;
   final currentSize = currentVar.productPropertiesValues
-      .firstWhere((propertyValue) => propertyValue.property == 'size')
+      .firstWhere(
+        (propertyValue) => propertyValue.property == 'size',
+    orElse: () => ProductPropertyandValue(property: 'size', value: ''),
+  )
       .value;
 
   // Maintain the order of colors based on their first appearance
@@ -92,17 +102,22 @@ List<String> getOtherColors(
 
   for (var variation in variations) {
     final isSameMaterial = variation.productPropertiesValues.any(
-            (propertyValue) =>
-        propertyValue.property == 'material' &&
-            propertyValue.value == currentMaterial);
+          (propertyValue) =>
+      propertyValue.property == 'material' &&
+          propertyValue.value == currentMaterial,
+    );
     final isSameSize = variation.productPropertiesValues.any(
-            (propertyValue) =>
-        propertyValue.property == 'size' &&
-            propertyValue.value == currentSize);
+          (propertyValue) =>
+      propertyValue.property == 'size' &&
+          propertyValue.value == currentSize,
+    );
 
     if (isSameMaterial && isSameSize) {
       final color = variation.productPropertiesValues
-          .firstWhere((propertyValue) => propertyValue.property == 'color')
+          .firstWhere(
+            (propertyValue) => propertyValue.property == 'color',
+        orElse: () => ProductPropertyandValue(property: 'color', value: ''),
+      )
           .value;
       if (!originalOrder.contains(color)) {
         originalOrder.add(color);
@@ -129,6 +144,7 @@ List<String> getOtherColors(
 
   return otherColors;
 }
+
 
 // List<String> getOtherSizes(
 //     List<ProductVariation> variations, ProductVariation currentVar) {
@@ -225,10 +241,16 @@ List<String> getOtherColors(
 
 List<String> getOtherSizes(List<ProductVariation> variations, ProductVariation currentVar) {
   final currentColor = currentVar.productPropertiesValues
-      .firstWhere((propertyValue) => propertyValue.property == 'color')
+      .firstWhere(
+        (propertyValue) => propertyValue.property == 'color',
+    orElse: () => ProductPropertyandValue(property: 'color', value: ''),
+  )
       .value;
   final currentMaterial = currentVar.productPropertiesValues
-      .firstWhere((propertyValue) => propertyValue.property == 'material')
+      .firstWhere(
+        (propertyValue) => propertyValue.property == 'material',
+    orElse: () => ProductPropertyandValue(property: 'material', value: ''),
+  )
       .value;
 
   final originalOrder = <String>[];
@@ -245,7 +267,10 @@ List<String> getOtherSizes(List<ProductVariation> variations, ProductVariation c
 
     if (isSameColor && isSameMaterial) {
       final size = variation.productPropertiesValues
-          .firstWhere((propertyValue) => propertyValue.property == 'size')
+          .firstWhere(
+            (propertyValue) => propertyValue.property == 'size',
+        orElse: () => ProductPropertyandValue(property: 'size', value: ''),
+      )
           .value;
       if (!originalOrder.contains(size)) {
         originalOrder.add(size);
@@ -255,7 +280,10 @@ List<String> getOtherSizes(List<ProductVariation> variations, ProductVariation c
 
   final otherSizesSet = LinkedHashSet<String>.from(originalOrder);
   otherSizesSet.add(currentVar.productPropertiesValues
-      .firstWhere((propertyValue) => propertyValue.property == 'size')
+      .firstWhere(
+        (propertyValue) => propertyValue.property == 'size',
+    orElse: () => ProductPropertyandValue(property: 'size', value: ''),
+  )
       .value);
   final otherSizes = otherSizesSet.toList();
 
@@ -272,10 +300,16 @@ List<String> getOtherSizes(List<ProductVariation> variations, ProductVariation c
 
 List<String> getOtherMaterials(List<ProductVariation> variations, ProductVariation currentVar) {
   final currentColor = currentVar.productPropertiesValues
-      .firstWhere((propertyValue) => propertyValue.property == 'color')
+      .firstWhere(
+        (propertyValue) => propertyValue.property == 'color',
+    orElse: () => ProductPropertyandValue(property: 'color', value: ''),
+  )
       .value;
   final currentSize = currentVar.productPropertiesValues
-      .firstWhere((propertyValue) => propertyValue.property == 'size')
+      .firstWhere(
+        (propertyValue) => propertyValue.property == 'size',
+    orElse: () => ProductPropertyandValue(property: 'size', value: ''),
+  )
       .value;
 
   final originalOrder = <String>[];
@@ -292,7 +326,10 @@ List<String> getOtherMaterials(List<ProductVariation> variations, ProductVariati
 
     if (isSameColor && isSameSize) {
       final material = variation.productPropertiesValues
-          .firstWhere((propertyValue) => propertyValue.property == 'material')
+          .firstWhere(
+            (propertyValue) => propertyValue.property == 'material',
+        orElse: () => ProductPropertyandValue(property: 'material', value: ''),
+      )
           .value;
       if (!originalOrder.contains(material)) {
         originalOrder.add(material);
@@ -302,7 +339,10 @@ List<String> getOtherMaterials(List<ProductVariation> variations, ProductVariati
 
   final otherMaterialsSet = LinkedHashSet<String>.from(originalOrder);
   otherMaterialsSet.add(currentVar.productPropertiesValues
-      .firstWhere((propertyValue) => propertyValue.property == 'material')
+      .firstWhere(
+        (propertyValue) => propertyValue.property == 'material',
+    orElse: () => ProductPropertyandValue(property: 'material', value: ''),
+  )
       .value);
   final otherMaterials = otherMaterialsSet.toList();
 
@@ -316,6 +356,7 @@ List<String> getOtherMaterials(List<ProductVariation> variations, ProductVariati
 
   return otherMaterials;
 }
+
 
 
 bool haveSameProperties(
