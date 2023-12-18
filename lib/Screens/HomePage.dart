@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
                     Text(
                       'Slash /.',
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white, fontSize: 20),
+                      style: TextStyle(color: Colors.white, fontSize: 19),
                     ),
                   ],
                 ),
