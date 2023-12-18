@@ -41,7 +41,6 @@ class Product {
     // this.availableColors,
     required this.variations,
     required this.availableProperties,
-    // TODO: add material
   });
 
   void getProductDetails() {

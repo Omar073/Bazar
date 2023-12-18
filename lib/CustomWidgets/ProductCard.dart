@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:slash_homepage_test/Classes/ProductVariation.dart';
 import 'package:slash_homepage_test/Providers/VariantProvider.dart';
 import '../Classes/Product.dart';
+import '../Providers/DarkModeProvider.dart';
 import '../Screens/ProductPage.dart';
 
 class ProductCard extends StatefulWidget {
@@ -18,21 +19,25 @@ class ProductCard extends StatefulWidget {
 }
 
 class _ProductCardState extends State<ProductCard> {
+  bool isDarkMode = true;
   @override
   Widget build(BuildContext context) {
+    isDarkMode = context.watch<DarkModeProvider>().isDarkMode;
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+
     return Container(
       // color: Colors.grey[300],
       decoration: BoxDecoration(
         border: Border.all(
-          color: Colors.black,
+          color: isDarkMode? Colors.grey.shade400 : Colors.black,
           width: 2,
-        )
+        ),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
         children: [
-          // Text('data', style: TextStyle(fontSize: 70),)
+          const SizedBox(height: 10,),
           InkWell(
             child: Image.asset(widget.variant.productVariantImagesURLs![0],
               // width: double.infinity,
@@ -49,19 +54,22 @@ class _ProductCardState extends State<ProductCard> {
               //print('hi');
             }
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween, // TODO: adjust spacing
-            children: [
-              // Text('${widget.variant.getName()!}\nSize: ${widget.variant.getSizeValue()}\n${widget.variant.price} EGP', style: const TextStyle(fontWeight: FontWeight.bold),),
-              Text(
-                '${widget.variant.getName() ?? 'Unknown'}\nSize: ${widget.variant.getSizeValue() ?? 'N/A'}\n${widget.variant.price} EGP',
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              // const SizedBox(width: 50,),
-              IconButton(onPressed: (){
-                // TODO: add to cart
-              }, icon: const Icon(Icons.shopping_cart_outlined, color: Colors.orangeAccent,))
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween, // TODO: adjust spacing
+              children: [
+                // Text('${widget.variant.getName()!}\nSize: ${widget.variant.getSizeValue()}\n${widget.variant.price} EGP', style: const TextStyle(fontWeight: FontWeight.bold),),
+                Text(
+                  '${widget.variant.getName() ?? 'Unknown'}\nSize: ${widget.variant.getSizeValue() ?? 'N/A'}\n${widget.variant.price} EGP',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                // const SizedBox(width: 50,),
+                IconButton(onPressed: (){
+                  // TODO: add to cart
+                }, icon: const Icon(Icons.shopping_cart_outlined, color: Colors.orangeAccent,))
+              ],
+            ),
           )
         ],
       ),
