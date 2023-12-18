@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:slash_homepage_test/Providers/DarkModeProvider.dart';
 import '../Classes/Product.dart';
 import '../Classes/ProductProperty.dart';
 import '../Classes/ProductPropertyandValue.dart';
@@ -27,8 +28,10 @@ class PropertySelectorWidget extends StatefulWidget {
 }
 
 class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
+  bool isDarkMode = true;
   @override
   Widget build(BuildContext context) {
+    isDarkMode = context.watch<DarkModeProvider>().isDarkMode;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -96,7 +99,9 @@ class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
                   shape: BoxShape.circle,
                   border: Border.all(
                     color: widget.currentVariant.getColorValue() == color
-                        ? Colors.black
+                        ? isDarkMode
+                            ? Colors.white
+                            : Colors.black
                         : Colors.grey,
                     width: widget.currentVariant.getColorValue() == color
                         ? 5.0
@@ -105,42 +110,37 @@ class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
                 ),
               ),
               onTap: () {
-                if (widget.currentVariant.getColorValue() != color){
-                if (kDebugMode) {
-                  print('\nfinding product with color: $color');
-                  widget.currentVariant.printVariationPropertiesValues();
-                }
-                // // print product property values
-                // for (ProductPropertyandValue propertyValue
-                //     in widget.productPropertiesValues) {
-                //   if (kDebugMode) {
-                //     print('${propertyValue.property}: ${propertyValue.value}');
-                //   }
-                // }
-                context.read<VariantProvider>().setCurrentVariant(
-                      newVariant: widget.product.getVariationByPropertiesValues(
-                        productPropertiesValues: [
-                          if (widget.currentVariant.productPropertiesValues
-                              .any((element) => element.property == 'color'))
-                            ProductPropertyandValue(
-                              property: 'color',
-                              value: color,
-                            ),
-                          if (widget.currentVariant.productPropertiesValues
-                              .any((element) => element.property == 'size'))
-                            ProductPropertyandValue(
-                              property: 'size',
-                              value: widget.currentVariant.getSizeValue(),
-                            ),
-                          if (widget.currentVariant.productPropertiesValues
-                              .any((element) => element.property == 'material'))
-                            ProductPropertyandValue(
-                              property: 'material',
-                              value: widget.currentVariant.getMaterialValue(),
-                            ),
-                        ],
-                      ),
-                    );
+                if (widget.currentVariant.getColorValue() != color) {
+                  if (kDebugMode) {
+                    print('\nfinding product with color: $color');
+                    widget.currentVariant.printVariationPropertiesValues();
+                  }
+                  context.read<VariantProvider>().setCurrentVariant(
+                        newVariant:
+                            widget.product.getVariationByPropertiesValues(
+                          productPropertiesValues: [
+                            if (widget.currentVariant.productPropertiesValues
+                                .any((element) => element.property == 'color'))
+                              ProductPropertyandValue(
+                                property: 'color',
+                                value: color,
+                              ),
+                            if (widget.currentVariant.productPropertiesValues
+                                .any((element) => element.property == 'size'))
+                              ProductPropertyandValue(
+                                property: 'size',
+                                value: widget.currentVariant.getSizeValue(),
+                              ),
+                            if (widget.currentVariant.productPropertiesValues
+                                .any((element) =>
+                                    element.property == 'material'))
+                              ProductPropertyandValue(
+                                property: 'material',
+                                value: widget.currentVariant.getMaterialValue(),
+                              ),
+                          ],
+                        ),
+                      );
                 }
               },
             ),
@@ -166,7 +166,9 @@ class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
                     shape: BoxShape.circle,
                     border: Border.all(
                       color: widget.currentVariant.getSizeValue() == size
-                          ? Colors.black
+                          ? isDarkMode
+                              ? Colors.white
+                              : Colors.black
                           : Colors.grey,
                       width: widget.currentVariant.getSizeValue() == size
                           ? 5.0
@@ -185,37 +187,39 @@ class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
                   ),
                 ),
                 onTap: () {
-                  if (widget.currentVariant.getSizeValue() != size){
-                  if (kDebugMode) {
-                    print('finding product with size: $size');
-                    widget.currentVariant.printVariationPropertiesValues();
-                  }
-                  context.read<VariantProvider>().setCurrentVariant(
-                        newVariant:
-                            widget.product.getVariationByPropertiesValues(
-                          productPropertiesValues: [
-                            if (widget.currentVariant.productPropertiesValues
-                                .any((element) => element.property == 'color'))
-                              ProductPropertyandValue(
-                                property: 'color',
-                                value: widget.currentVariant.getColorValue(),
-                              ),
-                            if (widget.currentVariant.productPropertiesValues
-                                .any((element) => element.property == 'size'))
-                              ProductPropertyandValue(
-                                property: 'size',
-                                value: size,
-                              ),
-                            if (widget.currentVariant.productPropertiesValues
-                                .any((element) =>
-                                    element.property == 'material'))
-                              ProductPropertyandValue(
-                                property: 'material',
-                                value: widget.currentVariant.getMaterialValue(),
-                              ),
-                          ],
-                        ),
-                      );
+                  if (widget.currentVariant.getSizeValue() != size) {
+                    if (kDebugMode) {
+                      print('finding product with size: $size');
+                      widget.currentVariant.printVariationPropertiesValues();
+                    }
+                    context.read<VariantProvider>().setCurrentVariant(
+                          newVariant:
+                              widget.product.getVariationByPropertiesValues(
+                            productPropertiesValues: [
+                              if (widget.currentVariant.productPropertiesValues
+                                  .any(
+                                      (element) => element.property == 'color'))
+                                ProductPropertyandValue(
+                                  property: 'color',
+                                  value: widget.currentVariant.getColorValue(),
+                                ),
+                              if (widget.currentVariant.productPropertiesValues
+                                  .any((element) => element.property == 'size'))
+                                ProductPropertyandValue(
+                                  property: 'size',
+                                  value: size,
+                                ),
+                              if (widget.currentVariant.productPropertiesValues
+                                  .any((element) =>
+                                      element.property == 'material'))
+                                ProductPropertyandValue(
+                                  property: 'material',
+                                  value:
+                                      widget.currentVariant.getMaterialValue(),
+                                ),
+                            ],
+                          ),
+                        );
                   }
                 },
               ),
@@ -243,7 +247,9 @@ class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
                     border: Border.all(
                       color:
                           widget.currentVariant.getMaterialValue() == material
-                              ? Colors.black
+                              ? isDarkMode
+                                  ? Colors.white
+                                  : Colors.black
                               : Colors.grey,
                       width:
                           widget.currentVariant.getMaterialValue() == material
@@ -306,10 +312,6 @@ class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
       return const Text('N/A');
     }
     return null;
-
-    // return propertyValue != null
-    //     ? Text('${property.property}: ${propertyValue.value}')
-    //     : Text('${property.property}: N/A');
   }
 
   ProductPropertyandValue? getPropertyAndValue(String property) {

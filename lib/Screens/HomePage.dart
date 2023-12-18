@@ -23,58 +23,37 @@ class _HomePageState extends State<HomePage> {
     isDarkMode = context.watch<DarkModeProvider>().isDarkMode;
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-    body: Column(
+        body: Column(
       children: [
-        //TODO: FIX border UI
+        const Text(
+          'Slash /.',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+        ),
         Container(
-          color: isDarkMode ? Colors.green.shade900 : Colors.blue,
-          child: Column(
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: isDarkMode ? Colors.grey.shade400 : Colors.black,
+              width: 2,
+            ),
+            borderRadius: BorderRadius.circular(18),
+            color: isDarkMode ? Colors.green.shade900 : Colors.blue.shade100,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                height: 30,
-                color: Colors.black,
-                width: double.infinity,
-                child: const Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Slash /.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white, fontSize: 19),
-                    ),
-                  ],
-                ),
+              const Padding(
+                padding: EdgeInsets.only(left: 8.0),
+                child: Text('Welcome, Name!', style: TextStyle(fontSize: 20)),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: isDarkMode ? Colors.grey.shade400 : Colors.black,
-                      width: 2,
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.only(left: 6.0),
-                        child:
-                            Text('Welcome, Name!', style: TextStyle(fontSize: 20)),
-                      ),
-                      IconButton(
-                        icon: Icon(
-                          isDarkMode ? Icons.nightlight_round_rounded : Icons.sunny,
-                          color: isDarkMode ? Colors.blue : Colors.yellow,
-                        ), // Replace 'your_icon' with the desired icon
-                        onPressed: () {
-                          context.read<DarkModeProvider>().toggleDarkMode();
-                        },
-                      ),
-                    ],
-                  ),
-                ),
+              IconButton(
+                icon: Icon(
+                  isDarkMode ? Icons.nightlight_round_rounded : Icons.sunny,
+                  color: isDarkMode ? Colors.blue : Colors.orangeAccent,
+                ), // Replace 'your_icon' with the desired icon
+                onPressed: () {
+                  context.read<DarkModeProvider>().toggleDarkMode();
+                },
               ),
             ],
           ),
@@ -121,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                             // children: products.map((p) => ProductCard(product: p)).toList(), // ! thoroughly understand this line
                             // children: defaultVariations.map((variant) => ProductCard(variant: variant)).toList(),
                             children: defaultVariations.map((variant) {
-                              debugPrint('Before ProductCard: ');
+                              // debugPrint('Before ProductCard: ');
                               return ProductCard(variant: variant);
                             }).toList(),
                           )
