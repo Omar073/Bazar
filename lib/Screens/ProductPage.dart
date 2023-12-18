@@ -47,7 +47,7 @@ class _ProductPageState extends State<ProductPage> {
           IconButton(
             icon: Icon(
               isDarkMode ? Icons.nightlight_round_rounded : Icons.sunny,
-              color: isDarkMode ? Colors.blue : Colors.yellow,
+              color: isDarkMode ? Colors.blue : Colors.orangeAccent,
             ), // Replace 'your_icon' with the desired icon
             onPressed: () {
               context.read<DarkModeProvider>().toggleDarkMode();
