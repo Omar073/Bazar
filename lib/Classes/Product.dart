@@ -290,7 +290,7 @@ Product p3 = Product(
       productPropertiesValues: [
         ProductPropertyandValue(property: 'size', value: 'M'),
         ProductPropertyandValue(property: 'color', value: 'red'),
-        // ProductPropertyandValue(property: 'material', value: 'cotton'),
+        // ProductPropertyandValue(property: 'material', value: 'leather'),
       ],
     ),
     ProductVariation(
@@ -301,7 +301,7 @@ Product p3 = Product(
       productPropertiesValues: [
         ProductPropertyandValue(property: 'size', value: 'L'),
         ProductPropertyandValue(property: 'color', value: 'red'),
-        // ProductPropertyandValue(property: 'material', value: 'cotton'),
+        // ProductPropertyandValue(property: 'material', value: 'leather'),
       ],
     ),
     ProductVariation(
@@ -312,7 +312,7 @@ Product p3 = Product(
       productPropertiesValues: [
         ProductPropertyandValue(property: 'size', value: 'M'),
         ProductPropertyandValue(property: 'color', value: 'grey'),
-        // ProductPropertyandValue(property: 'material', value: 'cotton'),
+        // ProductPropertyandValue(property: 'material', value: 'leather'),
       ],
     ),
   ],
