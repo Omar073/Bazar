@@ -25,6 +25,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
     body: Column(
       children: [
+        //TODO: FIX border UI
         Container(
           color: isDarkMode ? Colors.green.shade900 : Colors.blue,
           child: Column(
