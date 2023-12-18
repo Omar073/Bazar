@@ -94,14 +94,22 @@ class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
                 decoration: BoxDecoration(
                   color: getColorFromString(color),
                   shape: BoxShape.circle,
-                  border: widget.currentVariant.getColorValue() == color
-                      ? Border.all(
-                          color: color == 'black' ? Colors.grey : Colors.black,
-                          width: widget.currentVariant.getColorValue() == color
-                              ? 5.0
-                              : 2.0,
-                        )
-                      : null, // No border for unselected colors
+                  // border: widget.currentVariant.getColorValue() == color
+                  //     ? Border.all(
+                  //         color: color == 'black' ? Colors.grey : Colors.black,
+                  //         width: widget.currentVariant.getColorValue() == color
+                  //             ? 5.0
+                  //             : 2.0,
+                  //       )
+                  //     : null, // No border for unselected colors
+                  border: Border.all(
+                    color: widget.currentVariant.getColorValue() == color
+                        ? Colors.black
+                        : Colors.grey,
+                    width: widget.currentVariant.getColorValue() == color
+                        ? 5.0
+                        : 2.0,
+                  ),
                 ),
               ),
               onTap: () {
