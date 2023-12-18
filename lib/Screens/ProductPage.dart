@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:slash_homepage_test/CustomWidgets/PropertySelector.dart';
+import 'package:slash_homepage_test/Providers/DarkModeProvider.dart';
 import '../Classes/Product.dart';
 import '../Classes/ProductVariation.dart';
 import '../Providers/VariantProvider.dart';
@@ -21,11 +22,13 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
+  bool isDarkMode = true;
   @override
   Widget build(BuildContext context) {
     ProductVariation? Variant = context.watch<VariantProvider>().variantGetter;
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+    isDarkMode = context.watch<DarkModeProvider>().isDarkMode;
 
     if (Variant == null|| Variant.productVariantImagesURLs == null) {
         if (kDebugMode) {
@@ -40,10 +43,23 @@ class _ProductPageState extends State<ProductPage> {
     else {
       return Scaffold(
       appBar: AppBar(
-        actions: const [
-          Icon(Icons.shopping_bag),
-        ],
-        title: Text(Variant?.getName() ?? 'unknown'),
+        actions: [
+          IconButton(
+            icon: Icon(
+              isDarkMode ? Icons.nightlight_round_rounded : Icons.sunny,
+              color: isDarkMode ? Colors.blue : Colors.yellow,
+            ), // Replace 'your_icon' with the desired icon
+            onPressed: () {
+              context.read<DarkModeProvider>().toggleDarkMode();
+            },
+          ),        ],
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('${Variant.getName()}  ' ?? 'unknown'),
+            const Icon(Icons.shopping_bag),
+          ],
+        ),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
