@@ -166,7 +166,7 @@ Product p1 = Product(
   variations: [
     ProductVariation(
       ID: 'T1',
-      variationID: '201',
+      variationID: '101',
       price: 31.99,
       productVariantImagesURLs: ['assets/images/blue_hoodie1.jpg', 'assets/images/blue_hoodie2.jpg'],
       productPropertiesValues: [
@@ -177,7 +177,7 @@ Product p1 = Product(
     ),
     ProductVariation(
       ID: 'T1',
-      variationID: '202',
+      variationID: '102',
       price: 24.99,
       productVariantImagesURLs: ['assets/images/red_hoodie1.jpg', 'assets/images/red_hoodie1.png'],
       productPropertiesValues: [
@@ -188,7 +188,7 @@ Product p1 = Product(
     ),
     ProductVariation(
       ID: 'T1',
-      variationID: '203',
+      variationID: '103',
       price: 27.99,
       productVariantImagesURLs: ['assets/images/blue_hoodie1.jpg', 'assets/images/blue_hoodie2.jpg'],
       productPropertiesValues: [
@@ -214,7 +214,7 @@ Product p2 = Product(
   variations: [
     ProductVariation(
       ID: 'T2',
-      variationID: '301',
+      variationID: '201',
       price: 79.99,
       productVariantImagesURLs: ['assets/images/green_sweater1.jpg', 'assets/images/green_sweater2.png'],
       productPropertiesValues: [
@@ -225,7 +225,7 @@ Product p2 = Product(
     ),
     ProductVariation(
       ID: 'T2',
-      variationID: '302',
+      variationID: '202',
       price: 59.99,
       productVariantImagesURLs: ['assets/images/green_sweater1.jpg', 'assets/images/green_sweater2.png'],
       productPropertiesValues: [
@@ -236,7 +236,7 @@ Product p2 = Product(
     ),
     ProductVariation(
       ID: 'T2',
-      variationID: '302',
+      variationID: '203',
       price: 44.99,
       productVariantImagesURLs: ['assets/images/green_sweater1.jpg', 'assets/images/green_sweater2.png'],
       productPropertiesValues: [
@@ -247,7 +247,7 @@ Product p2 = Product(
     ),
     ProductVariation(
       ID: 'T2',
-      variationID: '303',
+      variationID: '204',
       price: 39.99,
       productVariantImagesURLs: ['assets/images/black_sweater1.jpg', 'assets/images/black_sweater2.jpg'],
       productPropertiesValues: [
@@ -258,7 +258,7 @@ Product p2 = Product(
     ),
     ProductVariation(
       ID: 'T2',
-      variationID: '303',
+      variationID: '205',
       price: 49.99,
       productVariantImagesURLs: ['assets/images/black_sweater1.jpg', 'assets/images/black_sweater2.jpg'],
       productPropertiesValues: [
@@ -284,35 +284,35 @@ Product p3 = Product(
   variations: [
     ProductVariation(
       ID: 'S3',
-      variationID: '401',
+      variationID: '301',
       price: 49.99,
       productVariantImagesURLs: ['assets/images/red_shoe1.jpg', 'assets/images/red_shoe1.jpg'],
       productPropertiesValues: [
         ProductPropertyandValue(property: 'size', value: 'M'),
         ProductPropertyandValue(property: 'color', value: 'red'),
-        // ProductPropertyandValue(property: 'material', value: 'cotton'),
+        // ProductPropertyandValue(property: 'material', value: 'leather'),
       ],
     ),
     ProductVariation(
       ID: 'S3',
-      variationID: '402',
+      variationID: '302',
       price: 79.99,
       productVariantImagesURLs: ['assets/images/red_shoe1.jpg', 'assets/images/red_shoe1.jpg'],
       productPropertiesValues: [
         ProductPropertyandValue(property: 'size', value: 'L'),
         ProductPropertyandValue(property: 'color', value: 'red'),
-        // ProductPropertyandValue(property: 'material', value: 'cotton'),
+        // ProductPropertyandValue(property: 'material', value: 'leather'),
       ],
     ),
     ProductVariation(
       ID: 'S3',
-      variationID: '403',
+      variationID: '303',
       price: 79.99,
       productVariantImagesURLs: ['assets/images/grey_shoe1.png', 'assets/images/grey_shoe2.jpg'],
       productPropertiesValues: [
         ProductPropertyandValue(property: 'size', value: 'M'),
         ProductPropertyandValue(property: 'color', value: 'grey'),
-        // ProductPropertyandValue(property: 'material', value: 'cotton'),
+        // ProductPropertyandValue(property: 'material', value: 'leather'),
       ],
     ),
   ],
@@ -332,8 +332,8 @@ Product p4 = Product(
   variations: [
     ProductVariation(
       ID: 'A1',
-      variationID: '501',
-      price: 49.99,
+      variationID: '401',
+      price: 59.99,
       productVariantImagesURLs: ['assets/images/black_watch1.png', 'assets/images/black_watch2.jpg'],
       productPropertiesValues: [
         // ProductPropertyandValue(property: 'size', value: 'M'),
@@ -343,9 +343,9 @@ Product p4 = Product(
     ),
     ProductVariation(
       ID: 'A1',
-      variationID: '502',
+      variationID: '402',
       price: 79.99,
-      productVariantImagesURLs: ['assets/images/assets/images/white_watch1.jpg', 'assets/images/white_watch2.jpg'],
+      productVariantImagesURLs: ['assets/images/white_watch1.jpg', 'assets/images/white_watch2.jpg'],
       productPropertiesValues: [
         // ProductPropertyandValue(property: 'size', value: 'L'),
         ProductPropertyandValue(property: 'color', value: 'white'),
@@ -354,7 +354,7 @@ Product p4 = Product(
     ),
     ProductVariation(
       ID: 'A1',
-      variationID: '503',
+      variationID: '403',
       price: 79.99,
       productVariantImagesURLs: ['assets/images/black_watch1.png', 'assets/images/black_watch2.jpg'],
       productPropertiesValues: [
@@ -366,7 +366,7 @@ Product p4 = Product(
   ],
 );
 
-List<Product> products = [p1, p2, p3, p3];
+List<Product> products = [p1, p2, p3, p4];
 List<ProductVariation> defaultVariations = [p1.variations[0], p2.variations[0], p3.variations[0], p4.variations[0]];
 
 // List<Product> products = [

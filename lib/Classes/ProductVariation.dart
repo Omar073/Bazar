@@ -71,7 +71,9 @@ class ProductVariation{
         return p.description;
       }
     }
-    print('ID not found getDescription()');
+    if (kDebugMode) {
+      print('ID not found getDescription()');
+    }
     return null; // Return null if the ID is not found
   }
 
@@ -82,8 +84,8 @@ class ProductVariation{
         return propertyValue.value;
       }
     }
-    // return 'N/A'; // Return a default value if size is not found
-    return '';
+    return 'N/A'; // Return a default value if size is not found
+    // return null;
   }
 
   String getColorValue() {
@@ -92,8 +94,8 @@ class ProductVariation{
         return propertyValue.value;
       }
     }
-    // return 'N/A'; // Return a default value if color is not found
-    return '';
+    return 'N/A'; // Return a default value if color is not found
+    // return null;
   }
 
   String getMaterialValue() {
@@ -102,8 +104,8 @@ class ProductVariation{
         return propertyValue.value;
       }
     }
-    // return 'N/A'; // Return a default value if color is not found
-    return '';
+    return 'N/A'; // Return a default value if color is not found
+    // return null;
   }
 
   bool isSameProperty(ProductPropertyandValue propertyValue) {
