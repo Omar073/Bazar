@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'Providers/DarkModeProvider.dart';
 import 'Providers/VariantProvider.dart';
 import 'Providers/UserProvider.dart';
 import 'Screens/LandingPage.dart';
@@ -15,6 +16,8 @@ void main() {
         ChangeNotifierProvider(
           create: (context) => UserProvider(),
         ),
+        ChangeNotifierProvider(
+            create: (context) => DarkModeProvider()),
       ],
       child: MyApp(),
     ),
@@ -29,12 +32,14 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  // bool isDarkMode = context.read<DarkModeProvider>().isDarkMode;
+      // context.read<VariantProvider>().setCurrentVariant(newVariant: widget.variant);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // TODO: fit into safe area
+      theme : context.watch<DarkModeProvider>().isDarkMode ? ThemeData.dark() : ThemeData.light(),
       debugShowCheckedModeBanner: false,
-      home: LandingPage(),
+      home: const SafeArea(child: LandingPage()),
     );
   }
 }
