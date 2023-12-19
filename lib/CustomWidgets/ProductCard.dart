@@ -28,6 +28,7 @@ class _ProductCardState extends State<ProductCard> {
 
     return Container(
       // color: Colors.grey[300],
+      width: 180, // TODO: find best sizing later
       decoration: BoxDecoration(
         border: Border.all(
           color: isDarkMode ? Colors.grey.shade400 : Colors.black,
@@ -62,7 +63,7 @@ class _ProductCardState extends State<ProductCard> {
           ),
           // const SizedBox(width: 50, child: Text('', style: TextStyle(fontSize: 1),),),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12.0),
+            padding: const EdgeInsets.all(12.0),
             child: Row(
               mainAxisAlignment:
                   MainAxisAlignment.spaceBetween, // TODO: adjust spacing

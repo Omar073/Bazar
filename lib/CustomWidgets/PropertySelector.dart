@@ -100,8 +100,8 @@ class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
                   border: Border.all(
                     color: widget.currentVariant.getColorValue() == color
                         ? isDarkMode
-                            ? Colors.white
-                            : Colors.black
+                            ? (getColorFromString(color) == Colors.white)? Colors.grey : Colors.white
+                            : (getColorFromString(color) == Colors.black)? Colors.grey : Colors.black
                         : Colors.grey,
                     width: widget.currentVariant.getColorValue() == color
                         ? 5.0

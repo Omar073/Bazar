@@ -93,6 +93,7 @@ class _HomePageState extends State<HomePage> {
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Wrap(
                             spacing: 10, // spacing between items horizontally
