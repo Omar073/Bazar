@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
             children: [
               const Padding(
                 padding: EdgeInsets.only(left: 8.0),
-                child: Text('Welcome, Name!', style: TextStyle(fontSize: 20)),
+                child: Text('Welcome, Omar!', style: TextStyle(fontSize: 20)),
               ),
               IconButton(
                 icon: Icon(
