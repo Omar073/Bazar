@@ -12,3 +12,5 @@ Slash is an E-commerce app developed with Flutter, designed to empower and suppo
 
 https://github.com/Omar073/slash-homepage-test/assets/120687551/2349a327-2e2b-4040-8b43-fabf1464ab6f
 
+https://github.com/Omar073/slash-homepage-test/assets/120687551/00269687-74d5-4280-a054-67ce05404baf
+
