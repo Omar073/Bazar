@@ -9,7 +9,7 @@ class VariantProvider extends ChangeNotifier {
 
   VariantProvider({
     ProductVariation? variant,
-  }) : this.variant = variant ??
+  }) : variant = variant ??
       ProductVariation(
         ID: '',
         variationID: '',

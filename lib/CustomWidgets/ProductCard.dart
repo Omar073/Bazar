@@ -62,27 +62,30 @@ class _ProductCardState extends State<ProductCard> {
               }
           ),
           // const SizedBox(width: 50, child: Text('', style: TextStyle(fontSize: 1),),),
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween, // TODO: adjust spacing
-              children: [
-                // Text('${widget.variant.getName()!}\nSize: ${widget.variant.getSizeValue()}\n${widget.variant.price} EGP', style: const TextStyle(fontWeight: FontWeight.bold),),
-                Text(
-                  '${widget.variant.getName() ?? 'Unknown'}\nSize: ${widget.variant.getSizeValue() ?? 'N/A'}\n${widget.variant.price} EGP',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                // const SizedBox(width: 50,),
-                IconButton(
-                    onPressed: () {
-                      // TODO: add to cart
-                    },
-                    icon: const Icon(
-                      Icons.shopping_cart_outlined,
-                      color: Colors.orangeAccent,
-                    ))
-              ],
+          SizedBox(
+            width: 180,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0).copyWith(left: 8.0),
+              child: Row(
+                mainAxisAlignment:
+                    MainAxisAlignment.spaceBetween, // TODO: adjust spacing
+                children: [
+                  // Text('${widget.variant.getName()!}\nSize: ${widget.variant.getSizeValue()}\n${widget.variant.price} EGP', style: const TextStyle(fontWeight: FontWeight.bold),),
+                  Text(
+                    '${widget.variant.getName() ?? 'Unknown'}\nSize: ${widget.variant.getSizeValue() ?? 'N/A'}\n${widget.variant.price} EGP',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  // const SizedBox(width: 1.2,),
+                  IconButton(
+                      onPressed: () {
+                        // TODO: add to cart
+                      },
+                      icon: const Icon(
+                        Icons.shopping_cart_outlined,
+                        color: Colors.orangeAccent,
+                      ))
+                ],
+              ),
             ),
           )
         ],

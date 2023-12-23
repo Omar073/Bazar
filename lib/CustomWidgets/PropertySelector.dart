@@ -29,9 +29,11 @@ class PropertySelectorWidget extends StatefulWidget {
 
 class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
   bool isDarkMode = true;
+  late double circleDimention;
   @override
   Widget build(BuildContext context) {
     isDarkMode = context.watch<DarkModeProvider>().isDarkMode;
+    circleDimention = 30;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -54,26 +56,26 @@ class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
   //   }
   // }
 
-  //! temporary & terrible solution
-  Color getColorFromString(String colorName) {
-    //TODO: fix this by using colors as hex values
-    switch (colorName.toLowerCase()) {
-      case 'red':
-        return Colors.red;
-      case 'blue':
-        return Colors.blue;
-      case 'green':
-        return Colors.green;
-      case 'black':
-        return Colors.black;
-      case 'white':
-        return Colors.white;
-      case 'grey':
-        return Colors.grey;
-      default:
-        return Colors.orange; // Default color for unknown names
-    }
-  }
+  // Color getColorFromString(String colorName) {
+  //   switch (colorName.toLowerCase()) {
+  //     case 'red':
+  //       return Colors.red;
+  //     case 'blue':
+  //       return Colors.blue;
+  //     case 'green':
+  //       return Colors.green;
+  //     case 'black':
+  //       return Colors.black;
+  //     case 'white':
+  //       return Colors.white;
+  //     case 'grey':
+  //       return Colors.grey;
+  //     default:
+  //       return Colors.orange; // Default color for unknown names
+  //   }
+  // }
+
+  int snackBarDuration = 1;
 
   //TODO: lower complexity by making a function for each individual property
   //TODO: or if you can make one very generic function for all of them
@@ -92,20 +94,28 @@ class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
           for (String color in possibleColors)
             InkWell(
               child: Container(
-                width: 50,
-                height: 50,
+                width: circleDimention,
+                height: circleDimention,
                 decoration: BoxDecoration(
-                  color: getColorFromString(color),
+                  // color: getColorFromString(color),
+                  color: getColorFromHex(color),
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: widget.currentVariant.getColorValue() == color
-                        ? isDarkMode
-                            ? (getColorFromString(color) == Colors.white)? Colors.grey : Colors.white
-                            : (getColorFromString(color) == Colors.black)? Colors.grey : Colors.black
-                        : Colors.grey,
+                    color:
+                    // widget.currentVariant.getColorValue() == color
+                    //     ?
+                    // isDarkMode
+                            // ? (getColorFromString(color) == Colors.white)
+                            //     ? Colors.grey
+                            //     : Colors.white
+                            // : (getColorFromString(color) == Colors.black)
+                            //     ? Colors.grey
+                            //     : Colors.black
+                    Colors.grey,
+                        // : Colors.grey,
                     width: widget.currentVariant.getColorValue() == color
-                        ? 5.0
-                        : 2.0,
+                        ? circleDimention / 10
+                        : circleDimention / 25,
                   ),
                 ),
               ),
@@ -115,32 +125,128 @@ class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
                     print('\nfinding product with color: $color');
                     widget.currentVariant.printVariationPropertiesValues();
                   }
-                  context.read<VariantProvider>().setCurrentVariant(
-                        newVariant:
-                            widget.product.getVariationByPropertiesValues(
-                          productPropertiesValues: [
-                            if (widget.currentVariant.productPropertiesValues
-                                .any((element) => element.property == 'color'))
-                              ProductPropertyandValue(
-                                property: 'color',
-                                value: color,
-                              ),
-                            if (widget.currentVariant.productPropertiesValues
-                                .any((element) => element.property == 'size'))
-                              ProductPropertyandValue(
-                                property: 'size',
-                                value: widget.currentVariant.getSizeValue(),
-                              ),
-                            if (widget.currentVariant.productPropertiesValues
-                                .any((element) =>
-                                    element.property == 'material'))
-                              ProductPropertyandValue(
-                                property: 'material',
-                                value: widget.currentVariant.getMaterialValue(),
-                              ),
-                          ],
+                  // context.read<VariantProvider>().setCurrentVariant(
+                  var newVariant =
+                      widget.product.getVariationByPropertiesValues(
+                    productPropertiesValues: [
+                      if (widget.currentVariant.productPropertiesValues
+                          .any((element) => element.property == 'color'))
+                        ProductPropertyandValue(
+                          property: 'color',
+                          value: color,
                         ),
-                      );
+                      if (widget.currentVariant.productPropertiesValues
+                          .any((element) => element.property == 'size'))
+                        ProductPropertyandValue(
+                          property: 'size',
+                          value: widget.currentVariant.getSizeValue(),
+                        ),
+                      if (widget.currentVariant.productPropertiesValues
+                          .any((element) => element.property == 'material'))
+                        ProductPropertyandValue(
+                          property: 'material',
+                          value: widget.currentVariant.getMaterialValue(),
+                        ),
+                    ],
+                  );
+                  if (newVariant != null) {
+                    debugPrint('new variant is not null from color');
+                    context.read<VariantProvider>().setCurrentVariant(
+                          newVariant: newVariant,
+                        );
+                  } else {
+                    debugPrint('new variant is null from color');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: const Text(
+                          "Sorry, the current property is not available for this color ",
+                        ),
+                        duration: Duration(seconds: snackBarDuration), // Set the duration in seconds
+                      ),
+                    );
+                    // newVariant = widget.product.getVariationByPropertiesValues(
+                    //   productPropertiesValues: [
+                    //     ProductPropertyandValue(
+                    //       property: 'color',
+                    //       value: color,
+                    //     ),
+                    //     ...widget.currentVariant.productPropertiesValues
+                    //         .where((element) => element.property != 'color')
+                    //         .map((element) => ProductPropertyandValue(
+                    //       property: element.property,
+                    //       value: element.value,
+                    //     )),
+                    //   ],
+                    // );
+                    newVariant = widget.product.variations.firstWhere(
+                          (variant) =>
+                          variant.productPropertiesValues.any(
+                                (property) =>
+                            property.property == 'color' && property.value == color,
+                          ),
+                      // orElse: () => null,
+                    );
+                  }
+                  context.read<VariantProvider>().setCurrentVariant(newVariant: newVariant);
+
+                  // widget.product.getVariationByPropertiesValues(
+                  //   productPropertiesValues: [
+                  //     ...widget.currentVariant.productPropertiesValues
+                  //         .where((element) => element.property != 'color'),
+                  //   ],
+                  // ) ??
+
+                  // widget.product.getVariationByPropertiesValues(
+                  //                       productPropertiesValues: [
+                  //                         ProductPropertyandValue(
+                  //                           property: 'color',
+                  //                           value: color,
+                  //                         ),
+                  //                         ...widget.currentVariant.productPropertiesValues
+                  //                             .where((element) => element.property != 'color')
+                  //                             .map((element) => ProductPropertyandValue(
+                  //                           property: element.property,
+                  //                           value: element.value,
+                  //                         )),
+                  //                       ],
+                  //                     ),
+
+                  //   ??
+                  //   widget.product.getVariationByPropertiesValues(
+                  //     productPropertiesValues: [
+                  //   ProductPropertyandValue(
+                  // property: 'color',
+                  // value: color,
+                  // ),
+                  //       ...widget.currentVariant.productPropertiesValues
+                  //           .where((element) => element.property != 'color'),
+                  //     ],),
+
+                  //     widget.product.getVariationByPropertiesValues(
+                  //   productPropertiesValues: [
+                  //     if (widget.currentVariant.productPropertiesValues
+                  //         .any((element) => element.property == 'color'))
+                  //       ProductPropertyandValue(
+                  //         property: 'color',
+                  //         value: color,
+                  //       ),
+                  //     if (widget.currentVariant.productPropertiesValues
+                  //         .any((element) => element.property == 'size'))
+                  //       ProductPropertyandValue(
+                  //         property: 'size',
+                  //         value: widget.currentVariant.getSizeValue(),
+                  //       ),
+                  //     if (widget.currentVariant.productPropertiesValues
+                  //         .any((element) =>
+                  //             element.property == 'material'))
+                  //       ProductPropertyandValue(
+                  //         property: 'material',
+                  //         value: widget.currentVariant.getMaterialValue(),
+                  //       ),
+                  //   ],
+                  // ),
+
+                  // );
                 }
               },
             ),
@@ -192,8 +298,8 @@ class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
                       print('finding product with size: $size');
                       widget.currentVariant.printVariationPropertiesValues();
                     }
-                    context.read<VariantProvider>().setCurrentVariant(
-                          newVariant:
+                    // context.read<VariantProvider>().setCurrentVariant(
+                          var newVariant =
                               widget.product.getVariationByPropertiesValues(
                             productPropertiesValues: [
                               if (widget.currentVariant.productPropertiesValues
@@ -214,12 +320,51 @@ class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
                                       element.property == 'material'))
                                 ProductPropertyandValue(
                                   property: 'material',
-                                  value:
-                                      widget.currentVariant.getMaterialValue(),
+                                  value: widget.currentVariant.getMaterialValue(),
                                 ),
                             ],
+                          );
+
+                    if (newVariant != null) {
+                      debugPrint('new variant is not null from size');
+                      context.read<VariantProvider>().setCurrentVariant(
+                        newVariant: newVariant,
+                      );
+                    } else {
+                      debugPrint('new variant is null from size');
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            "Sorry, the current property is not available for size: $size ",
                           ),
-                        );
+                          duration: Duration(seconds: snackBarDuration), // Set the duration in seconds
+                        ),
+                      );
+                      // newVariant = widget.product.getVariationByPropertiesValues(
+                      //   productPropertiesValues: [
+                      //     ProductPropertyandValue(
+                      //       property: 'size',
+                      //       value: size,
+                      //     ),
+                      //     ...widget.currentVariant.productPropertiesValues
+                      //         .where((element) => element.property != 'size')
+                      //         .map((element) => ProductPropertyandValue(
+                      //       property: element.property,
+                      //       value: element.value,
+                      //     )),
+                      //   ],
+                      // );
+                      newVariant = widget.product.variations.firstWhere(
+                            (variant) =>
+                            variant.productPropertiesValues.any(
+                                  (property) =>
+                              property.property == 'size' && property.value == size,
+                            ),
+                        // orElse: () => null,
+                      );
+                    }
+                    context.read<VariantProvider>().setCurrentVariant(newVariant: newVariant);
+                        // );
                   }
                 },
               ),
@@ -275,8 +420,8 @@ class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
                       print('finding product with material: $material');
                       widget.currentVariant.printVariationPropertiesValues();
                     }
-                    context.read<VariantProvider>().setCurrentVariant(
-                          newVariant:
+                    // context.read<VariantProvider>().setCurrentVariant(
+                          var newVariant =
                               widget.product.getVariationByPropertiesValues(
                             productPropertiesValues: [
                               if (widget.currentVariant.productPropertiesValues
@@ -300,8 +445,48 @@ class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
                                   value: material,
                                 ),
                             ],
+                          );
+
+                    if (newVariant != null) {
+                      debugPrint('new variant is not null from material');
+                      context.read<VariantProvider>().setCurrentVariant(
+                        newVariant: newVariant,
+                      );
+                    } else {
+                      debugPrint('new variant is null from material');
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            "Sorry, the current property is not available for material: $material ",
                           ),
-                        );
+                          duration: Duration(seconds: snackBarDuration), // Set the duration in seconds
+                        ),
+                      );
+                      // newVariant = widget.product.getVariationByPropertiesValues(
+                      //   productPropertiesValues: [
+                      //     ProductPropertyandValue(
+                      //       property: 'material',
+                      //       value: material,
+                      //     ),
+                      //     ...widget.currentVariant.productPropertiesValues
+                      //         .where((element) => element.property != 'material')
+                      //         .map((element) => ProductPropertyandValue(
+                      //       property: element.property,
+                      //       value: element.value,
+                      //     )),
+                      //   ],
+                      // );
+                      newVariant = widget.product.variations.firstWhere(
+                            (variant) =>
+                            variant.productPropertiesValues.any(
+                                  (property) =>
+                              property.property == 'material' && property.value == material,
+                            ),
+                        // orElse: () => null,
+                      );
+                    }
+                    context.read<VariantProvider>().setCurrentVariant(newVariant: newVariant);
+                        // );
                   }
                 },
               ),

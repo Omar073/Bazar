@@ -25,37 +25,47 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         body: Column(
       children: [
-        const Text(
-          'Slash /.',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
-        ),
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: isDarkMode ? Colors.grey.shade400 : Colors.black,
-              width: 2,
-            ),
-            borderRadius: BorderRadius.circular(18),
-            color: isDarkMode ? Colors.green.shade900 : Colors.blue.shade100,
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 4.0),
+          child: Text(
+            'Slash /.',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(left: 8.0),
-                child: Text('Welcome, Omar!', style: TextStyle(fontSize: 20)),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: isDarkMode ? Colors.grey.shade400 : Colors.black,
+                width: 2,
               ),
-              IconButton(
-                icon: Icon(
-                  isDarkMode ? Icons.nightlight_round_rounded : Icons.sunny,
-                  color: isDarkMode ? Colors.blue : Colors.orangeAccent,
-                ), // Replace 'your_icon' with the desired icon
-                onPressed: () {
-                  context.read<DarkModeProvider>().toggleDarkMode();
-                },
-              ),
-            ],
+              borderRadius: BorderRadius.circular(25),
+              color: isDarkMode ? Colors.green.shade700 : Colors.blue.shade100,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(left: 10.0),
+                  child: Text('Welcome, Omar!', style: TextStyle(fontSize: 20)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 4.0),
+                  child: IconButton(
+                    icon: Icon(
+                      isDarkMode ? Icons.sunny : Icons.nights_stay_rounded,
+                      color: isDarkMode ? Colors.orangeAccent : Colors.white,
+                      size: 29,
+                    ), // Replace 'your_icon' with the desired icon
+                    onPressed: () {
+                      context.read<DarkModeProvider>().toggleDarkMode();
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         Column(
