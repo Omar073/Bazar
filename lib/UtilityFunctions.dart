@@ -1,6 +1,21 @@
+import 'dart:ui';
+
 import 'package:flutter/foundation.dart';
 import 'Classes/ProductPropertyandValue.dart';
 import 'Classes/ProductVariation.dart';
+
+// Color getColorFromHex(String hexColor) {
+//   final int hexValue = int.parse(hexColor.substring(2), radix: 16);
+//   return Color(hexValue | 0xFF0000);
+// }
+
+Color getColorFromHex(String hexColor) {
+  hexColor = hexColor.replaceAll("#", "");
+  if (hexColor.length == 6) {
+    hexColor = "FF$hexColor";
+  }
+  return Color(int.parse(hexColor, radix: 16));
+}
 
 List<String> getOtherColors(
     List<ProductVariation> variations, ProductVariation currentVar) {
@@ -18,7 +33,8 @@ List<String> getOtherColors(
     String otherSize = variation.getSizeValue();
     String otherMaterial = variation.getMaterialValue();
 
-    if(currentVarSize == otherSize && currentVarMaterial == otherMaterial && !otherColors.contains(variation.getColorValue())){
+    // if(currentVarSize == otherSize && currentVarMaterial == otherMaterial && !otherColors.contains(variation.getColorValue())){
+    if(!otherColors.contains(variation.getColorValue())){
       // hasMatchingSize = true;
       // hasMatchingMaterial = true;
       otherColors.add(variation.getColorValue());

@@ -9,13 +9,13 @@ class VariantProvider extends ChangeNotifier {
 
   VariantProvider({
     ProductVariation? variant,
-  }) : this.variant = variant ??
+  }) : variant = variant ??
       ProductVariation(
-        ID: '',
-        variationID: '',
+        productId: '',
+        id: '',
         price: null,
         productVariantImagesURLs: const[],
-        productPropertiesValues: const[],
+        productPropertiesValues: const[], quantity: 0,
             );
 
   void setCurrentVariant({

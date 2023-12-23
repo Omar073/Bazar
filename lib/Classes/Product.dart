@@ -5,47 +5,35 @@ import 'package:slash_homepage_test/UtilityFunctions.dart';
 import 'ProductProperty.dart';
 import 'ProductPropertyandValue.dart';
 
-// enum AvailableSizes { S, M, L, XL, XXL, XXXL }
-
-// enum ProductColor { Colors.Blue, Colors.Red, Colors.Green, Colors.Yellow, White, Black }
-// enum ProductColor { Blue, Red, Green, Yellow, White, Black }
-
 class Product {
-  // String ?uniqueID; // ID that is unique to each product
-  String? ID; // ID that is common between same product but different variations
-  String? name;
-  // String ?imageURL;
-  String? description;
-  // double? price;
-  double? rating;
-  List<ProductVariation> variations; //! non nullable
-  List<ProductProperty> availableProperties;  //What properties are offered
+  final String? id; // ID that is common between different variations of same product
+  final String? name;
+  final String? description;
+  final int brandId;
+  final String? brandName;
+  final String? brandLogoUrl;
+  final double? rating;
+  final List<ProductVariation> variations; //! non nullable
+  final List<ProductProperty> availableProperties;  //What properties are offered
                                               // (multiple colors or non, multiple sizes or non, materials)
   //! availableProperties list all possible attributes but is is not necessary that all combination exist in variances
-  // AvailableSizes ?productSize;
-  // List<AvailableSizes>? availableSizes;
-  // Color ?productColor;
-  // List<Color>? availableColors; // Change the type to List<Color>
 
   // Constructor
   Product({
-    required this.ID,
+    required this.id,
     required this.name,
-    // required this.imageURL,
     required this.description,
-    // required this.price,
+    required this.brandId,
+    required this.brandName,
+    required this.brandLogoUrl,
     required this.rating,
-    // this.productSize,
-    // this.availableSizes, // changed from AvailableSizes to availableSizes
-    // this.productColor,
-    // this.availableColors,
     required this.variations,
     required this.availableProperties,
   });
 
   void getProductDetails() {
     if (kDebugMode) {
-      print('Product ID: $ID');
+      print('Product ID: $id');
       print('Product Name: $name');
       print('Product Description: $description');
       print('Product Rating: $rating');
@@ -62,7 +50,7 @@ class Product {
     ProductVariation? selectedVariation;
 
     for (ProductVariation variation in variations) {
-      if (variation.variationID == variationID) {
+      if (variation.id == variationID) {
         selectedVariation = variation;
         break;
       }
@@ -70,7 +58,7 @@ class Product {
 
     if (selectedVariation != null) {
       if (kDebugMode) {
-        print('Product Variation ID: ${selectedVariation.variationID}');
+        print('Product Variation ID: ${selectedVariation.id}');
         print('Product Variation Price: ${selectedVariation.price}');
         print('Product Variation Images URLs: ${selectedVariation.productVariantImagesURLs}');
         print('Product Variation Properties:');
@@ -88,7 +76,7 @@ class Product {
     }
   }
 
-  ProductVariation getVariationByPropertiesValues({required List<ProductPropertyandValue> productPropertiesValues}) {
+  ProductVariation? getVariationByPropertiesValues({required List<ProductPropertyandValue> productPropertiesValues}) {
     if (kDebugMode) {
       print('\nsearching for variation with properties: ');
       printPropertyandValue(productPropertiesValues);
@@ -105,14 +93,14 @@ class Product {
     if (kDebugMode) {
       print('variation not found');
     }
-    return ProductVariation(
-      ID: '',
-      variationID: '',
-      price: null,
-      productVariantImagesURLs: const[],
-      productPropertiesValues: const[],
-    );
-    // return null;
+    // return ProductVariation(
+    //   ID: '',
+    //   variationID: '',
+    //   price: null,
+    //   productVariantImagesURLs: const[],
+    //   productPropertiesValues: const[],
+    // );
+    return null;
   }
 
   bool hasColors() {
@@ -153,9 +141,12 @@ class Product {
 
 // ! Product 1
 Product p1 = Product(
-  ID: 'T1',
+  id: 'T1',
   name: 'Hoodie',
   description: 'Comfortable Hoodie',
+  brandId: 1,
+  brandName: '3antar',
+  brandLogoUrl: 'assets/images/logo2.jpg',
   rating: 4.2,
   availableProperties: [
     ProductProperty(property: 'size'),
@@ -164,35 +155,39 @@ Product p1 = Product(
   ],
   variations: [
     ProductVariation(
-      ID: 'T1',
-      variationID: '101',
+      id: '101',
+      productId: 'T1',
       price: 31.99,
-      productVariantImagesURLs: ['assets/images/blue_hoodie1.jpg', 'assets/images/blue_hoodie2.jpg'],
+      quantity: 10,
+      // inStock is true if quantity > 0
+      productVariantImagesURLs: ['assets/images/blue_hoodie1.jpg', 'assets/images/blue_hoodie2.jpg', 'assets/images/blue_hoodie3.jpg'],
       productPropertiesValues: [
         ProductPropertyandValue(property: 'size', value: 'M'),
-        ProductPropertyandValue(property: 'color', value: 'blue'),
+        ProductPropertyandValue(property: 'color', value: '#008EFF'), // blue
         ProductPropertyandValue(property: 'material', value: 'cotton'),
       ],
     ),
     ProductVariation(
-      ID: 'T1',
-      variationID: '102',
+      id: '102',
+      productId: 'T1',
       price: 24.99,
-      productVariantImagesURLs: ['assets/images/red_hoodie1.jpg', 'assets/images/red_hoodie1.png'],
+      quantity: 10,
+      productVariantImagesURLs: ['assets/images/red_hoodie1.jpg', 'assets/images/red_hoodie2.png', 'assets/images/red_hoodie3.jpg'],
       productPropertiesValues: [
         ProductPropertyandValue(property: 'size', value: 'M'),
-        ProductPropertyandValue(property: 'color', value: 'red'),
+        ProductPropertyandValue(property: 'color', value: '#FF0000'), // red
         ProductPropertyandValue(property: 'material', value: 'cotton'),
       ],
     ),
     ProductVariation(
-      ID: 'T1',
-      variationID: '103',
+      productId: 'T1',
+      id: '103',
       price: 27.99,
-      productVariantImagesURLs: ['assets/images/blue_hoodie1.jpg', 'assets/images/blue_hoodie2.jpg'],
+      quantity: 5,
+      productVariantImagesURLs: ['assets/images/blue_hoodie1.jpg', 'assets/images/blue_hoodie2.jpg', 'assets/images/blue_hoodie3.jpg'],
       productPropertiesValues: [
         ProductPropertyandValue(property: 'size', value: 'M'),
-        ProductPropertyandValue(property: 'color', value: 'blue'),
+        ProductPropertyandValue(property: 'color', value: '#008EFF'), // blue
         ProductPropertyandValue(property: 'material', value: 'polyester'),
       ],
     ),
@@ -201,9 +196,12 @@ Product p1 = Product(
 
 // ! Product 2
 Product p2 = Product(
-  ID: 'T2',
+  id: 'T2',
   name: 'Green Sweater',
   description: 'Warm wool sweater for winter',
+  brandId: 1,
+  brandName: '3antar',
+  brandLogoUrl: 'assets/images/logo2.jpg',
   rating: 4.5,
   availableProperties: [
     ProductProperty(property: 'size'),
@@ -212,57 +210,62 @@ Product p2 = Product(
   ],
   variations: [
     ProductVariation(
-      ID: 'T2',
-      variationID: '201',
+      id: '201',
+      productId: 'T2',
       price: 79.99,
-      productVariantImagesURLs: ['assets/images/green_sweater1.jpg', 'assets/images/green_sweater2.png'],
+      quantity: 10,
+      productVariantImagesURLs: ['assets/images/green_sweater1.jpg', 'assets/images/green_sweater2.png', 'assets/images/green_sweater3.jpg'],
       productPropertiesValues: [
         ProductPropertyandValue(property: 'size', value: 'L'),
-        ProductPropertyandValue(property: 'color', value: 'green'),
+        ProductPropertyandValue(property: 'color', value: '#00AC00'), // green
         ProductPropertyandValue(property: 'material', value: 'wool'),
       ],
     ),
     ProductVariation(
-      ID: 'T2',
-      variationID: '202',
+      id: '202',
+      productId: 'T2',
       price: 59.99,
-      productVariantImagesURLs: ['assets/images/green_sweater1.jpg', 'assets/images/green_sweater2.png'],
+      quantity: 20,
+      productVariantImagesURLs: ['assets/images/green_sweater1.jpg', 'assets/images/green_sweater2.png', 'assets/images/green_sweater3.jpg'],
       productPropertiesValues: [
         ProductPropertyandValue(property: 'size', value: 'M'),
-        ProductPropertyandValue(property: 'color', value: 'green'),
+        ProductPropertyandValue(property: 'color', value: '#00AC00'), // green
         ProductPropertyandValue(property: 'material', value: 'wool'),
       ],
     ),
     ProductVariation(
-      ID: 'T2',
-      variationID: '203',
+      id: '203',
+      productId: 'T2',
       price: 44.99,
-      productVariantImagesURLs: ['assets/images/green_sweater1.jpg', 'assets/images/green_sweater2.png'],
+      quantity: 3,
+      productVariantImagesURLs: ['assets/images/green_sweater1.jpg', 'assets/images/green_sweater2.png', 'assets/images/green_sweater3.jpg'],
       productPropertiesValues: [
         ProductPropertyandValue(property: 'size', value: 'M'),
-        ProductPropertyandValue(property: 'color', value: 'green'),
+        ProductPropertyandValue(property: 'color', value: '#00AC00'), // green
         ProductPropertyandValue(property: 'material', value: 'cotton'),
       ],
     ),
     ProductVariation(
-      ID: 'T2',
-      variationID: '204',
+      id: '204',
+      productId: 'T2',
       price: 39.99,
+      quantity: 10,
       productVariantImagesURLs: ['assets/images/black_sweater1.jpg', 'assets/images/black_sweater2.jpg'],
       productPropertiesValues: [
         ProductPropertyandValue(property: 'size', value: 'M'),
-        ProductPropertyandValue(property: 'color', value: 'black'),
+        ProductPropertyandValue(property: 'color', value: '#000000'), // black
         ProductPropertyandValue(property: 'material', value: 'cotton'),
       ],
     ),
     ProductVariation(
-      ID: 'T2',
-      variationID: '205',
+      id: '205',
+      productId: 'T2',
       price: 49.99,
+      quantity: 10,
       productVariantImagesURLs: ['assets/images/black_sweater1.jpg', 'assets/images/black_sweater2.jpg'],
       productPropertiesValues: [
         ProductPropertyandValue(property: 'size', value: 'L'),
-        ProductPropertyandValue(property: 'color', value: 'black'),
+        ProductPropertyandValue(property: 'color', value: '#000000'), // black
         ProductPropertyandValue(property: 'material', value: 'wool'),
       ],
     ),
@@ -271,9 +274,12 @@ Product p2 = Product(
 
 //! Product 3
 Product p3 = Product(
-  ID: 'S3',
+  id: 'S3',
   name: 'Shoes',
   description: 'looking good',
+  brandId: 2,
+  brandName: 'ibuzz',
+  brandLogoUrl: 'assets/images/logo.png',
   rating: 5.0,
   availableProperties: [
     ProductProperty(property: 'size'),
@@ -282,35 +288,39 @@ Product p3 = Product(
   ],
   variations: [
     ProductVariation(
-      ID: 'S3',
-      variationID: '301',
+      id: '301',
+      productId: 'S3',
       price: 49.99,
+      quantity: 10,
       productVariantImagesURLs: ['assets/images/red_shoe1.jpg', 'assets/images/red_shoe1.jpg'],
       productPropertiesValues: [
         ProductPropertyandValue(property: 'size', value: 'M'),
-        ProductPropertyandValue(property: 'color', value: 'red'),
+        ProductPropertyandValue(property: 'color', value: '#FF0000'), // red
         // ProductPropertyandValue(property: 'material', value: 'leather'),
       ],
     ),
     ProductVariation(
-      ID: 'S3',
-      variationID: '302',
+      id: '302',
+      productId: 'S3',
       price: 79.99,
+      quantity: 10,
       productVariantImagesURLs: ['assets/images/red_shoe1.jpg', 'assets/images/red_shoe1.jpg'],
       productPropertiesValues: [
         ProductPropertyandValue(property: 'size', value: 'L'),
-        ProductPropertyandValue(property: 'color', value: 'red'),
+        ProductPropertyandValue(property: 'color', value: '#FF0000'), // red
         // ProductPropertyandValue(property: 'material', value: 'leather'),
       ],
     ),
     ProductVariation(
-      ID: 'S3',
-      variationID: '303',
+      id: '303',
+      productId: 'S3',
       price: 79.99,
+      quantity: 10,
       productVariantImagesURLs: ['assets/images/grey_shoe1.png', 'assets/images/grey_shoe2.jpg'],
       productPropertiesValues: [
         ProductPropertyandValue(property: 'size', value: 'M'),
-        ProductPropertyandValue(property: 'color', value: 'grey'),
+        ProductPropertyandValue(property: 'color', value: '#928080'), // grey
+        // grey = #808080
         // ProductPropertyandValue(property: 'material', value: 'leather'),
       ],
     ),
@@ -319,9 +329,12 @@ Product p3 = Product(
 
 //! Product 4
 Product p4 = Product(
-  ID: 'A1',
+  id: 'A1',
   name: 'Watch',
   description: 'Tells the time',
+  brandId: 2,
+  brandName: 'ibuzz',
+  brandLogoUrl: 'assets/images/logo.png',
   rating: 4.5,
   availableProperties: [
     // ProductProperty(property: 'size'),
@@ -330,178 +343,54 @@ Product p4 = Product(
   ],
   variations: [
     ProductVariation(
-      ID: 'A1',
-      variationID: '401',
+      id: '401',
+      productId: 'A1',
       price: 59.99,
-      productVariantImagesURLs: ['assets/images/black_watch1.png', 'assets/images/black_watch2.jpg'],
+      quantity: 10,
+      productVariantImagesURLs: ['assets/images/red_watch1.jpg', 'assets/images/red_watch2.jpg'],
       productPropertiesValues: [
         // ProductPropertyandValue(property: 'size', value: 'M'),
-        ProductPropertyandValue(property: 'color', value: 'red'),
+        ProductPropertyandValue(property: 'color', value: '#FF0000'), // red
         ProductPropertyandValue(property: 'material', value: 'leather'),
       ],
     ),
     ProductVariation(
-      ID: 'A1',
-      variationID: '402',
+      id: '402',
+      productId: 'A1',
       price: 79.99,
+      quantity: 10,
       productVariantImagesURLs: ['assets/images/white_watch1.jpg', 'assets/images/white_watch2.jpg'],
       productPropertiesValues: [
         // ProductPropertyandValue(property: 'size', value: 'L'),
-        ProductPropertyandValue(property: 'color', value: 'white'),
+        ProductPropertyandValue(property: 'color', value: '#FFFFFF'), // white
         ProductPropertyandValue(property: 'material', value: 'leather'),
       ],
     ),
     ProductVariation(
-      ID: 'A1',
-      variationID: '403',
+      id: '403',
+      productId: 'A1',
       price: 79.99,
+      quantity: 10,
       productVariantImagesURLs: ['assets/images/black_watch1.png', 'assets/images/black_watch2.jpg'],
       productPropertiesValues: [
         // ProductPropertyandValue(property: 'size', value: 'M'),
-        ProductPropertyandValue(property: 'color', value: 'black'),
+        ProductPropertyandValue(property: 'color', value: '#000000'), // black
         ProductPropertyandValue(property: 'material', value: 'metal'),
       ],
     ),
+    // ProductVariation(
+    //   ID: 'A1',
+    //   variationID: '404',
+    //   price: 99.99,
+    //   productVariantImagesURLs: ['assets/images/black_watch1.png', 'assets/images/black_watch2.jpg'],
+    //   productPropertiesValues: [
+    //     // ProductPropertyandValue(property: 'size', value: 'M'),
+    //     ProductPropertyandValue(property: 'color', value: '#000000'),
+    //     ProductPropertyandValue(property: 'material', value: 'leather'),
+    //   ],
+    // ),
   ],
 );
 
 List<Product> products = [p1, p2, p3, p4];
 List<ProductVariation> defaultVariations = [p1.variations[0], p2.variations[0], p3.variations[0], p4.variations[0]];
-
-// List<Product> products = [
-//   Product(
-//     ID: 'T3', name: 'Transparent Hoodie', imageURL: 'assets/images/brown_hoodie2.jpeg',
-//     description: 'Tells the time', price: 49.99, rating: 5.0,
-//     productSize: AvailableSizes.M, availableSizes: [AvailableSizes.M, AvailableSizes.L],
-//   ),
-//   Product(
-//     ID: 'T3', name: 'Transparent Hoodie', imageURL: 'assets/images/brown_hoodie2.jpeg',
-//     description: 'Tells the time', price: 299.99, rating: 5.0,
-//     productSize: AvailableSizes.L, availableSizes: [AvailableSizes.M, AvailableSizes.L],
-//   ),
-//   Product(
-//     ID: 'T1', name: 'Blue Hoodie', imageURL: 'assets/images/blue_hoodie1.jpg',
-//     description: 'Comfortable cotton t-shirt', price: 19.99, rating: 4.2,
-//     productSize: AvailableSizes.M, availableSizes: [AvailableSizes.M, AvailableSizes.L],
-//     productColor: Colors.blue, availableColors: [Colors.blue, Colors.red],
-//   ),
-//   Product(
-//     ID: 'T1', name: 'Red Hoodie', imageURL: 'assets/images/red_hoodie1.jpg',
-//     description: 'Comfortable cotton t-shirt', price: 19.99, rating: 4.2,
-//     productSize: AvailableSizes.M, availableSizes: [AvailableSizes.M, AvailableSizes.L],
-//     productColor: Colors.red, availableColors: [Colors.blue, Colors.red],
-//   ),
-//   Product(
-//     ID: 'T1', name: 'Blue Hoodie', imageURL: 'assets/images/blue_hoodie1.jpg',
-//     description: 'Comfortable Hoodie', price: 24.99, rating: 4.2,
-//     productSize: AvailableSizes.L, availableSizes: [AvailableSizes.M, AvailableSizes.L],
-//     productColor: Colors.blue, availableColors: [Colors.blue, Colors.red],
-//   ),
-//   Product(
-//     ID: 'T1', name: 'Red Hoodie', imageURL: 'assets/images/red_hoodie1.jpg',
-//     description: 'Comfortable Hoodie', price: 27.99, rating: 4.2,
-//     productSize: AvailableSizes.L, availableSizes: [AvailableSizes.M, AvailableSizes.L],
-//     productColor: Colors.red, availableColors: [Colors.blue, Colors.red],
-//   ),
-//   Product(
-//     ID: 'T2', name: 'Green Sweater', imageURL: 'assets/images/green_sweater1.jpg',
-//     description: 'Warm wool sweater for winter', price: 29.99, rating: 4.5,
-//     productSize: AvailableSizes.M, availableSizes: [AvailableSizes.M, AvailableSizes.XL],
-//     productColor: Colors.green, availableColors: [Colors.green, Colors.black],
-//   ),
-//   Product(
-//     ID: 'T2', name: 'Green Sweater', imageURL: 'assets/images/green_sweater1.jpg',
-//     description: 'Warm wool sweater for winter', price: 49.99, rating: 4.5,
-//     productSize: AvailableSizes.XL, availableSizes: [AvailableSizes.M, AvailableSizes.XL],
-//     productColor: Colors.green, availableColors: [Colors.green, Colors.black],
-//   ),
-//   Product(
-//     ID: 'T2', name: 'Black Sweater', imageURL: 'assets/images/black_sweater1.jpg',
-//     description: 'Warm wool sweater for winter', price: 29.99, rating: 4.5,
-//     productSize: AvailableSizes.M, availableSizes: [AvailableSizes.M, AvailableSizes.XL],
-//     productColor: Colors.black, availableColors: [Colors.green, Colors.black],
-//   ),
-//   Product(
-//     ID: 'T2', name: 'Black Sweater', imageURL: 'assets/images/black_sweater1.jpg',
-//     description: 'Warm wool sweater for winter', price: 49.99, rating: 4.5,
-//     productSize: AvailableSizes.XL, availableSizes: [AvailableSizes.M, AvailableSizes.XL],
-//     productColor: Colors.black, availableColors: [Colors.green, Colors.black],
-//   ),
-//   Product(
-//     ID: 'B1', name: 'Blue Jeans', imageURL: 'assets/images/blue_jeans1.jpg',
-//     description: 'Classic denim jeans', price: 39.99, rating: 4.0,
-//     // productSize: AvailableSizes.M, availableSizes: [AvailableSizes.M],
-//     productColor: Colors.blue, availableColors: [Colors.blue, Colors.black],
-//   ),
-//   Product(
-//     ID: 'B1', name: 'Black Jeans', imageURL: 'assets/images/black_jeans1.jpg',
-//     description: 'Classic denim jeans', price: 49.99, rating: 4.0,
-//     // productSize: AvailableSizes.M, availableSizes: [AvailableSizes.M],
-//     productColor: Colors.black, availableColors: [Colors.blue, Colors.black],
-//   ),
-//   // Product(
-//   //   ID: 'B1', name: 'Blue Jeans', imageURL: 'assets/images/blue_jeans1.jpg',
-//   //   description: 'Classic denim jeans', price: 59.99, rating: 4.0,
-//   //   productSize: AvailableSizes.M, availableSizes: [AvailableSizes.S, AvailableSizes.M],
-//   //   productColor: Colors.blue, availableColors: [Colors.blue, Colors.black],
-//   // ),
-//   // Product(
-//   //   ID: 'B1', name: 'Black Jeans', imageURL: 'assets/images/black_jeans1.jpg',
-//   //   description: 'Classic denim jeans', price: 59.99, rating: 4.0,
-//   //   productSize: AvailableSizes.M, availableSizes: [AvailableSizes.S, AvailableSizes.M],
-//   //   productColor: Colors.black, availableColors: [Colors.blue, Colors.black],
-//   // ),
-//   Product(
-//     ID: 'S1', name: 'Black Shoes', imageURL: 'assets/images/black_shoe1.jpg',
-//     description: 'Amazing Shoes', price: 49.99, rating: 5.0,
-//     productSize: AvailableSizes.M, availableSizes: [AvailableSizes.M],
-//     productColor: Colors.black, availableColors: [Colors.black, Colors.red],
-//   ),
-//   Product(
-//     ID: 'S1', name: 'Red Shoes', imageURL: 'assets/images/red_shoe1.jpg',
-//     description: 'Amazing Shoes', price: 49.99, rating: 5.0,
-//     productSize: AvailableSizes.S, availableSizes: [AvailableSizes.S, AvailableSizes.M],
-//     productColor: Colors.red, availableColors: [Colors.red],
-//   ),
-//   Product(
-//     ID: 'S1', name: 'Red Shoes', imageURL: 'assets/images/red_shoe1.jpg',
-//     description: 'Amazing Shoes', price: 79.99, rating: 5.0,
-//     productSize: AvailableSizes.M, availableSizes: [AvailableSizes.S, AvailableSizes.M],
-//     productColor: Colors.red, availableColors: [Colors.black, Colors.red],
-//   ),
-//   Product(
-//     ID: 'A1', name: 'White Watch', imageURL: 'assets/images/white_watch1.jpg',
-//     description: 'Tells the time', price: 49.99, rating: 5.0,
-//     productSize: AvailableSizes.M, availableSizes: [AvailableSizes.M],
-//     productColor: Colors.white, availableColors: [ Colors.black, Colors.white],
-//   ),
-//   Product(
-//     ID: 'A1', name: 'Black Watch', imageURL: 'assets/images/black_watch1.png',
-//     description: 'Tells the time', price: 49.99, rating: 5.0,
-//     productSize: AvailableSizes.M, availableSizes: [AvailableSizes.M],
-//     productColor: Colors.black, availableColors: [ Colors.black, Colors.white],
-//   // Add more products as needed
-//   ),
-// ];
-
-// List<Product> uniqueProducts = [];
-//
-// void groupProducts(){
-//   print('started FN');
-//   for (Product product in products) {
-//     bool isUnique = true;
-//     for (Product uniqueProduct in uniqueProducts) {
-//       if (product.ID == uniqueProduct.ID) {
-//         isUnique = false;
-//         print('non unique product: \n');
-//         product.getProductDetails();
-//         break;
-//       }
-//     }
-//     if (isUnique) {
-//       uniqueProducts.add(product);
-//       print('unique product added: \n');
-//       product.getProductDetails();
-//     }
-//   }
-// }
