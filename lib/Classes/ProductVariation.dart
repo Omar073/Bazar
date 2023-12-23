@@ -5,26 +5,29 @@ import 'ProductProperty.dart';
 import 'ProductPropertyandValue.dart';
 
 class ProductVariation{
-  String ID;
-  String variationID;
-  double? price;
-  List<String>? productVariantImagesURLs;
-  List<ProductPropertyandValue> productPropertiesValues; // each property and it's value of a single variation
+  final String id;
+  final String productId;
+  final double? price;
+  final int quantity;
+  final bool inStock;
+  final List<String>? productVariantImagesURLs;
+  final List<ProductPropertyandValue> productPropertiesValues; // each property and it's value of a single variation
 
   ProductVariation({
-    required this.ID,
-    required this.variationID,
+    required this.productId,
+    required this.id,
     required this.price,
-    this.productVariantImagesURLs,
+    required this.quantity,
+    required this.productVariantImagesURLs,
     required this.productPropertiesValues,
-  });
+  })  : inStock = quantity > 0;
 
   // TODO: create the rest of the setters and getters
 
   void printVariationDetails(){
     if (kDebugMode) {
-      print('Product ID: $ID');
-      print('Variation ID: $variationID');
+      print('Product ID: $productId');
+      print('Variation ID: $id');
       print('Product Price: $price');
       print('Product Variant Images URLs: $productVariantImagesURLs');
       print('Product Properties:');
@@ -34,7 +37,7 @@ class ProductVariation{
 
   Product? getProduct(){
     for (Product p in products) {
-      if (p.ID == ID) {
+      if (p.id == productId) {
         return p;
       }
     }
@@ -52,7 +55,7 @@ class ProductVariation{
   String? getName() {
     // print('Searching for the name of product with ID: $ID');
     for (Product p in products) {
-      if (p.ID == ID) {
+      if (p.id == productId) {
         // print('ID found');
         // print('Name: ${p.name}');
         return p.name;
@@ -65,7 +68,7 @@ class ProductVariation{
   String? getDescription() {
     // print('Searching for the description of product with ID: $ID');
     for (Product p in products) {
-      if (p.ID == ID) {
+      if (p.id == productId) {
         // print('ID found');
         // print('Description: ${p.description}');
         return p.description;
