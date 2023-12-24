@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'Classes/Product.dart';
+import 'Classes/ProductVariation.dart';
 import 'Providers/DarkModeProvider.dart';
+import 'Providers/ProductsListProvider.dart';
 import 'Providers/VariantProvider.dart';
 import 'Providers/UserProvider.dart';
 import 'Screens/LandingPage.dart';
@@ -10,14 +13,14 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (context) => VariantProvider(),
-        ),
+        // ChangeNotifierProvider(
+        //   create: (context) => VariantProvider(),
+        // ),
         ChangeNotifierProvider(
           create: (context) => UserProvider(),
         ),
-        ChangeNotifierProvider(
-            create: (context) => DarkModeProvider()),
+        ChangeNotifierProvider(create: (context) => DarkModeProvider()),
+        ChangeNotifierProvider(create: (context) => ProductsListProvider(),),
       ],
       child: MyApp(),
     ),
@@ -32,14 +35,20 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  // List<Product> products = [];
+  // List<ProductVariation> defaultVariations = [];
   // bool isDarkMode = context.read<DarkModeProvider>().isDarkMode;
-      // context.read<VariantProvider>().setCurrentVariant(newVariant: widget.variant);
+  bool isDarkMode = true;
+  // context.read<VariantProvider>().setCurrentVariant(newVariant: widget.variant);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme : context.watch<DarkModeProvider>().isDarkMode ? ThemeData.dark() : ThemeData.light(),
+      theme: context.watch<DarkModeProvider>().isDarkMode
+          ? ThemeData.dark()
+          : ThemeData.light(),
       debugShowCheckedModeBanner: false,
       home: const SafeArea(child: LandingPage()),
     );
+
   }
 }

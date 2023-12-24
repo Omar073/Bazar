@@ -1,82 +1,136 @@
 import 'package:flutter/foundation.dart';
-
+import '../Providers/ProductsListProvider.dart';
 import 'Product.dart';
 import 'ProductProperty.dart';
 import 'ProductPropertyandValue.dart';
 
-class ProductVariation{
-  String ID;
-  String variationID;
-  double? price;
-  List<String>? productVariantImagesURLs;
-  List<ProductPropertyandValue> productPropertiesValues; // each property and it's value of a single variation
+class ProductVariation {
+  final int id;
+  final int productId;
+  final int? price;
+  final int quantity;
+  final bool? inStock;
+  final List<String>? productVariantImagesURLs;
+  final List<ProductPropertyandValue> productPropertiesValues; // each property and it's value of a single variation
 
   ProductVariation({
-    required this.ID,
-    required this.variationID,
-    required this.price,
+    required this.id,
+    required this.productId,
+    this.price,
+    required this.quantity,
+    this.inStock,
     this.productVariantImagesURLs,
-    required this.productPropertiesValues,
-  });
+    List<ProductPropertyandValue>? productPropertiesValues,
+  }) : productPropertiesValues = productPropertiesValues ?? [];
+
+  // ProductVariation({
+  //   required this.productId,
+  //   required this.id,
+  //   required this.price,
+  //   required this.quantity,
+  //   required this.productVariantImagesURLs,
+  //   required this.productPropertiesValues,
+  // })  : inStock = quantity > 0;
+
+  factory ProductVariation.fromJson(Map<String, dynamic> json) {
+    return ProductVariation(
+      id: json['id'],
+      productId: json['productId'],
+      price: json['price'],
+      quantity: json['quantity'],
+      inStock: json['inStock'],
+      productVariantImagesURLs:
+      (json['productVariantImagesURLs'] as List<dynamic>?)?.cast<String>(),
+      productPropertiesValues: (json['productPropertiesValues'] as List<dynamic>?)
+          ?.map((v) => ProductPropertyandValue.fromJson(v))
+          .toList() ?? [],
+    );
+  }
+
+  // factory ProductVariation.fromJson(Map<String, dynamic> json) {
+  //   final imagesData = json['ProductVarientImages'];
+  //
+  //   return ProductVariation(
+  //     id: json['id'].toString(),
+  //     productId: json['product_id'].toString(),
+  //     price: json['price']?.toDouble(),
+  //     quantity: json['quantity'],
+  //     inStock: json['quantity'] >
+  //         0, // Check if quantity is greater than 0 for inStock
+  //     productVariantImagesURLs: imagesData != null
+  //         ? List<String>.from(imagesData.map((image) => image['image_path']))
+  //         : [],
+  //     productPropertiesValues: json['ProductPropertiesValues'] != null
+  //         ? List<ProductPropertyandValue>.from(
+  //             json['ProductPropertiesValues'].map(
+  //                 (property) => ProductPropertyandValue.fromJson(property)),
+  //           )
+  //         : [],
+  //   );
+  // }
 
   // TODO: create the rest of the setters and getters
 
-  void printVariationDetails(){
+  void debugPrintVariationDetails() {
     if (kDebugMode) {
-      print('Product ID: $ID');
-      print('Variation ID: $variationID');
-      print('Product Price: $price');
-      print('Product Variant Images URLs: $productVariantImagesURLs');
-      print('Product Properties:');
-      printVariationPropertiesValues();
+      debugPrint('Product ID: $productId');
+      debugPrint('Variation ID: $id');
+      debugPrint('Product Price: $price');
+      debugPrint('Product Variant Images URLs: $productVariantImagesURLs');
+      debugPrint('Product Properties:');
+      debugPrintVariationPropertiesValues();
     }
   }
 
-  Product? getProduct(){
+  Product? getProduct() {
+    List<Product> products = ProductsListProvider().products;
     for (Product p in products) {
-      if (p.ID == ID) {
+      if (p.id == productId) {
         return p;
       }
     }
     return null;
   }
 
-  void printVariationPropertiesValues() {
+  void debugPrintVariationPropertiesValues() {
     for (ProductPropertyandValue productProperty in productPropertiesValues) {
       if (kDebugMode) {
-        print('Property: ${productProperty.property}, Value: ${productProperty.value}');
+        debugPrint(
+            'Property: ${productProperty.property}, Value: ${productProperty.value}');
       }
     }
   }
 
   String? getName() {
-    // print('Searching for the name of product with ID: $ID');
+    List<Product> products = ProductsListProvider().products;
+    // debugPrint('Searching for the name of product with ID: $ID');
     for (Product p in products) {
-      if (p.ID == ID) {
-        // print('ID found');
-        // print('Name: ${p.name}');
+      p.displayProductInfo(p);
+      if (p.id == productId) {
+        debugPrint('ID found');
+        debugPrint('Name: ${p.name}');
         return p.name;
       }
     }
-    print('ID not found getName()');
+    debugPrint('ID not found getName()');
     return null; // Return null if the ID is not found
   }
 
   String? getDescription() {
-    // print('Searching for the description of product with ID: $ID');
+    List<Product> products = ProductsListProvider().products;
+    // debugPrint('Searching for the description of product with ID: $ID');
     for (Product p in products) {
-      if (p.ID == ID) {
-        // print('ID found');
-        // print('Description: ${p.description}');
+      if (p.id == productId) {
+        // debugPrint('ID found');
+        // debugPrint('Description: ${p.description}');
         return p.description;
       }
     }
     if (kDebugMode) {
-      print('ID not found getDescription()');
+      debugPrint('ID not found getDescription()');
     }
     return null; // Return null if the ID is not found
   }
-
 
   String getSizeValue() {
     for (ProductPropertyandValue propertyValue in productPropertiesValues) {

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:slash_homepage_test/Providers/ProductsListProvider.dart';
 import 'package:slash_homepage_test/Screens/HomePage.dart';
+import '../API/ApiService.dart';
+import '../Classes/Product.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -11,10 +15,24 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   bool hasNavigated = false;
 
+  ApiService apiService = ApiService();
+  List<Product> products = [];
+
   @override
   void initState() {
     super.initState();
-    // * Add any initialization logic here
+    // apiService.fetchProducts().then((fetchedProducts) {
+    //   debugPrint('Products: $fetchedProducts');
+    //   products = fetchedProducts;
+    // });
+    fetchProductss();
+    // context.read<ProductsListProvider>().updateList(products);
+  }
+
+  Future<void> fetchProductss() async {
+    products = await apiService.fetchProducts();
+    debugPrint('Products: $products');
+    context.read<ProductsListProvider>().updateList(products);
   }
 
   @override
@@ -26,7 +44,8 @@ class _LandingPageState extends State<LandingPage> {
             hasNavigated = true;
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => SafeArea(child: HomePage())),
+              MaterialPageRoute(
+                  builder: (context) => const SafeArea(child: HomePage())),
             );
           }
         },
@@ -44,7 +63,6 @@ class _LandingPageState extends State<LandingPage> {
             Padding(
               padding: EdgeInsets.only(top: 16.0),
               child: Text('Press anywhere to continue'),
-              // TODO: try slide to continue in the future
             ),
           ],
         ),
