@@ -8,43 +8,92 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class Product {
-  final int?
-      id; // ID that is common between different variations of same product
-  final String? name;
-  final String? description;
-  final int brandId;
-  final String? brandName;
-  final String? brandLogoUrl;
-  final int? rating;
-  final List<ProductVariation> variations; //! non nullable
-  final List<ProductProperty> availableProperties; //What properties are offered
-  // (multiple colors or non, multiple sizes or non, materials)
-
-  Product({
-    this.id,
-    this.name,
-    this.description,
-    required this.brandId,
-    this.brandName,
-    this.brandLogoUrl,
-    this.rating,
-    List<ProductVariation>? variations,
-    List<ProductProperty>? availableProperties,
-  })  : variations = variations ?? [],
-        availableProperties = availableProperties ?? [];
+  int? _id; // ID that is common between different variations of the same product
+  String? _name;
+  String? _description;
+  int _brandId;
+  String? _brandName;
+  String? _brandLogoUrl;
+  int? _rating;
+  List<ProductVariation> _variations; // Non-nullable
+  List<ProductProperty> _availableProperties; // What properties are offered
 
   // Constructor
-  // Product({
-  //   required this.id,
-  //   required this.name,
-  //   required this.description,
-  //   required this.brandId,
-  //   required this.brandName,
-  //   required this.brandLogoUrl,
-  //   required this.rating,
-  //   required this.variations,
-  //   required this.availableProperties,
-  // });
+  Product({
+    int? id,
+    String? name,
+    String? description,
+    required int brandId,
+    String? brandName,
+    String? brandLogoUrl,
+    int? rating,
+    List<ProductVariation>? variations,
+    List<ProductProperty>? availableProperties,
+  })  : _id = id,
+        _name = name,
+        _description = description,
+        _brandId = brandId,
+        _brandName = brandName,
+        _brandLogoUrl = brandLogoUrl,
+        _rating = rating,
+        _variations = variations ?? [],
+        _availableProperties = availableProperties ?? [];
+
+  // Getters
+  int? get id => _id;
+
+  String? get name => _name;
+
+  String? get description => _description;
+
+  int get brandId => _brandId;
+
+  String? get brandName => _brandName;
+
+  String? get brandLogoUrl => _brandLogoUrl;
+
+  int? get rating => _rating;
+
+  List<ProductVariation> get variations => _variations;
+
+  List<ProductProperty> get availableProperties => _availableProperties;
+
+  // Setters
+  set id(int? value) {
+    _id = value;
+  }
+
+  set name(String? value) {
+    _name = value;
+  }
+
+  set description(String? value) {
+    _description = value;
+  }
+
+  set brandId(int value) {
+    _brandId = value;
+  }
+
+  set brandName(String? value) {
+    _brandName = value;
+  }
+
+  set brandLogoUrl(String? value) {
+    _brandLogoUrl = value;
+  }
+
+  set rating(int? value) {
+    _rating = value;
+  }
+
+  set variations(List<ProductVariation> value) {
+    _variations = value;
+  }
+
+  set availableProperties(List<ProductProperty> value) {
+    _availableProperties = value;
+  }
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
@@ -129,15 +178,15 @@ class Product {
   }
 
   void displayProductInfo() {
-    debugPrint('Product ID: $id');
-    debugPrint('Product Name: $name');
-    debugPrint('Product Description: $description');
+    debugPrint('Product ID: ${id ?? 'nullID'}');
+    debugPrint('Product Name: ${name ?? 'nullName'}');
+    debugPrint('Product Description: ${description ?? 'nullDescription'}');
     debugPrint('Product Brand ID: $brandId');
-    debugPrint('Product Brand Name: $brandName');
-    debugPrint('Product Brand Logo URL: $brandLogoUrl');
-    debugPrint('Product Rating: $rating');
-    debugPrint('Product Variations: $variations');
-    debugPrint('Product Available Properties: $availableProperties');
+    debugPrint('Product Brand Name: ${brandName ?? 'nullBrandName'}');
+    debugPrint('Product Brand Logo URL: ${brandLogoUrl ?? 'nullBrandLogoURL'}');
+    debugPrint('Product Rating: ${rating ?? 'nullRating'}');
+    debugPrint('Product Variations: ${variations ?? 'nullVariations'}');
+    debugPrint('Product Available Properties: ${availableProperties ?? 'nullAvailableProperties'}');
   }
 
 // // ! Product 1

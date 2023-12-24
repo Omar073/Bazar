@@ -8,6 +8,9 @@ import 'Providers/UserProvider.dart';
 import 'Screens/LandingPage.dart';
 import 'package:provider/provider.dart'; // flutter pub add provider
 
+// in provider : watch = ben fetch el data bene2ra mn ba3eed (listen to changes)
+// read means ba access el data mn el provider (don't listen to changes)
+
 void main() {
   // runApp(MyApp());
   runApp(
@@ -22,7 +25,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => DarkModeProvider()),
         ChangeNotifierProvider(create: (context) => ProductsListProvider(),),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }

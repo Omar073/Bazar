@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import '../Providers/ProductsListProvider.dart';
 import 'Product.dart';
@@ -101,18 +103,54 @@ class ProductVariation {
     }
   }
 
-  String? getName() {
-    List<Product> products = ProductsListProvider().products;
-    // debugPrint('Searching for the name of product with ID: $ID');
+  String? getName(List<Product> products) {
+    // List<Product> products = ProductsListProvider().products;
+    debugPrint('\nSearching for the name of product with ID: $productId');
+    int cnt = 1;
+    if(products.isEmpty || products == null) {
+      debugPrint('Products list is empty');
+       return null;
+    }
     for (Product p in products) {
-      p.displayProductInfo(p);
+      debugPrint('Product $cnt');
+      p.displayProductInfo();
       if (p.id == productId) {
         debugPrint('ID found');
-        debugPrint('Name: ${p.name}');
+        debugPrint('Name: ${p.name}\n');
         return p.name;
       }
+      cnt++;
     }
-    debugPrint('ID not found getName()');
+    debugPrint('ID not found getName()\n');
+    return null; // Return null if the ID is not found
+  }
+
+  int? getRating(List<Product> products) {
+    debugPrint('\nSearching for the rating of product with ID: $productId');
+    int cnt = 1;
+    if (products.isEmpty || products == null) {
+      debugPrint('Products list is empty');
+      return null;
+    }
+    for (Product p in products) {
+      debugPrint('Product $cnt');
+      // p.displayProductInfo();
+      if (p.id == productId) {
+        debugPrint('ID found');
+        debugPrint('Rating: ${p.rating}\n');
+
+        // Check if the rating is 0 and generate a random rating between 1 and 5
+        // return (p.rating == 0) ? Random().nextInt(5) + 1 : p.rating;
+        if(p.rating == 0) {
+          int randRating = Random().nextInt(5) + 1;
+          p.rating = randRating;
+          return randRating;
+        }
+        return p.rating;
+      }
+      cnt++;
+    }
+    debugPrint('ID not found getRating()\n');
     return null; // Return null if the ID is not found
   }
 
