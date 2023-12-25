@@ -175,32 +175,35 @@ class ProductVariation {
     return null; // Return null if the ID is not found
   }
 
-  String getSizeValue() {
-    for (ProductPropertyandValue propertyValue in productPropertiesValues) {
-      if (propertyValue.property == 'Size') {
-        debugPrint('Size found: ${propertyValue.value}');
-        return propertyValue.value;
-      }
-    }
-    // debugPrint('Size not found\n');
-    return 'N/A'; // Return a default value if size is not found
-    // return null;
-  }
-
-  String getColorValue() {
-    for (ProductPropertyandValue propertyValue in productPropertiesValues) {
+  String getColorValue(ProductVariation currentVar) {
+    for (ProductPropertyandValue propertyValue
+        in currentVar.productPropertiesValues) {
       if (propertyValue.property == 'Color') {
         debugPrint('Color found: ${propertyValue.value}');
         return propertyValue.value;
       }
     }
-    // debugPrint('Color not found\n');
+    debugPrint('Color not found');
     return 'N/A'; // Return a default value if color is not found
     // return null;
   }
 
-  String getMaterialValue() {
-    for (ProductPropertyandValue propertyValue in productPropertiesValues) {
+  String getSizeValue(ProductVariation currentVar) {
+    for (ProductPropertyandValue propertyValue
+        in currentVar.productPropertiesValues) {
+      if (propertyValue.property == 'Size') {
+        debugPrint('Size found: ${propertyValue.value}');
+        return propertyValue.value;
+      }
+    }
+    debugPrint('Size not found');
+    return 'N/A'; // Return a default value if size is not found
+    // return null;
+  }
+
+  String getMaterialValue(ProductVariation currentVar) {
+    for (ProductPropertyandValue propertyValue
+        in currentVar.productPropertiesValues) {
       if (propertyValue.property == 'Materials') {
         debugPrint('Material found: ${propertyValue.value}');
         return propertyValue.value;

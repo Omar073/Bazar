@@ -20,33 +20,45 @@ Color getColorFromHex(String hexColor) {
 
 List<String> getOtherColors(
     List<ProductVariation> variations, ProductVariation currentVar) {
-  if (kDebugMode) {
-    print('searching for color options');
-  }
+  debugPrint('searching for color options');
   // Initialize an empty list to store other colors
   List<String> otherColors = [];
+  // display no of variations
+  // debugPrint('no of variations: ${variations.length}\n');
+  // display id of variations
+  // for (ProductVariation variation in variations) {
+  //   debugPrint('variation id: ${variation.id}');
+  // }
 
   // Iterate through the variations to find matches and add colors to the list
   for (ProductVariation variation in variations) {
-    String currentVarSize = currentVar.getSizeValue();
-    String currentVarMaterial = currentVar.getMaterialValue();
-    String otherSize = variation.getSizeValue();
-    String otherMaterial = variation.getMaterialValue();
+    debugPrint('\ncurrent variation id: ${variation.id}');
+    debugPrint('\ncurrentVar properties:');
+    String currentVarSize = currentVar.getSizeValue(variation);
+    String currentVarMaterial = currentVar.getMaterialValue(variation);
+    debugPrint('other properties:');
+    String otherSize = variation.getSizeValue(variation);
+    String otherMaterial = variation.getMaterialValue(variation);
+
+    debugPrint('CURRENT COLOR VALUE: ${currentVar.getColorValue(variation)}');
 
     if (currentVarSize == otherSize &&
         currentVarMaterial == otherMaterial &&
-        !otherColors.contains(variation.getColorValue())) {
+        !otherColors.contains(variation.getColorValue(variation))) {
       // hasMatchingSize = true;
       // hasMatchingMaterial = true;
-      otherColors.add(variation.getColorValue());
+      debugPrint('2');
+      otherColors.add(variation.getColorValue(variation));
+      //debugPrint other colors after variation variation id
+      debugPrint('other colors after variation id: ${variation.id}:');
+      for (String color in otherColors) {
+        debugPrint(color);
+      }
     }
   }
-  // print other colors (Debug Mode)
-  if (kDebugMode) {
-    print('Other colors:');
-    for (String color in otherColors) {
-      print(color);
-    }
+  debugPrint('Other colors:');
+  for (String color in otherColors) {
+    debugPrint(color);
   }
 
   return otherColors;
@@ -54,33 +66,28 @@ List<String> getOtherColors(
 
 List<String> getOtherSizes(
     List<ProductVariation> variations, ProductVariation currentVar) {
-  if (kDebugMode) {
-    print('searching for size options');
-  }
+  debugPrint('searching for size options');
 
   List<String> otherSizes = [];
 
   // Iterate through the variations to find matches and add colors to the list
   for (ProductVariation variation in variations) {
-    String currentVarColor = currentVar.getColorValue();
-    String currentVarMaterial = currentVar.getMaterialValue();
-    String otherColor = variation.getColorValue();
-    String otherMaterial = variation.getMaterialValue();
+    String currentVarColor = currentVar.getColorValue(variation);
+    String currentVarMaterial = currentVar.getMaterialValue(variation);
+    String otherColor = variation.getColorValue(variation);
+    String otherMaterial = variation.getMaterialValue(variation);
 
     if (currentVarColor == otherColor &&
         currentVarMaterial == otherMaterial &&
-        !otherSizes.contains(variation.getSizeValue())) {
+        !otherSizes.contains(variation.getSizeValue(variation))) {
       // hasMatchingSize = true;
       // hasMatchingMaterial = true;
-      otherSizes.add(variation.getSizeValue());
+      otherSizes.add(variation.getSizeValue(variation));
     }
   }
-  // print other colors (Debug Mode)
-  if (kDebugMode) {
-    print('Other sizes:');
-    for (String size in otherSizes) {
-      print(size);
-    }
+  debugPrint('Other sizes:');
+  for (String size in otherSizes) {
+    debugPrint(size);
   }
 
   return otherSizes;
@@ -88,35 +95,39 @@ List<String> getOtherSizes(
 
 List<String> getOtherMaterials(
     List<ProductVariation> variations, ProductVariation currentVar) {
-  if (kDebugMode) {
-    print('searching for material options');
-  }
+  debugPrint('searching for material options');
 
   List<String> otherMaterials = [];
 
   // Iterate through the variations to find matches and add colors to the list
   for (ProductVariation variation in variations) {
-    String currentVarColor = currentVar.getColorValue();
-    String currentVarSize = currentVar.getSizeValue();
-    String otherColor = variation.getColorValue();
-    String otherSize = variation.getSizeValue();
+    debugPrint('\ncurrent variation id: ${variation.id}');
+    debugPrint('\ncurrentVar properties:');
+    String currentVarColor = currentVar.getColorValue(variation);
+    String currentVarSize = currentVar.getSizeValue(variation);
+    debugPrint('\nother properties:');
+    String otherColor = variation.getColorValue(variation);
+    String otherSize = variation.getSizeValue(variation);
+
+    debugPrint('\nCURRENT MATERIAL VALUE: ${currentVar.getMaterialValue(variation)}, Price: ${currentVar.price}');
 
     if (currentVarColor == otherColor &&
         currentVarSize == otherSize &&
-        !otherMaterials.contains(variation.getMaterialValue())) {
+        !otherMaterials.contains(variation.getMaterialValue(variation))) {
       // hasMatchingSize = true;
       // hasMatchingMaterial = true;
-      debugPrint('new material added');
-      otherMaterials.add(variation.getMaterialValue());
+      debugPrint('2: new material added');
+      otherMaterials.add(variation.getMaterialValue(variation));
+      debugPrint('other materials after variation id: ${variation.id}:');
+      for (String material in otherMaterials) {
+        debugPrint(material);
+      }
     }
   }
 
-  // print other materials (Debug Mode)
-  if (kDebugMode) {
-    print('Other materials:');
-    for (String material in otherMaterials) {
-      print(material);
-    }
+  debugPrint('Other materials:');
+  for (String material in otherMaterials) {
+    debugPrint(material);
   }
 
   return otherMaterials;
@@ -146,7 +157,7 @@ bool haveSameProperties(
 }
 
 List<ProductProperty> getProductProperties(List<ProductVariation> variations) {
-  debugPrint("entered getProductProperties");
+  debugPrint("\nentered getProductProperties");
   // Initialize an empty list to store properties
   List<String> availablePropertiesString = [];
 
@@ -154,19 +165,16 @@ List<ProductProperty> getProductProperties(List<ProductVariation> variations) {
   //TODO: in the future check if you need to loop on all variations or is the first one enough
   for (ProductVariation variation in variations) {
     for (ProductPropertyandValue PropnVal
-        in variation.productPropertiesValues) {
+    in variation.productPropertiesValues) {
       if (!availablePropertiesString.contains(PropnVal.property)) {
         availablePropertiesString.add(PropnVal.property);
       }
     }
   }
 
-  //print available properties (Debug Mode)
-  if (kDebugMode) {
-    print('Available Properties:');
-    for (String property in availablePropertiesString) {
-      print(property);
-    }
+  debugPrint('Available Properties:');
+  for (String property in availablePropertiesString) {
+    debugPrint(property);
   }
 
   // Initialize an empty list to store properties
@@ -175,13 +183,9 @@ List<ProductProperty> getProductProperties(List<ProductVariation> variations) {
     availableProperties.add(ProductProperty(property: element));
   }
 
-  // print properties (Debug Mode)
-  if (kDebugMode) {
-    print('Properties:');
-    for (ProductProperty productproperty in availableProperties) {
-      print(productproperty.property);
-    }
+  debugPrint('Properties:');
+  for (ProductProperty productProperty in availableProperties) {
+    debugPrint(productProperty.property);
   }
-
   return availableProperties;
 }

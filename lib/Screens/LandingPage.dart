@@ -52,7 +52,7 @@ class _LandingPageState extends State<LandingPage> {
   Widget build(BuildContext context) {
     // If still loading, show a loading screen
     if (isLoading) {
-      return Scaffold(
+      return const Scaffold(
         body: Center(
           child: CircularProgressIndicator(), // You can customize the loading indicator
         ),

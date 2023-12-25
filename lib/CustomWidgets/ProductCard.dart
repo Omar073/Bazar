@@ -8,6 +8,7 @@ import '../Classes/Product.dart';
 import '../Providers/DarkModeProvider.dart';
 import '../Providers/ProductProvider.dart';
 import '../Providers/ProductsListProvider.dart';
+import '../Screens/LoadingScreen.dart';
 import '../Screens/ProductPage.dart';
 
 class ProductCard extends StatefulWidget {
@@ -26,6 +27,7 @@ class _ProductCardState extends State<ProductCard> {
   bool isDarkMode = true;
   List<Product> products = [];
   ApiService apiService = ApiService();
+
   @override
   Widget build(BuildContext context) {
     isDarkMode = context.watch<DarkModeProvider>().isDarkMode;
@@ -104,6 +106,7 @@ class _ProductCardState extends State<ProductCard> {
                               product: p,
                             )));
               }),
+
           // const SizedBox(width: 50, child: Text('', style: TextStyle(fontSize: 1),),),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,

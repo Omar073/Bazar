@@ -105,7 +105,7 @@ class ApiService {
   }
 
   // * gets all variations of a single product
-  Future<void> getVariations(Product product) async {
+  Future<Product> getVariations(Product product) async {
     // takes the product and adds the variations to it
     debugPrint('Entered getVariations() ${product.id}');
     try {
@@ -124,6 +124,7 @@ class ApiService {
 
         // Iterate through the variation data and create ProductVariation objects
         for (final variation in variationData) {
+          // loop through each variation
           // Extract variation images
           final List<String> variationImages = [];
           final List<dynamic> imageList = variation['ProductVarientImages'];
@@ -133,22 +134,27 @@ class ApiService {
 
           // Extract product properties and values
           final List<ProductPropertyandValue> productPropertiesValues = [];
-          final List<dynamic> propertiesList =
-              productData['avaiableProperties'];
-          for (final propertyData in propertiesList) {
+          final List<dynamic> propertiesValuesList =
+              variation['productPropertiesValues'];
+          for (final propertyData in propertiesValuesList) {
             final property = propertyData['property'];
-            final values = propertyData['values'];
-            for (final valueData in values) {
-              productPropertiesValues.add(ProductPropertyandValue(
-                property: property,
-                value: valueData['value'],
-              ));
-            }
+            final value = propertyData['value'];
+            // for (final valueData in values) {
+            productPropertiesValues.add(ProductPropertyandValue(
+              property: property,
+              value: value,
+              //debugPrint PROPERTY AND VALUE
+            ));
+            debugPrint('\nVARIATION ID: ${variation['id']}');
+            debugPrint('PROPERTY: $property');
+            debugPrint('VALUE: $value\n');
+            // }
           }
           //display properties and values debugPrint for each variation
-          debugPrint('\nProduct Properties and Values for product with ID: ${product.id}');
-          printPropertyandValue(productPropertiesValues);
-
+          // * WORKS
+          // debugPrint(
+          //     '\nProduct Properties and Values for variation with ID: ${variation['id']}');
+          // printPropertyandValue(productPropertiesValues);
 
           // Create the ProductVariation object
           ProductVariation variationObject = ProductVariation(
@@ -161,15 +167,19 @@ class ApiService {
             productPropertiesValues: productPropertiesValues,
             // Add other properties as needed
           );
+          // debugPrint(
+          //     '\n\nVARIATION ID: ${variation['id']}\nVariation Color: ${variationObject.getColorValue(variationObject)}\n'
+          //     'Variation Size: ${variationObject.getSizeValue()}\nVariation Material: ${variationObject.getMaterialValue()}\n\n');
 
           // Add the variation to the list
-          if(!product.variations.contains(variationObject)){
-            product.variations.add(variationObject);
+          if (!variations.contains(variationObject)) {
+            variations.add(variationObject);
           }
         }
 
-
-        product.availableProperties = getProductProperties(product.variations);
+        // Update the product with the new variations
+        product.variations = variations;
+        product.availableProperties = getProductProperties(variations);
       } else {
         throw Exception('Failed to load variations for product ${product.id}');
       }
@@ -177,6 +187,8 @@ class ApiService {
       debugPrint('Error fetching variations: $e');
       rethrow; // Rethrow the exception
     }
+    debugPrint('Variations for product ${product.id} fetched successfully');
+    return product;
   }
 
 // Future<String> fetchProducts() async {
