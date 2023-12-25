@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'Classes/Product.dart';
 import 'Classes/ProductVariation.dart';
 import 'Providers/DarkModeProvider.dart';
+import 'Providers/ProductProvider.dart';
 import 'Providers/ProductsListProvider.dart';
 import 'Providers/VariantProvider.dart';
 import 'Providers/UserProvider.dart';
@@ -16,14 +17,15 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        // ChangeNotifierProvider(
-        //   create: (context) => VariantProvider(),
-        // ),
+        ChangeNotifierProvider(
+          create: (context) => VariantProvider(),
+        ),
         ChangeNotifierProvider(
           create: (context) => UserProvider(),
         ),
         ChangeNotifierProvider(create: (context) => DarkModeProvider()),
         ChangeNotifierProvider(create: (context) => ProductsListProvider(),),
+        ChangeNotifierProvider(create: (context) => ProductProvider(),),
       ],
       child: const MyApp(),
     ),

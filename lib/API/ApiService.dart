@@ -4,7 +4,9 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import '../Classes/Product.dart';
+import '../Classes/ProductPropertyandValue.dart';
 import '../Classes/ProductVariation.dart';
+import '../UtilityFunctions.dart';
 
 class ApiService {
   final String baseUrl = "https://slash-backend.onrender.com";
@@ -14,12 +16,13 @@ class ApiService {
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
-      return Product.fromJson(data); // Implement a fromJson method in Product class
+      return Product.fromJson(
+          data); // Implement a fromJson method in Product class
     } else {
       throw Exception('Failed to load product details');
     }
   }
-  
+
   Future<List<Product>> fetchProducts() async {
     try {
       final response = await http.get(Uri.parse('$baseUrl/product'));
@@ -55,7 +58,7 @@ class ApiService {
               productId: variation['product_id'],
               price: variation['price'],
               quantity: variation['quantity'],
-              productVariantImagesURLs: variationImages, 
+              productVariantImagesURLs: variationImages,
               // Add other properties as needed
             ));
           }
@@ -76,7 +79,7 @@ class ApiService {
           // Add the product to the list
           products.add(product);
         }
-        debugPrint('Product name:  ${products[0].name}');
+        // debugPrint('Product name:  ${products[0].name}');
 
         return products;
       } else {
@@ -88,7 +91,95 @@ class ApiService {
     }
   }
 
-  // Future<String> fetchProducts() async {
+  // * gets all variations of all products in the list
+  Future<List<Product>> getProductsVariations(List<Product> products) async {
+    try {
+      for (final product in products) {
+        await getVariations(product);
+      }
+      return products;
+    } catch (e) {
+      debugPrint('Error fetching products: $e');
+      rethrow; // Rethrow the exception
+    }
+  }
+
+  // * gets all variations of a single product
+  Future<void> getVariations(Product product) async {
+    // takes the product and adds the variations to it
+    debugPrint('Entered getVariations() ${product.id}');
+    try {
+      final response =
+          await http.get(Uri.parse('$baseUrl/product/${product.id}'));
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> apiBody = json.decode(response.body);
+        final Map<String, dynamic> productData = apiBody['data'];
+
+        // Extract variations data
+        final List<dynamic> variationData = productData['variations'];
+
+        // List to store variations
+        List<ProductVariation> variations = [];
+
+        // Iterate through the variation data and create ProductVariation objects
+        for (final variation in variationData) {
+          // Extract variation images
+          final List<String> variationImages = [];
+          final List<dynamic> imageList = variation['ProductVarientImages'];
+          for (final image in imageList) {
+            variationImages.add(image['image_path']);
+          }
+
+          // Extract product properties and values
+          final List<ProductPropertyandValue> productPropertiesValues = [];
+          final List<dynamic> propertiesList =
+              productData['avaiableProperties'];
+          for (final propertyData in propertiesList) {
+            final property = propertyData['property'];
+            final values = propertyData['values'];
+            for (final valueData in values) {
+              productPropertiesValues.add(ProductPropertyandValue(
+                property: property,
+                value: valueData['value'],
+              ));
+            }
+          }
+          //display properties and values debugPrint for each variation
+          debugPrint('\nProduct Properties and Values for product with ID: ${product.id}');
+          printPropertyandValue(productPropertiesValues);
+
+
+          // Create the ProductVariation object
+          ProductVariation variationObject = ProductVariation(
+            id: variation['id'],
+            productId: variation['product_id'] as int? ?? 0,
+            price: variation['price'] as int?, // Use 'as int?' to allow null
+            quantity: variation['quantity'],
+            inStock: variation['inStock'],
+            productVariantImagesURLs: variationImages,
+            productPropertiesValues: productPropertiesValues,
+            // Add other properties as needed
+          );
+
+          // Add the variation to the list
+          if(!product.variations.contains(variationObject)){
+            product.variations.add(variationObject);
+          }
+        }
+
+
+        product.availableProperties = getProductProperties(product.variations);
+      } else {
+        throw Exception('Failed to load variations for product ${product.id}');
+      }
+    } catch (e) {
+      debugPrint('Error fetching variations: $e');
+      rethrow; // Rethrow the exception
+    }
+  }
+
+// Future<String> fetchProducts() async {
   //   debugPrint('Entered fetchProducts()');
   //
   //   final response = await http.get(Uri.parse('$baseUrl/product'));

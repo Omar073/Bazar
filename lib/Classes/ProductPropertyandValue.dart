@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:slash_homepage_test/Classes/ProductProperty.dart';
 
 class ProductPropertyandValue {
+  // final ProductProperty property;
   final String property;
   final String value;
 

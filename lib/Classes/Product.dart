@@ -168,6 +168,13 @@ class Product {
     return null;
   }
 
+  void displayAvailableProperties() {
+    debugPrint('Available Properties for product with ID: $id');
+    for (ProductProperty property in availableProperties) {
+      debugPrint('Property: ${property.property}');
+    }
+  }
+
   bool hasColors() {
     for (ProductProperty property in availableProperties) {
       if (property.property == 'color') {

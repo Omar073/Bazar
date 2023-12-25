@@ -3,8 +3,10 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:slash_homepage_test/Classes/ProductVariation.dart';
 import 'package:slash_homepage_test/Providers/VariantProvider.dart';
+import '../API/ApiService.dart';
 import '../Classes/Product.dart';
 import '../Providers/DarkModeProvider.dart';
+import '../Providers/ProductProvider.dart';
 import '../Providers/ProductsListProvider.dart';
 import '../Screens/ProductPage.dart';
 
@@ -23,6 +25,7 @@ class ProductCard extends StatefulWidget {
 class _ProductCardState extends State<ProductCard> {
   bool isDarkMode = true;
   List<Product> products = [];
+  ApiService apiService = ApiService();
   @override
   Widget build(BuildContext context) {
     isDarkMode = context.watch<DarkModeProvider>().isDarkMode;
@@ -70,20 +73,43 @@ class _ProductCardState extends State<ProductCard> {
               //   height: 150,
               //   fit: BoxFit.contain,
               // ),
-              onTap: () {
+              onTap: () async {
+                //TODO: add loading screen
+                await apiService.getVariations(products.firstWhere(
+                    (element) => (element.id == widget.variant.productId)));
+
+                //TODO: FIXxx?
+
+                // context.read<ProductProvider>().setCurrentProduct(
+                //     newProduct: products.firstWhere((element) =>
+                //     (element.id == widget.variant.productId)));
+
+                // context.read<ProductProvider>.product = products.firstWhere((element) =>
+                // (element.id == widget.variant.productId));
+
+                context.read<ProductsListProvider>().updateList(products);
+                Product p = products.firstWhere(
+                    (element) => (element.id == widget.variant.productId));
+                debugPrint('Product name: ${p.name}\n Product ID: ${p.id} \n');
+
                 // TODO: hero animation for image
-                // context.read<VariantProvider>().setCurrentVariant(newVariant: widget.variant);
-                // // Navigator.push(context, MaterialPageRoute(builder: (context) => ProductPage(product: widget.variant)));
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (context) => ProductPage()));
+                context
+                    .read<VariantProvider>()
+                    .setCurrentVariant(newVariant: widget.variant);
+                // Navigator.push(context, MaterialPageRoute(builder: (context) => ProductPage(product: widget.variant)));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ProductPage(
+                              product: p,
+                            )));
               }),
           // const SizedBox(width: 50, child: Text('', style: TextStyle(fontSize: 1),),),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
-                padding:
-                    const EdgeInsets.only(top: 10).copyWith(left: 12),
+                padding: const EdgeInsets.only(top: 10).copyWith(left: 12),
                 child: Row(
                   mainAxisAlignment:
                       MainAxisAlignment.spaceBetween, // TODO: adjust spacing
@@ -114,7 +140,8 @@ class _ProductCardState extends State<ProductCard> {
                     const Text('Rating: ',
                         style: TextStyle(fontWeight: FontWeight.bold)),
                     RatingBarIndicator(
-                      rating: (widget.variant.getRating(products) ?? 0).toDouble(),
+                      rating:
+                          (widget.variant.getRating(products) ?? 0).toDouble(),
                       itemCount: 5,
                       itemSize: 17.0,
                       physics: const BouncingScrollPhysics(),
