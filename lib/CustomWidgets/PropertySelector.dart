@@ -527,7 +527,7 @@ class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
                         newVariant = widget.product.variations.firstWhere(
                           (variant) => variant.productPropertiesValues.any(
                             (property) =>
-                                property.property == 'material' &&
+                                property.property == 'Materials' &&
                                 property.value == material,
                           ),
                           // orElse: () => null,
