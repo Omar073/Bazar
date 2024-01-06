@@ -1,8 +1,11 @@
+import 'package:carousel_slider/carousel_options.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:slash_homepage_test/CustomWidgets/PropertySelector.dart';
 import 'package:slash_homepage_test/Providers/DarkModeProvider.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../Classes/Product.dart';
 import '../Classes/ProductVariation.dart';
 import '../Providers/ProductProvider.dart';
@@ -27,6 +30,7 @@ class ProductPage extends StatefulWidget {
 
 class _ProductPageState extends State<ProductPage> {
   bool isDarkMode = true;
+  int imageIndex = 0;
   ProductVariation? Variant;
   late double screenHeight;
   late double screenWidth;
@@ -55,6 +59,18 @@ class _ProductPageState extends State<ProductPage> {
       debugPrint("not null product");
       widget.product.displayAvailableProperties();
     }
+
+    Widget buildIndicator() => AnimatedSmoothIndicator(
+      effect: const ExpandingDotsEffect(
+          dotWidth: 15, activeDotColor: Colors.blue),
+      count: Variant?.productVariantImagesURLs!.length as int,
+      activeIndex: imageIndex,
+    );
+
+    Widget buildImage(String imageUrl, int index) => Container(
+      margin: const EdgeInsets.symmetric(horizontal: 5),
+      child: Image.network(imageUrl, fit: BoxFit.contain),
+    );
 
     if (Variant == null || Variant?.productVariantImagesURLs == null) {
       debugPrint("null variant");
@@ -91,19 +107,24 @@ class _ProductPageState extends State<ProductPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              // TODO: swipe between multiple images for a single variation
-              // Check if productVariantImagesURLs is not null and not empty
-
-              // if (Variant?.productVariantImagesURLs != null &&
-              //     Variant?.productVariantImagesURLs!.isNotEmpty)
               if (Variant?.productVariantImagesURLs != null)
-                // TODO: swipe between multiple images for a single variation
-                Image.network(
-                  Variant!.productVariantImagesURLs![0],
-                  width: screenHeight / 2,
-                  height: screenHeight / 2,
-                  fit: BoxFit.contain,
+                CarouselSlider.builder(
+                  itemCount: Variant?.productVariantImagesURLs!.length,
+                  itemBuilder: (context, index, realIndex) {
+                    final urlImage = Variant?.productVariantImagesURLs![index];
+                    return buildImage(urlImage!, index);
+                  },
+                  options: CarouselOptions(
+                    height: 400,
+                    onPageChanged: (index, reason) =>
+                        setState(() => imageIndex = index),
+                    autoPlay: true,
+                    autoPlayAnimationDuration: const Duration(seconds: 2),
+                    enlargeCenterPage: true,
+                  ),
                 ),
+              const SizedBox(height: 12),
+              buildIndicator(),
               SizedBox(
                 height: 20,
                 width: screenWidth,
@@ -123,7 +144,7 @@ class _ProductPageState extends State<ProductPage> {
                     ),
                     PropertySelectorWidget(
                         productPropertiesValues:
-                            Variant!.productPropertiesValues,
+                        Variant!.productPropertiesValues,
                         property: 'Color',
                         currentVariant: Variant!,
                         //TODO"
@@ -143,14 +164,14 @@ class _ProductPageState extends State<ProductPage> {
                     ),
                     PropertySelectorWidget(
                         productPropertiesValues:
-                            Variant!.productPropertiesValues,
+                        Variant!.productPropertiesValues,
                         property: 'Size',
                         currentVariant: Variant!,
                         product: widget.product),
                   ],
                 ),
               if (widget.product.availableProperties.any(
-                  (propertyValue) => propertyValue.property == 'Materials'))
+                      (propertyValue) => propertyValue.property == 'Materials'))
                 Column(
                   children: [
                     const Text(
