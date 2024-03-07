@@ -1,6 +1,6 @@
-# Slash - Empowering Local Brands in Egypt
+# Bazar - Empowering Local Brands
 
-Slash is an E-commerce app developed with Flutter, designed to empower and support local brands in Egypt. The app provides a platform for local businesses to showcase and sell their products, fostering a stronger connection between buyers and sellers.
+Bazar is an E-commerce app developed with Flutter, designed to empower and support local brands in Egypt. The app provides a platform for local businesses to showcase and sell their products, fostering a stronger connection between buyers and sellers.
 
 ## Features
 
