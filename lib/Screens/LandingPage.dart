@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:slash_homepage_test/Providers/ProductsListProvider.dart';
-import 'package:slash_homepage_test/Screens/HomePage.dart';
+import 'package:bazar/Providers/ProductsListProvider.dart';
+import 'package:bazar/Screens/HomePage.dart';
 import '../API/ApiService.dart';
 import '../Classes/Product.dart';
 
@@ -76,10 +76,10 @@ class _LandingPageState extends State<LandingPage> {
         child: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Center(child: Text('/.', style: TextStyle(fontSize: 60))),
+            // Center(child: Text('/.', style: TextStyle(fontSize: 60))),
             Center(
               child: Text(
-                'Welcome to Slash\nEmpowering local brands in Egypt',
+                'Welcome to Bazar\nEmpowering local brands in Egypt',
                 style: TextStyle(fontSize: 20),
                 textAlign: TextAlign.center,
               ),

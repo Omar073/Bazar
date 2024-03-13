@@ -3,8 +3,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:slash_homepage_test/CustomWidgets/PropertySelector.dart';
-import 'package:slash_homepage_test/Providers/DarkModeProvider.dart';
+import 'package:bazar/CustomWidgets/PropertySelector.dart';
+import 'package:bazar/Providers/DarkModeProvider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../Classes/Product.dart';
 import '../Classes/ProductVariation.dart';
@@ -23,6 +23,8 @@ class ProductPage extends StatefulWidget {
     required this.product,
     super.key,
   });
+
+  //! Problem: the variant properties aren.t detected in the beginning so first tap to a property the snack box appears
 
   @override
   State<ProductPage> createState() => _ProductPageState();

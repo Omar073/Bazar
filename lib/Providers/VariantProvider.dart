@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:slash_homepage_test/Classes/ProductPropertyandValue.dart';
-import 'package:slash_homepage_test/Classes/ProductVariation.dart';
+import 'package:bazar/Classes/ProductPropertyandValue.dart';
+import 'package:bazar/Classes/ProductVariation.dart';
 import '../Classes/Product.dart';
 
 class VariantProvider extends ChangeNotifier {

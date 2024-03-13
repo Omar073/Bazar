@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 // import 'package:flutter/material.dart';
-import 'package:slash_homepage_test/Classes/ProductVariation.dart';
-import 'package:slash_homepage_test/UtilityFunctions.dart';
+import 'package:bazar/Classes/ProductVariation.dart';
+import 'package:bazar/UtilityFunctions.dart';
 import 'ProductProperty.dart';
 import 'ProductPropertyandValue.dart';
 import 'package:http/http.dart' as http;

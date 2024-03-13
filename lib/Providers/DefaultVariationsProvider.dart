@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:slash_homepage_test/Classes/ProductVariation.dart';
+import 'package:bazar/Classes/ProductVariation.dart';
 
 class DefaultVariationsProvider extends ChangeNotifier {
   List<ProductVariation> _variations = [];

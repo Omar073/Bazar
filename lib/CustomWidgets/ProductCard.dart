@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
-import 'package:slash_homepage_test/Classes/ProductVariation.dart';
-import 'package:slash_homepage_test/Providers/VariantProvider.dart';
+import 'package:bazar/Classes/ProductVariation.dart';
+import 'package:bazar/Providers/VariantProvider.dart';
 import '../API/ApiService.dart';
 import '../Classes/Product.dart';
 import '../Providers/DarkModeProvider.dart';
-import '../Providers/ProductProvider.dart';
 import '../Providers/ProductsListProvider.dart';
-import '../Screens/LoadingScreen.dart';
 import '../Screens/ProductPage.dart';
 
 class ProductCard extends StatefulWidget {
@@ -39,8 +37,9 @@ class _ProductCardState extends State<ProductCard> {
       // color: Colors.grey[300],
       width: 180, // TODO: find best sizing later
       decoration: BoxDecoration(
+        // color: Colors.grey[800],
         border: Border.all(
-          color: isDarkMode ? Colors.grey.shade400 : Colors.black,
+          // color: isDarkMode ? Colors.grey.shade400 : Colors.black,
           width: 2,
         ),
         borderRadius: BorderRadius.circular(10),
@@ -60,13 +59,16 @@ class _ProductCardState extends State<ProductCard> {
               //   height: 150,
               //   fit: BoxFit.contain,
               // ),
-              child: Image.network(
-                widget.variant.productVariantImagesURLs![0],
-                // "https://firebasestorage.googleapis.com/v0/b/slash-f711b.appspot.com/o/images%2Fproduct-variants%2F1702842151610image_picker_2D257B4C-6500-4BB9-ADAD-BA7594B78586-7089-000008B2B1A54B9E.jpg?alt=media&token=4cad311e-9cbe-4191-95aa-e61b651bcbdc",
-                width: 180,
-                height: 150,
-                fit: BoxFit.contain,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20), // Set the radius as needed
+                child: Image.network(
+                  widget.variant.productVariantImagesURLs![0],
+                  width: 180,
+                  height: 150,
+                  fit: BoxFit.contain,
+                ),
               ),
+
               // child:
               // Image.network(
               //     // 'https://m.media-amazon.com/images/I/81muznqvBDL.__AC_SX300_SY300_QL70_ML2_.jpg',
@@ -80,7 +82,7 @@ class _ProductCardState extends State<ProductCard> {
                 await apiService.getVariations(products.firstWhere(
                     (element) => (element.id == widget.variant.productId)));
 
-                //TODO: FIXxx?
+                //TODO: FIX?
 
                 // context.read<ProductProvider>().setCurrentProduct(
                 //     newProduct: products.firstWhere((element) =>
@@ -119,11 +121,19 @@ class _ProductCardState extends State<ProductCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Text('${widget.variant.getName()!}\nSize: ${widget.variant.getSizeValue()}\n${widget.variant.price} EGP', style: const TextStyle(fontWeight: FontWeight.bold),),
-                    Text(
-                      // '${widget.variant.getName(products) ?? 'UnknownName'}\nSize: ${widget.variant.getSizeValue() ?? 'N/A'}\n${widget.variant.price} EGP',
-                      '${widget.variant.getName(products) ?? 'UnknownName'}\n${widget.variant.price} EGP',
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    // Text(
+                    //   // '${widget.variant.getName(products) ?? 'UnknownName'}\nSize: ${widget.variant.getSizeValue() ?? 'N/A'}\n${widget.variant.price} EGP',
+                    //   '${widget.variant.getName(products) ?? 'UnknownName'}\n${widget.variant.price} EGP',
+                    //   style: const TextStyle(fontWeight: FontWeight.bold),
+                    // ),
+                    Flexible(
+                      fit: FlexFit.loose,
+                      child: Text(
+                        '${widget.variant.getName(products) ?? 'UnknownName'}\n${widget.variant.price} EGP',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
+
                     // const SizedBox(width: 50,),
                     IconButton(
                         onPressed: () {

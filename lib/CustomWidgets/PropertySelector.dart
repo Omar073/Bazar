@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:slash_homepage_test/Providers/DarkModeProvider.dart';
+import 'package:bazar/Providers/DarkModeProvider.dart';
 import '../Classes/Product.dart';
 import '../Classes/ProductProperty.dart';
 import '../Classes/ProductPropertyandValue.dart';
@@ -294,7 +294,8 @@ class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
               for (String size in possibleSizes)
                 InkWell(
                   child: Container(
-                    width: 50,
+                    // TODO: adjust container size to match text
+                    width: 80,
                     height: 50,
                     decoration: BoxDecoration(
                       color: Colors.blue, // Change to the appropriate color
@@ -316,6 +317,7 @@ class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
                     ),
                     child: Center(
                       child: Text(
+                        textAlign: TextAlign.center,
                         size,
                         style: TextStyle(
                           color: widget.currentVariant
@@ -448,6 +450,7 @@ class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
                     child: Center(
                       child: Text(
                         material,
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                           color: widget.currentVariant.getMaterialValue(
                                       widget.currentVariant) ==

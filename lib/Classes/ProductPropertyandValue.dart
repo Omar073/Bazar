@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:slash_homepage_test/Classes/ProductProperty.dart';
+import 'package:bazar/Classes/ProductProperty.dart';
 
 class ProductPropertyandValue {
   // final ProductProperty property;
