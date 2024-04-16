@@ -13,8 +13,7 @@ class ProductVariation {
   final int quantity;
   final bool? inStock;
   final List<String>? productVariantImagesURLs;
-  final List<ProductPropertyandValue>
-      productPropertiesValues; // each property and it's value of a single variation
+  final List<ProductPropertyandValue> productPropertiesValues; // each property and it's value of a single variation
 
   ProductVariation({
     required this.id,
@@ -87,7 +86,7 @@ class ProductVariation {
     }
   }
 
-  Product? getProduct(List<Product> products) {
+  Product getProduct(List<Product> products) {
     // List<Product> products = ProductsListProvider().products;
     for (Product p in products) {
       if (p.id == productId) {
@@ -96,7 +95,15 @@ class ProductVariation {
       }
     }
     debugPrint('Product not found getProduct()\n');
-    return null;
+    // TODO: should i make this Fn nullable?
+    return Product(
+      id: 0,
+      brandId: 0,
+      brandName: '',
+      description: '',
+      name: '',
+      rating: 0,
+    );
   }
 
   void printVariationPropertiesValues() {

@@ -16,10 +16,9 @@ class VariantProvider extends ChangeNotifier {
   //       productPropertiesValues: const[], id: -1, productId: , quantity: 0, inStock: false,
   //           );
 
-  void setCurrentVariant({
-    required ProductVariation newVariant,
-  }) async {
+  void setCurrentVariant({required ProductVariation newVariant}) async {
     variant = newVariant;
+    debugPrint("\nupdated the current variant to: ${variant?.id}");
     notifyListeners();
   }
 

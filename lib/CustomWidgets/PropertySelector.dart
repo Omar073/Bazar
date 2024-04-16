@@ -80,10 +80,13 @@ class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
   Widget? buildPropertyOption() {
     // ProductPropertyandValue? propertyValue =
     // getPropertyAndValue(widget.property);
-    debugPrint('ENTERED building property option');
-    debugPrint('current variant: ${widget.currentVariant.id}');
-    debugPrint('current product: ${widget.product.id}');
+    debugPrint('\nENTERED building property option');
+    debugPrint('current variant id: ${widget.currentVariant.id}');
+    debugPrint('current product id: ${widget.product.id}');
     debugPrint('current property: ${widget.property}');
+
+    //! the problem is here: for some reason the properties and values of the current variant aren't being read??
+
     if (widget.currentVariant.productPropertiesValues.isEmpty) {
       debugPrint('\ncurrent variant properties: empty\n');
       //! Problem: it shows that the list is empty although it is not and it loops in it further in the code to fetch properties
@@ -301,9 +304,7 @@ class _PropertySelectorWidgetState extends State<PropertySelectorWidget> {
                       color: Colors.blue, // Change to the appropriate color
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: widget.currentVariant
-                                    .getSizeValue(widget.currentVariant) ==
-                                size
+                        color: widget.currentVariant.getSizeValue(widget.currentVariant) == size
                             ? isDarkMode
                                 ? Colors.white
                                 : Colors.black

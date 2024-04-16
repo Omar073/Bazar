@@ -159,27 +159,32 @@ bool haveSameProperties(
 List<ProductProperty> getProductProperties(List<ProductVariation> variations) {
   debugPrint("\nentered getProductProperties");
   // Initialize an empty list to store properties
-  List<String> availablePropertiesString = [];
+  List<String> availablePropertiesList = [];
 
   // Iterate through the variations to find matches and add colors to the list
   //TODO: in the future check if you need to loop on all variations or is the first one enough
   for (ProductVariation variation in variations) {
-    for (ProductPropertyandValue PropnVal
-    in variation.productPropertiesValues) {
-      if (!availablePropertiesString.contains(PropnVal.property)) {
-        availablePropertiesString.add(PropnVal.property);
+    debugPrint("looping on each variation in variations list");
+    for (ProductPropertyandValue propertyAndValue in variation.productPropertiesValues) { // search through each property and value of each variation to extract all properties
+      // debugPrint("looping on each property and value of each variation");
+      if (!availablePropertiesList.contains(propertyAndValue.property)) {
+        availablePropertiesList.add(propertyAndValue.property);
+        debugPrint("new property added: ${propertyAndValue.property}");
+      }
+      else{
+        debugPrint("property already exists: ${propertyAndValue.property}");
       }
     }
   }
 
   debugPrint('Available Properties:');
-  for (String property in availablePropertiesString) {
+  for (String property in availablePropertiesList) {
     debugPrint(property);
   }
-
+  // ? why am i restoring them in a new list?
   // Initialize an empty list to store properties
   List<ProductProperty> availableProperties = [];
-  for (String element in availablePropertiesString) {
+  for (String element in availablePropertiesList) {
     availableProperties.add(ProductProperty(property: element));
   }
 

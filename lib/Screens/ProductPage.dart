@@ -1,3 +1,4 @@
+import 'package:bazar/Classes/ProductPropertyandValue.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
@@ -24,7 +25,7 @@ class ProductPage extends StatefulWidget {
     super.key,
   });
 
-  //! Problem: the variant properties aren.t detected in the beginning so first tap to a property the snack box appears
+  //! Problem: the variant properties aren't detected in the beginning so at first tap to a property the snack box appears
 
   @override
   State<ProductPage> createState() => _ProductPageState();

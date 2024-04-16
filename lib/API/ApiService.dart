@@ -174,6 +174,10 @@ class ApiService {
           // Add the variation to the list
           if (!variations.contains(variationObject)) {
             variations.add(variationObject);
+            debugPrint("new variation added to list");
+          }
+          else{
+            debugPrint("variation already exists in list");
           }
         }
 

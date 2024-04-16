@@ -79,8 +79,10 @@ class _ProductCardState extends State<ProductCard> {
               // ),
               onTap: () async {
                 //TODO: add loading screen
-                await apiService.getVariations(products.firstWhere(
-                    (element) => (element.id == widget.variant.productId)));
+                // await apiService.getVariations(products.firstWhere(
+                //     (element) => (element.id == widget.variant.productId)));
+                Product p = widget.variant.getProduct(products);
+                await apiService.getVariations(p);
 
                 //TODO: FIX?
 
@@ -91,15 +93,18 @@ class _ProductCardState extends State<ProductCard> {
                 // context.read<ProductProvider>.product = products.firstWhere((element) =>
                 // (element.id == widget.variant.productId));
 
+                // * here below we update the products list because as you see above when wee called the getVariations method
+                // * it updated the variations of the product
+
                 context.read<ProductsListProvider>().updateList(products);
-                Product p = products.firstWhere(
-                    (element) => (element.id == widget.variant.productId));
-                debugPrint('Product name: ${p.name}\n Product ID: ${p.id} \n');
+
+                // Product p = products.firstWhere(
+                //     (element) => (element.id == widget.variant.productId));
+                debugPrint('\nProduct name: ${p.name}\nProduct ID: ${p.id} \n');
 
                 // TODO: hero animation for image
-                context
-                    .read<VariantProvider>()
-                    .setCurrentVariant(newVariant: widget.variant);
+                // * updating the currently selected variant
+                context.read<VariantProvider>().setCurrentVariant(newVariant: widget.variant);
                 // Navigator.push(context, MaterialPageRoute(builder: (context) => ProductPage(product: widget.variant)));
                 Navigator.push(
                     context,
